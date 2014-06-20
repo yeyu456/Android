@@ -1,23 +1,14 @@
 package com.simplecontacts;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 import android.app.Activity;
 import android.os.Bundle;
 import android.content.Intent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MenuInflater;
-import android.widget.ListView;
-import android.database.sqlite.SQLiteDatabase;  
-import android.database.Cursor;
 
 
 public class MainActivity extends Activity {
-    private ContactDB db;
     
     @Override
     protected void onCreate(Bundle state){
@@ -28,35 +19,8 @@ public class MainActivity extends Activity {
     @Override
     protected void onResume(){
         super.onResume();
-        db = new ContactDB(this);
-        SimpleButtonAdapter listAdapter = new SimpleButtonAdapter(this, 
-                this.getData(), 
-                R.layout.listview_item, 
-                new String[]{"name"}, 
-                new int[]{R.id.contact_button});
-        
-        ListView lv = (ListView) findViewById(R.id.main_view);
-        lv.setAdapter(listAdapter);
-        db.close();
+        SearchContact.setData("", R.id.main_view, this);
     }
-    
-    private List<Map<String, Object>> getData(){
-        String columnName = "name";
-        List<Map<String, Object>> list = new ArrayList<Map<String, Object>>();
-        SQLiteDatabase sq = db.getReadableDatabase();
-        Cursor cursor = sq.query(ContactDB.TABLE_NAME, 
-                                 new String[]{columnName}, 
-                                 null, null, null, null, null, null);
-        
-        while(cursor.moveToNext()){
-            Map<String, Object> mapitem = new HashMap<String, Object>();
-            mapitem.put("name", cursor.getString(cursor.getColumnIndex(columnName)));
-            list.add(mapitem);
-        }
-        cursor.close();
-        return list;
-    }
-    
     
     @Override
     public boolean onCreateOptionsMenu(Menu menu){
