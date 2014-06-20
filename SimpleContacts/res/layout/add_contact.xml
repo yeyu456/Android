@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <EditText
+        android:id="@+id/edit_name"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:maxLines="1"
+        android:hint="@string/add_hint_name" />
+
+    <EditText 
+        android:id="@+id/edit_tel"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:maxLines="1"
+        android:hint="@string/add_hint_tel"/>
+    
+    <EditText 
+        android:id="@+id/edit_addr"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:hint="@string/add_hint_addr"/>
+
+</LinearLayout>

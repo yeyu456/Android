@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal" 
+    android:background="#0099CC">
+
+    <Button
+        android:id="@+id/complete_add"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:drawableLeft="@drawable/complete_add"
+        android:gravity="left|center"
+        android:text="@string/complete_add"
+        android:onClick="onSaveData" />
+
+    <Button
+        android:id="@+id/cancle_add"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:drawableLeft="@drawable/cancle_add"
+        android:gravity="left|center"
+        android:text="@string/cancle_add"
+        android:onClick="onCancel" />
+
+</LinearLayout>
