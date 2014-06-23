@@ -30,7 +30,6 @@ public class SearchContact extends Activity{
             searchview.setOnQueryTextListener(querytextlistener);
             searchview.setSubmitButtonEnabled(false);
         }
-        
     }
     
     public static void setData(String projection, int Resource, Activity ac){
@@ -47,6 +46,7 @@ public class SearchContact extends Activity{
             list.add(mapitem);
         }
         cursor.close();
+        sq.close();
         db.close();
 
         SimpleButtonAdapter listAdapter = new SimpleButtonAdapter(ac, 

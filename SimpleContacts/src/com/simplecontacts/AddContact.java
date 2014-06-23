@@ -13,7 +13,6 @@ import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
 
 public class AddContact extends Activity {
-    private final ContactDB db = new ContactDB(this);
     private TextView name;
     private TextView tel;
     private TextView addr;
@@ -54,15 +53,16 @@ public class AddContact extends Activity {
     }
     
     public void onSaveData(View v){
-        SQLiteDatabase sq = db.getWritableDatabase();
-        ContentValues values = new ContentValues();
         if(!name.getText().toString().trim().isEmpty()
            &&tel.getText().toString().matches("\\d+")){
+            ContentValues values = new ContentValues();
             values.put("name", name.getText().toString().trim());
             values.put("telephone", tel.getText().toString());
             values.put("address", addr.getText().toString());
             values.put("picture", R.drawable.ic_launcher);
+            SQLiteDatabase sq = new ContactDB(this).getWritableDatabase();
             sq.insert(ContactDB.TABLE_NAME, null, values);
+            sq.close();
             this.finish();
         }
         else{
