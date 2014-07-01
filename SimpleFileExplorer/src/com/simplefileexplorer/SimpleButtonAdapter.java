@@ -1,23 +1,23 @@
 package com.simplefileexplorer;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
 import android.content.Context;
-import android.content.Intent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.LayoutInflater;
-import android.widget.Button;
 import android.widget.SimpleAdapter;
-import android.widget.Toast;
 
 public class SimpleButtonAdapter extends SimpleAdapter {
     
     private Context mContext;
     private int mResource;
+    private List<Map<String, String>> mData;
     
-    public SimpleButtonAdapter(Context context, 
+    public SimpleButtonAdapter(Context context,
                                List<Map<String, String>> data, 
                                int resource, 
                                String[] from, 
@@ -25,6 +25,14 @@ public class SimpleButtonAdapter extends SimpleAdapter {
         super(context, data, resource, from, to);
         mContext = context;
         mResource = resource;
+        mData = data;
+        Collections.sort(mData, new fileNameCompare());
+    }
+    
+    class fileNameCompare implements Comparator<Map<String, String>> {
+        public int compare(Map<String, String> t1, Map<String, String> t2){
+            return t1.get("name").compareTo(t2.get("name"));
+        }
     }
     
     @Override
@@ -45,32 +53,31 @@ public class SimpleButtonAdapter extends SimpleAdapter {
             btn.setCompoundDrawablesWithIntrinsicBounds(mContext.getResources()
                                                                 .getDrawable(Integer.parseInt(p.get("image"))), 
                                                         null, null, null);
-            btn.mAtr = p.get("atr");
-            btn.mPath = p.get("path");
-            btn.setButtonText(p.get("text").toString());
-            btn.setOnClickListener(listener);
-            btn.setOnLongClickListener(longListener);
+            btn.setButtonText(p);
         }
         return v;
     }
     
-    View.OnClickListener listener = new View.OnClickListener(){
-        @Override
-        public void onClick(View v){
-            FileButton fbt = (FileButton) v; 
-            Intent intent = new Intent(mContext, MainActivity.class);
-            intent.putExtra("path", fbt.mPath);
-            mContext.startActivity(intent);
-        }
-    };
+    public void remove(int position){
+    	mData.remove(position);
+    	this.notifyDataSetChanged();
+    }
     
-    View.OnLongClickListener longListener = new View.OnLongClickListener() {
-        
-        @Override
-        public boolean onLongClick(View v) {
-            
-            return true;
-        }
-    };
+    public void edit(int position, String path, String name){
+    	mData.get(position).put("path", path);
+    	mData.get(position).put("name", name);
+    	this.notifyDataSetChanged();
+    }
     
+    public void add(Map<String, String> newData){
+    	mData.add(newData);
+    	Collections.sort(mData, new fileNameCompare());
+    	this.notifyDataSetChanged();
+    }
+    
+    public void empty(){
+    	mData = null;
+    	mContext = null;
+    	mResource = 0;
+    }
 }

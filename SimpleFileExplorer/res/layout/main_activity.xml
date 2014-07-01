@@ -1,10 +1,39 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ListView xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/main_activity_listview"
-    android:dividerHeight="2dp"
-    android:background="@color/black">
-    
-
-</ListView>
+    android:id="@+id/main_layout">
+	<LinearLayout 
+	    android:layout_alignParentBottom="true"
+	    android:layout_width="match_parent"
+	    android:layout_height="wrap_content"
+	    android:orientation="horizontal"
+	    android:id="@+id/bottom_bar"
+	    android:visibility="gone">
+		<Button 
+	    	android:layout_width="0dp"
+	    	android:layout_height="match_parent"
+	    	android:layout_weight="1"
+	    	android:id="@+id/button_paste"
+	    	android:text="@string/button_paste"
+	    	style="?android:attr/borderlessButtonStyle"
+	    	android:onClick="onBottomBarPasteClicked"/>
+	
+		<Button 
+	    	android:layout_width="0dp"
+	    	android:layout_height="match_parent"
+	    	android:layout_weight="1"
+	    	android:id="@+id/button_cancel"
+	    	android:text="@string/button_cancel"
+	    	style="?android:attr/borderlessButtonStyle"
+	    	android:onClick="onBottomBarCancelClicked"/>
+	</LinearLayout>
+	<ListView 
+    	android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+    	android:id="@+id/main_activity_listview"
+    	android:background="@color/black"
+        android:layout_above="@id/bottom_bar">
+	</ListView>
+	
+</RelativeLayout>

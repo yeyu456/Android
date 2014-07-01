@@ -2,7 +2,29 @@
 <resources>
 
     <string name="app_name">SimpleFileExplorer</string>
-    <string name="hello_world">Hello world!</string>
-    <string name="action_settings">Settings</string>
-
+    
+    <string name="dialog_title">选项</string>
+    <string-array name="dialog_options">
+        <item>复制</item>
+        <item>移动</item>
+        <item>重命名</item>
+        <item>删除</item>
+    </string-array>
+    
+    <string name="dialog_delete">确定要删除此文件?</string>
+    <string name="dialog_rename">重命名</string>
+    <string name="dialog_ok">确定</string>
+    <string name="dialog_cancel">取消</string>
+    
+    <string name="MainActivity_onNewIntent_handleFileFailed">无法处理该类型文件</string>
+    <string name="MainActivity_onNewIntent_noDirectoryPermission">无打开文件夹权限</string>
+	<string name="MainActivity_rename_renameFailed">重命名失败</string>
+	<string name="MainActivity_rename_noRenamePermission">无重命名权限</string>
+	<string name="MainActivity_delete_noDeletePermission">无删除权限</string>
+	
+	<string name="button_paste">粘贴</string>
+	<string name="button_cancel">取消</string>
+	<string name="MainActivity_paste_noPastePermission">无粘贴权限</string>
+	<string name="MainActivity_paste_noMovePermission">无移动权限</string>
+	<string name="MainActivity_paste_noCopyPermission">无复制权限</string>
 </resources>
