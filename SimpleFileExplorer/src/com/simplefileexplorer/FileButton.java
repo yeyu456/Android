@@ -32,7 +32,7 @@ public class FileButton extends Button {
                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         
         wordtoSpan.setSpan(new RelativeSizeSpan(0.5f), 
-        				   mProperty.get("name").length(), 
+                           mProperty.get("name").length(), 
                           (mProperty.get("name").length() + mProperty.get("atr").length() + 1), 
                            Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         

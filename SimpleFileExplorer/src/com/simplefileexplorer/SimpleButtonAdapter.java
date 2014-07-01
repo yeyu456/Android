@@ -59,25 +59,25 @@ public class SimpleButtonAdapter extends SimpleAdapter {
     }
     
     public void remove(int position){
-    	mData.remove(position);
-    	this.notifyDataSetChanged();
+        mData.remove(position);
+        this.notifyDataSetChanged();
     }
     
     public void edit(int position, String path, String name){
-    	mData.get(position).put("path", path);
-    	mData.get(position).put("name", name);
-    	this.notifyDataSetChanged();
+        mData.get(position).put("path", path);
+        mData.get(position).put("name", name);
+        this.notifyDataSetChanged();
     }
     
     public void add(Map<String, String> newData){
-    	mData.add(newData);
-    	Collections.sort(mData, new fileNameCompare());
-    	this.notifyDataSetChanged();
+        mData.add(newData);
+        Collections.sort(mData, new fileNameCompare());
+        this.notifyDataSetChanged();
     }
     
     public void empty(){
-    	mData = null;
-    	mContext = null;
-    	mResource = 0;
+        mData = null;
+        mContext = null;
+        mResource = 0;
     }
 }
