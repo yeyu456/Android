@@ -45,22 +45,27 @@ public final class R {
         public static final int rename_dialog=0x7f030002;
     }
     public static final class string {
-        public static final int MainActivity_delete_noDeletePermission=0x7f06000a;
-        public static final int MainActivity_onNewIntent_handleFileFailed=0x7f060006;
-        public static final int MainActivity_onNewIntent_noDirectoryPermission=0x7f060007;
-        public static final int MainActivity_paste_noCopyPermission=0x7f06000f;
-        public static final int MainActivity_paste_noMovePermission=0x7f06000e;
-        public static final int MainActivity_paste_noPastePermission=0x7f06000d;
-        public static final int MainActivity_rename_noRenamePermission=0x7f060009;
-        public static final int MainActivity_rename_renameFailed=0x7f060008;
         public static final int app_name=0x7f060000;
-        public static final int button_cancel=0x7f06000c;
-        public static final int button_paste=0x7f06000b;
+        public static final int button_cancel=0x7f06000e;
+        public static final int button_paste=0x7f06000d;
+        public static final int copyOrMove_noCopyPermission=0x7f060010;
+        public static final int copyOrMove_noMovePermission=0x7f06000f;
+        public static final int delete_deleteFailed=0x7f06000b;
+        public static final int delete_deleteSuccessed=0x7f06000c;
+        public static final int delete_noDeletePermission=0x7f06000a;
         public static final int dialog_cancel=0x7f060005;
         public static final int dialog_delete=0x7f060002;
         public static final int dialog_ok=0x7f060004;
         public static final int dialog_rename=0x7f060003;
         public static final int dialog_title=0x7f060001;
+        public static final int onBottomBarPasteClicked_FilesCopyFailed=0x7f060011;
+        public static final int onBottomBarPasteClicked_exceptionItem=0x7f060014;
+        public static final int onBottomBarPasteClicked_moveFailed=0x7f060012;
+        public static final int onNewIntent_handleFileFailed=0x7f060006;
+        public static final int onNewIntent_noDirectoryPermission=0x7f060007;
+        public static final int onOptionsDialog_exceptionItem=0x7f060013;
+        public static final int rename_noRenamePermission=0x7f060009;
+        public static final int rename_renameFailed=0x7f060008;
     }
     public static final class style {
         /** 

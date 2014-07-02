@@ -41,8 +41,7 @@ public class SimpleButtonAdapter extends SimpleAdapter {
         
         if(convertView==null){
             v = (LayoutInflater.from(mContext).inflate(mResource, null));
-        }
-        else{
+        } else{
              v = convertView;
         }
         

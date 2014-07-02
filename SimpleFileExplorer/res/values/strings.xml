@@ -16,15 +16,25 @@
     <string name="dialog_ok">确定</string>
     <string name="dialog_cancel">取消</string>
     
-    <string name="MainActivity_onNewIntent_handleFileFailed">无法处理该类型文件</string>
-    <string name="MainActivity_onNewIntent_noDirectoryPermission">无打开文件夹权限</string>
-    <string name="MainActivity_rename_renameFailed">重命名失败</string>
-    <string name="MainActivity_rename_noRenamePermission">无重命名权限</string>
-    <string name="MainActivity_delete_noDeletePermission">无删除权限</string>
+    <string name="onNewIntent_handleFileFailed">无法处理该类型文件</string>
+    <string name="onNewIntent_noDirectoryPermission">无打开文件夹权限</string>
+    
+    <string name="rename_renameFailed">重命名失败</string>
+    <string name="rename_noRenamePermission">无重命名权限</string>
+    
+    <string name="delete_noDeletePermission">无删除权限</string>
+    <string name="delete_deleteFailed">删除失败</string>
+    <string name="delete_deleteSuccessed">删除成功</string>
     
     <string name="button_paste">粘贴</string>
     <string name="button_cancel">取消</string>
-    <string name="MainActivity_paste_noPastePermission">无粘贴权限</string>
-    <string name="MainActivity_paste_noMovePermission">无移动权限</string>
-    <string name="MainActivity_paste_noCopyPermission">无复制权限</string>
+    
+    <string name="copyOrMove_noMovePermission">无移动权限</string>
+    <string name="copyOrMove_noCopyPermission">无复制权限</string>
+    <string name="onBottomBarPasteClicked_FilesCopyFailed">文件拷贝异常，请确认权限是否正常</string>
+    <string name="onBottomBarPasteClicked_moveFailed">文件移动失败，请确认权限是否正常</string>
+    
+    <string name="onOptionsDialog_exceptionItem">异常选项</string>
+    <string name="onBottomBarPasteClicked_exceptionItem">异常选项</string>
+    
 </resources>

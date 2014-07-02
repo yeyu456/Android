@@ -24,6 +24,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -46,8 +47,7 @@ public class MainActivity extends Activity {
         sdf.setTimeZone(TimeZone.getDefault());
         if(getIntent().hasExtra("path")){
             mRootFile = new File(getIntent().getExtras().getString("path"));
-        }
-        else{
+        } else{
             mRootFile = new File("/");
         }
     }
@@ -124,8 +124,7 @@ public class MainActivity extends Activity {
             if(result/1024>1){
                 result = result / 1024;
                 continue;
-            }
-            else{
+            } else{
                 return String.format("%.2f", result) + units[n];
             }
         }
@@ -139,21 +138,19 @@ public class MainActivity extends Activity {
             intent.setDataAndType(Uri.fromFile(f), 
                                   MimeTypeMap
                                       .getSingleton()
-                                      .getMimeTypeFromExtension(fileExt(f.toString()).substring(1)));
+                                      .getMimeTypeFromExtension(fileExt(f.toString())));
             try {
                 startActivity(intent);
             } catch (android.content.ActivityNotFoundException e) {
-                showMessages(R.string.MainActivity_onNewIntent_handleFileFailed);
+                showMessages(R.string.onNewIntent_handleFileFailed, "");
             }
-        }
-        else{
+        } else{
             if(f.canExecute()&&f.canRead()){
                 Intent intent = new Intent(this, MainActivity.class);
                 intent.putExtra("path", file.get("path"));
                 startActivity(intent);
-            }
-            else{
-                showMessages(R.string.MainActivity_onNewIntent_noDirectoryPermission);
+            } else{
+                showMessages(R.string.onNewIntent_noDirectoryPermission, "");
             }
         }
     }
@@ -161,10 +158,9 @@ public class MainActivity extends Activity {
     private String fileExt(String url) {
         if (url.indexOf("/")>-1) {
             url = url.substring(url.lastIndexOf("/")+1);
-            System.out.println(url);
         }
-        if (url.lastIndexOf(".") == -1) {
-            return null;
+        if (url.lastIndexOf(".") == -1||url.lastIndexOf(".")+1 == -1) {
+            return "text";
         } else {
             return url.substring(url.lastIndexOf(".")+1);
         }
@@ -196,7 +192,9 @@ public class MainActivity extends Activity {
                           break;
                       }
                       default :{
-                          Log.e("1", "error");
+                          showMessages(R.string.onOptionsDialog_exceptionItem,
+                                       "method:onOptionsDialog file:" + path);
+                          return;
                       }
                   }
               }
@@ -211,16 +209,19 @@ public class MainActivity extends Activity {
             builder.setTitle(R.string.dialog_delete)
                    .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
                        public void onClick(DialogInterface dialog, int id) {
-                               if(f.delete()){
+                               if(deleteFile(f)){
                                    mAdapter.remove(position);
+                                   showMessages(R.string.delete_deleteSuccessed, "");
+                               } else{
+                                   showMessages(R.string.delete_deleteFailed, 
+                                                "method:delete file:" + f.getPath());
                                }
                        }
                    })
                    .setNegativeButton(R.string.dialog_cancel, null)
                    .show();
-        }
-        else{
-            showMessages(R.string.MainActivity_delete_noDeletePermission);
+        } else{
+            showMessages(R.string.delete_noDeletePermission, "");
         }
     }
     
@@ -244,17 +245,15 @@ public class MainActivity extends Activity {
                                mAdapter.edit(position, 
                                                 f.getParent() + newName.getText().toString(), 
                                                 newName.getText().toString());
-                           }
-                           else{
-                               showMessages(R.string.MainActivity_rename_renameFailed);
+                           } else{
+                               showMessages(R.string.rename_renameFailed, "");
                            }
                        }
             })
             .setNegativeButton(R.string.dialog_cancel, null)
             .show();
-        }
-        else{
-            showMessages(R.string.MainActivity_rename_noRenamePermission);
+        } else{
+            showMessages(R.string.rename_noRenamePermission, "");
         }
     }
     
@@ -265,57 +264,104 @@ public class MainActivity extends Activity {
             ((View) findViewById(R.id.bottom_bar)).setVisibility(mBottomBarVisiable);
             mPasteSourceFilePath = path;
             mCopyOrMove = copyOrMoveFlag;
-        }
-        else{
-            if(mCopyOrMove.equals(Action.COPY)){
-                showMessages(R.string.MainActivity_paste_noCopyPermission);
-            }
-            else{
-                showMessages(R.string.MainActivity_paste_noMovePermission);
+        } else{
+            if(copyOrMoveFlag.equals(Action.COPY)){
+                showMessages(R.string.copyOrMove_noCopyPermission, 
+                             "method:copyOrMove file:" + path);
+            } else{
+                showMessages(R.string.copyOrMove_noMovePermission, 
+                             "method:copyOrMove file:" + path);
             }
         }
     }
     
-    public void onBottomBarPasteClicked(View v) throws IOException{
+    public void onBottomBarPasteClicked(View v){
         File srcFile = new File(mPasteSourceFilePath);
         String dstFileName = mRootFile + "/" + srcFile.getName();
-        if(mPasteSourceFilePath.equals(dstFileName)){
+        File dstFile = new File(dstFileName);
+        while(dstFile.exists()){
             if(mCopyOrMove.equals(Action.MOVE)){
                 initializePasteStatus();
                 return;
             }
-            dstFileName = mRootFile + "/copy-" + srcFile.getName();
-        }
-        File dstFile = new File(dstFileName);
-        dstFile.createNewFile();
-        if(dstFile.canWrite()){
-            InputStream in = new FileInputStream(srcFile);
-            OutputStream out = new FileOutputStream(dstFile);
-            byte[] buf = new byte[1024];
-            int len;
-            while ((len = in.read(buf)) > 0) {
-                out.write(buf, 0, len);
-            }
-            in.close();
-            out.close();
-        }
-        else{
-            showMessages(R.string.MainActivity_paste_noPastePermission);
-            return;
+            dstFile = new File(dstFile.getParent() + "/copy-" + dstFile.getName());
         }
         
         if(mCopyOrMove.equals(Action.MOVE)){
-            if(!srcFile.delete()){
-                Log.e("1", "delete failed");
+            if(!srcFile.renameTo(dstFile)){
+                showMessages(R.string.onBottomBarPasteClicked_moveFailed, 
+                             "method:onBottomBarPasteClicked file:" + srcFile.getPath());
+            } else {
+                mAdapter.add(createFileData(dstFile));
+            }
+        } else{
+            if(mCopyOrMove.equals(Action.COPY)){
+                if(!copyFile(srcFile, dstFile)){
+                    showMessages(R.string.onBottomBarPasteClicked_FilesCopyFailed, 
+                                 "method:onBottomBarPasteClicked file:" + srcFile.getPath());
+                } else {
+                    mAdapter.add(createFileData(dstFile));
+                }
+            } else {
+                showMessages(R.string.onBottomBarPasteClicked_exceptionItem, 
+                             "method:onBottomBarPasteClicked file:" + srcFile.getPath());
             }
         }
-        
         initializePasteStatus();
-        mAdapter.add(createFileData(dstFile));
     }
     
     public void onBottomBarCancelClicked(View v){
         initializePasteStatus();
+    }
+    
+    private boolean copyFile(File src, File dst){
+        boolean flag = true;
+        if(src.isDirectory()){
+            if(!dst.mkdir()){
+                flag = false;
+            }
+            if(src.canExecute()&&src.canRead()){
+                for(File f: src.listFiles()){
+                    flag = flag && copyFile(f, new File(dst.getPath() + "/" + f.getName()));
+                }
+            } else {
+                flag = false;
+            }
+        } else{
+            try{
+                if(!dst.createNewFile()){
+                    flag = false;
+                    return flag;
+                }
+                InputStream  in = new FileInputStream(src);
+                OutputStream out = new FileOutputStream(dst);
+                byte[] buf = new byte[1024];
+                int len;
+                while ((len = in.read(buf)) > 0) {
+                    out.write(buf, 0, len);
+                }
+                in.close();
+                out.close();
+            }catch(IOException e){
+                showMessages(0, e.getMessage());
+                flag = false;
+            }
+        }
+        return flag;
+    }
+    
+    private boolean deleteFile(File srcFile){
+        boolean b = true;
+        if(srcFile.isDirectory()){
+            for(File f : srcFile.listFiles()){
+                b = b && deleteFile(f);
+            }
+        }
+        if(b){
+            return srcFile.delete();
+        } else {
+            return b;
+        }
     }
     
     private void initializePasteStatus(){
@@ -324,10 +370,16 @@ public class MainActivity extends Activity {
         ((View) this.findViewById(R.id.bottom_bar)).setVisibility(mBottomBarVisiable);
     }
     
-    private void showMessages(int messages){
-        Toast.makeText(this, 
-                       messages, 
-                       Toast.LENGTH_SHORT)
-             .show();
+    private void showMessages(int messages, String errors){
+        if(messages!=0){
+            Toast.makeText(this, 
+                           messages, 
+                           Toast.LENGTH_SHORT)
+                 .show();
+            errors = getResources().getString(messages) + errors; 
+        }
+        if(!errors.equals("")){
+            Log.e(this.toString(), sdf.format(new Date()) + " " + errors);
+        }
     }
 }
