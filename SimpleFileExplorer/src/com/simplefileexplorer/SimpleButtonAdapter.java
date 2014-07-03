@@ -68,12 +68,6 @@ public class SimpleButtonAdapter extends SimpleAdapter {
         this.notifyDataSetChanged();
     }
     
-    public void add(Map<String, String> newData){
-        mData.add(newData);
-        Collections.sort(mData, new fileNameCompare());
-        this.notifyDataSetChanged();
-    }
-    
     public void empty(){
         mData = null;
         mContext = null;

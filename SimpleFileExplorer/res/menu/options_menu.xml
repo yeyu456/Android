@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android" >
+    <item 
+        android:id="@+id/refresh"
+        android:title="@string/options_menu_refresh"
+        android:icon="@drawable/options_menu_refresh"
+        android:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/createFile"
+        android:title="@string/options_menu_createFile"
+        android:icon="@drawable/options_menu_createfile"  
+        android:showAsAction="ifRoom"/>
+    <item
+        android:id="@+id/createDirectory"
+        android:title="@string/options_menu_createDirectory" 
+        android:icon="@drawable/options_menu_createdirectory"
+        android:showAsAction="ifRoom"/>
+    <item 
+        android:id="@+id/search"
+        android:title="@string/options_menu_search" 
+        android:icon="@drawable/options_menu_search"
+        android:showAsAction="ifRoom"/>
+</menu>

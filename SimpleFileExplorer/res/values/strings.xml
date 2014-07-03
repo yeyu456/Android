@@ -11,6 +11,18 @@
         <item>删除</item>
     </string-array>
     
+    <string name="options_menu_refresh">刷新</string>
+    <string name="options_menu_createFile">新建文件</string>
+    <string name="options_menu_createDirectory">新建文件夹</string>
+    <string name="options_menu_search">搜索</string>
+    
+    <string name="addFileOrDir_createFile">创建文件</string>
+    <string name="addFileOrDir_createDirectory">创建文件夹</string>
+    <string name="addFileOrDir_addFileFailed">无创建文件权限</string>
+    <string name="addFileOrDir_duplicatedFile">存在同名文件</string>
+    <string name="addFileOrDir_createNewDirectoryFailed">创建文件夹失败</string>
+    <string name="addFileOrDir_createNewFileFailed">创建文件失败</string>
+    
     <string name="dialog_delete">确定要删除此文件?</string>
     <string name="dialog_rename">重命名</string>
     <string name="dialog_ok">确定</string>

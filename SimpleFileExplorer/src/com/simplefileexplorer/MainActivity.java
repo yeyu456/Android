@@ -8,6 +8,8 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.LayoutInflater;
 import android.webkit.MimeTypeMap;
@@ -43,30 +45,25 @@ public class MainActivity extends Activity {
     @Override
     protected void onCreate(Bundle state) {
         super.onCreate(state);
-        setContentView(R.layout.main_activity);
-        sdf.setTimeZone(TimeZone.getDefault());
+        
         if(getIntent().hasExtra("path")){
             mRootFile = new File(getIntent().getExtras().getString("path"));
         } else{
             mRootFile = new File("/");
         }
-    }
-    
-    @Override
-    protected void onResume(){
-        super.onResume();
-        ((View) this.findViewById(R.id.bottom_bar)).setVisibility(mBottomBarVisiable);
-        ListView v = (ListView) findViewById(R.id.main_activity_listview);
         
-        SimpleButtonAdapter simpleButtonAdapter 
-                = new SimpleButtonAdapter(this, 
-                                          generateData(mRootFile),
-                                          R.layout.file_list,
-                                          new String[]{"name", "image", "atr", "path"},
-                                          new int[]{R.id.file_list_button});
-        mAdapter = simpleButtonAdapter;
-        v.setAdapter(simpleButtonAdapter);
-            
+        String actionbarTitle = mRootFile.getPath();
+        getActionBar().setDisplayShowTitleEnabled(true);
+        if(actionbarTitle.length()>19){
+            actionbarTitle = "..." + actionbarTitle.substring(actionbarTitle.length() - 15);
+        }
+        getActionBar().setTitle(actionbarTitle);
+        setContentView(R.layout.main_activity);
+        
+        sdf.setTimeZone(TimeZone.getDefault());
+        ListView v = (ListView) findViewById(R.id.main_activity_listview);
+        //generateData();
+        
         v.setOnItemClickListener(new AdapterView.OnItemClickListener(){
                 
             @Override
@@ -87,6 +84,13 @@ public class MainActivity extends Activity {
     }
     
     @Override
+    protected void onResume(){
+        super.onResume();
+        ((View) this.findViewById(R.id.bottom_bar)).setVisibility(mBottomBarVisiable);
+        refreshView();
+    }
+    
+    @Override
     protected void onDestroy(){
         super.onDestroy();
         mAdapter.empty();
@@ -94,14 +98,101 @@ public class MainActivity extends Activity {
         mRootFile = null;
     }
     
-    private List<Map<String, String>> generateData(File mRootFile){
-        List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-        
-        for(File f:mRootFile.listFiles()){
-            list.add(createFileData(f));
-        }
-        return list;
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu){
+        this.getMenuInflater().inflate(R.menu.options_menu, menu);
+        return super.onCreateOptionsMenu(menu);
     }
+    
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item){
+        switch(item.getItemId()){
+            case R.id.refresh :
+                refreshView();
+                return true;
+            case R.id.createFile :
+                addFileOrDir(false);
+                return true;
+            case R.id.createDirectory :
+                addFileOrDir(true);
+                return true;
+            case R.id.search :
+                search();
+                return true;
+            default :
+                return super.onOptionsItemSelected(item);
+        }
+    }
+    
+    private void addFileOrDir(final boolean flag){
+        if(!mRootFile.canWrite()){
+            showMessages(R.string.addFileOrDir_addFileFailed, "");
+            return;
+        }
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        
+        View dialogRenameView = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                                    .inflate(R.layout.rename_dialog, null);
+        if(flag){
+            builder.setTitle(R.string.addFileOrDir_createDirectory);
+        } else {
+            builder.setTitle(R.string.addFileOrDir_createFile);
+        }
+        builder.setView(dialogRenameView);
+        final EditText newName 
+                        = (EditText) dialogRenameView.findViewById(R.id.rename_dialog);
+        builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+                       File newFile = new File(mRootFile, newName.getText().toString());
+                       if(newFile.exists()){
+                           showMessages(R.string.addFileOrDir_duplicatedFile, "");
+                           return;
+                       }
+                       if(flag){
+                           if(!newFile.mkdir()){
+                               showMessages(R.string.addFileOrDir_createNewDirectoryFailed, "");
+                           } else{
+                               refreshView();
+                           }
+                       } else {
+                           try{
+                               newFile.createNewFile();
+                               refreshView();
+                           } catch(IOException e){
+                               showMessages(R.string.addFileOrDir_createNewFileFailed, "");
+                           }
+                       }
+                   }
+        })
+        .setNegativeButton(R.string.dialog_cancel, null)
+        .show();
+    }
+    
+    private void search(){
+        
+    }
+    
+    private void refreshView(){
+        ListView v = (ListView) findViewById(R.id.main_activity_listview);
+        if(v.getCount()!=mRootFile.list().length){
+            List<Map<String, String>> list = new ArrayList<Map<String, String>>();
+        
+            for(File f:mRootFile.listFiles()){
+                list.add(createFileData(f));
+            }
+
+            SimpleButtonAdapter simpleButtonAdapter 
+                                    = new SimpleButtonAdapter(this, 
+                                                              list,
+                                                              R.layout.file_list,
+                                                              new String[]{"name", "image", "atr", "path"},
+                                                              new int[]{R.id.file_list_button});
+            mAdapter = simpleButtonAdapter;
+            v.setAdapter(simpleButtonAdapter);
+        }
+    }
+    
+    
     
     private Map<String, String> createFileData(File f){
         Map<String, String> mFile = new HashMap<String, String>();
@@ -150,7 +241,8 @@ public class MainActivity extends Activity {
                 intent.putExtra("path", file.get("path"));
                 startActivity(intent);
             } else{
-                showMessages(R.string.onNewIntent_noDirectoryPermission, "");
+                showMessages(R.string.onNewIntent_noDirectoryPermission, 
+                             "method:onNewIntent file:"+f.getPath());
             }
         }
     }
@@ -243,8 +335,8 @@ public class MainActivity extends Activity {
                        public void onClick(DialogInterface dialog, int id) {
                            if(f.renameTo(new File(f.getParent(), newName.getText().toString()))){
                                mAdapter.edit(position, 
-                                                f.getParent() + newName.getText().toString(), 
-                                                newName.getText().toString());
+                                             f.getParent() + "/" + newName.getText().toString(), 
+                                             newName.getText().toString());
                            } else{
                                showMessages(R.string.rename_renameFailed, "");
                            }
@@ -291,22 +383,19 @@ public class MainActivity extends Activity {
             if(!srcFile.renameTo(dstFile)){
                 showMessages(R.string.onBottomBarPasteClicked_moveFailed, 
                              "method:onBottomBarPasteClicked file:" + srcFile.getPath());
-            } else {
-                mAdapter.add(createFileData(dstFile));
             }
         } else{
             if(mCopyOrMove.equals(Action.COPY)){
                 if(!copyFile(srcFile, dstFile)){
                     showMessages(R.string.onBottomBarPasteClicked_FilesCopyFailed, 
                                  "method:onBottomBarPasteClicked file:" + srcFile.getPath());
-                } else {
-                    mAdapter.add(createFileData(dstFile));
                 }
             } else {
                 showMessages(R.string.onBottomBarPasteClicked_exceptionItem, 
                              "method:onBottomBarPasteClicked file:" + srcFile.getPath());
             }
         }
+        refreshView();
         initializePasteStatus();
     }
     
@@ -317,21 +406,17 @@ public class MainActivity extends Activity {
     private boolean copyFile(File src, File dst){
         boolean flag = true;
         if(src.isDirectory()){
-            if(!dst.mkdir()){
-                flag = false;
-            }
-            if(src.canExecute()&&src.canRead()){
+            if(!dst.mkdir()||!src.canExecute()||!src.canRead()){
+                return false;
+            } else {
                 for(File f: src.listFiles()){
                     flag = flag && copyFile(f, new File(dst.getPath() + "/" + f.getName()));
                 }
-            } else {
-                flag = false;
             }
         } else{
             try{
                 if(!dst.createNewFile()){
-                    flag = false;
-                    return flag;
+                    return false;
                 }
                 InputStream  in = new FileInputStream(src);
                 OutputStream out = new FileOutputStream(dst);
@@ -343,7 +428,7 @@ public class MainActivity extends Activity {
                 in.close();
                 out.close();
             }catch(IOException e){
-                showMessages(0, e.getMessage());
+                showMessages(0, e.getMessage() + src.getPath() +" "+ dst.getPath());
                 flag = false;
             }
         }
