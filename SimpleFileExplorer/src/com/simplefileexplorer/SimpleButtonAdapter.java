@@ -69,8 +69,12 @@ public class SimpleButtonAdapter extends SimpleAdapter {
     }
     
     public void empty(){
+        try{
         mData = null;
         mContext = null;
         mResource = 0;
+        }catch(Exception e){
+            e.printStackTrace();
+        }
     }
 }

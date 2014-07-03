@@ -93,8 +93,11 @@ public class MainActivity extends Activity {
     @Override
     protected void onDestroy(){
         super.onDestroy();
-        mAdapter.empty();
-        mAdapter = null;
+        //In case of mRootFile directory is empty
+        if(mAdapter!=null){
+            mAdapter.empty();
+            mAdapter = null;
+        }
         mRootFile = null;
     }
     
