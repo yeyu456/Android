@@ -10,10 +10,8 @@ import java.io.OutputStream;
 public class FileOperation {
 
     public static boolean copyNotCoverExistFile(File src, File dst){
-        int count = 1;
         while(dst.exists()){
             dst = new File(dst.getParent(), "copy-" +dst.getName());
-            count++;
         }
         if(src.isFile()){
             return copyFile(src, dst);
