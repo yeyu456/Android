@@ -11,6 +11,17 @@
         <item>删除</item>
     </string-array>
     
+    <string name="dialog_existFileProcess_title">"存在同名文件，是否覆盖并替换"</string>
+    <string-array name="dialog_existFileProcess">
+        <item>覆盖并替换</item>
+        <item>覆盖但不替换</item>
+        <item>取消</item>
+    </string-array>
+    <string name="existFileProcess_copyDirectory">文件替换出错</string>
+    <string name="existFileProcess_copyNotCoverExistFile">文件合并出错</string>
+    <string name="existFileProcess_deleteFile">文件移动出错，源文件残留</string>
+    
+    
     <string name="options_menu_refresh">刷新</string>
     <string name="options_menu_createFile">新建文件</string>
     <string name="options_menu_createDirectory">新建文件夹</string>
@@ -25,6 +36,7 @@
     
     <string name="dialog_delete">确定要删除此文件?</string>
     <string name="dialog_rename">重命名</string>
+    <string name="dialog_search">查找文件名</string>
     <string name="dialog_ok">确定</string>
     <string name="dialog_cancel">取消</string>
     
@@ -32,6 +44,7 @@
     <string name="onNewIntent_noDirectoryPermission">无打开文件夹权限</string>
     
     <string name="rename_renameFailed">重命名失败</string>
+    <string name="rename_renameExist">已存在该命名文件</string>
     <string name="rename_noRenamePermission">无重命名权限</string>
     
     <string name="delete_noDeletePermission">无删除权限</string>

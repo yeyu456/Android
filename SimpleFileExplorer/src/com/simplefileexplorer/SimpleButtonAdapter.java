@@ -68,13 +68,12 @@ public class SimpleButtonAdapter extends SimpleAdapter {
         this.notifyDataSetChanged();
     }
     
+    public void add(Map<String, String> item){
+        mData.add(item);
+        this.notifyDataSetChanged();
+    }
+    
     public void empty(){
-        try{
-        mData = null;
-        mContext = null;
-        mResource = 0;
-        }catch(Exception e){
-            e.printStackTrace();
-        }
+        mData.clear();
     }
 }

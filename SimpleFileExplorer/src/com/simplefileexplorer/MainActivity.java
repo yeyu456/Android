@@ -2,16 +2,20 @@ package com.simplefileexplorer;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.LayoutInflater;
+import android.view.inputmethod.InputMethodManager;
 import android.webkit.MimeTypeMap;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -19,15 +23,14 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
+import java.io.FileFilter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.TimeZone;
@@ -59,10 +62,8 @@ public class MainActivity extends Activity {
         }
         getActionBar().setTitle(actionbarTitle);
         setContentView(R.layout.main_activity);
-        
         sdf.setTimeZone(TimeZone.getDefault());
         ListView v = (ListView) findViewById(R.id.main_activity_listview);
-        //generateData();
         
         v.setOnItemClickListener(new AdapterView.OnItemClickListener(){
                 
@@ -132,19 +133,17 @@ public class MainActivity extends Activity {
             showMessages(R.string.addFileOrDir_addFileFailed, "");
             return;
         }
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        
-        View dialogRenameView = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                                    .inflate(R.layout.rename_dialog, null);
+        View dialogView = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                                        .inflate(R.layout.dialog, null);
+        int title;
         if(flag){
-            builder.setTitle(R.string.addFileOrDir_createDirectory);
+            title = R.string.addFileOrDir_createDirectory;
         } else {
-            builder.setTitle(R.string.addFileOrDir_createFile);
+            title = R.string.addFileOrDir_createFile;
         }
-        builder.setView(dialogRenameView);
         final EditText newName 
-                        = (EditText) dialogRenameView.findViewById(R.id.rename_dialog);
-        builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
+                        = (EditText) dialogView.findViewById(R.id.dialog);
+        popDialog(title, dialogView, new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
                        File newFile = new File(mRootFile, newName.getText().toString());
                        if(newFile.exists()){
@@ -166,13 +165,85 @@ public class MainActivity extends Activity {
                            }
                        }
                    }
-        })
-        .setNegativeButton(R.string.dialog_cancel, null)
-        .show();
+        });
     }
     
     private void search(){
+        View dialogView = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                .inflate(R.layout.dialog, null);
+        final EditText keyString = (EditText) dialogView.findViewById(R.id.dialog);
+        popDialog(R.string.dialog_search, dialogView, new DialogInterface.OnClickListener() {
+               public void onClick(DialogInterface dialog, int id) {
+                   InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                   imm.hideSoftInputFromWindow(keyString.getWindowToken(), 0);
+                   search(keyString.getText().toString());
+               }
+        });
+    }
+    
+    public void search(final String keyword){
+        final ProgressDialog processDialog = new ProgressDialog(MainActivity.this);
+        processDialog.setCancelable(true);
+        processDialog.setTitle("查找文件中...");
+        processDialog.show();
         
+        if(mAdapter!=null){
+            mAdapter.empty();
+            mAdapter.notifyDataSetChanged();
+        }
+        
+        final Handler handler = new Handler() {
+            @Override
+            public void handleMessage(Message msg) {
+                    String f = msg.getData().getString("msg");
+                    if(msg.getData().containsKey("yes")){
+                        mAdapter.add(createFileData(new File(f)));
+                    }
+                    processDialog.setMessage(f);
+               }
+           };
+        new Thread(new Runnable(){
+            @Override
+            public void run(){
+                FileFilter ff = new FileFilter(){
+                    @Override
+                    public boolean accept(File pathname){
+                        if(pathname.getName().contains(keyword)
+                           ||(pathname.isDirectory()
+                              &&pathname.canExecute()
+                              &&pathname.canRead()
+                              &&pathname.listFiles().length!=0)){
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    }
+                };
+                LinkedList<File> dir = new LinkedList<File>();
+                dir.add(mRootFile);
+                while(!dir.isEmpty()){
+                    if(!processDialog.isShowing()){
+                        return;
+                    }
+                    File f = dir.removeFirst();
+                    Bundle bd = new  Bundle();
+                    bd.putString("msg", f.getPath());
+                    Message msg = handler.obtainMessage();
+                    if(f.getName().contains(keyword)){
+                        bd.putString("yes", "");
+                    } 
+                    msg.setData(bd);
+                    handler.sendMessage(msg);
+                    if(f.isDirectory()){
+                        File[] fff = f.listFiles(ff);
+                        if(fff.length!=0){
+                            dir.addAll(Arrays.asList(fff));
+                        }
+                    }
+                }
+                processDialog.dismiss();
+            }
+        }).start();
     }
     
     private void refreshView(){
@@ -195,8 +266,6 @@ public class MainActivity extends Activity {
         }
     }
     
-    
-    
     private Map<String, String> createFileData(File f){
         Map<String, String> mFile = new HashMap<String, String>();
         
@@ -218,7 +287,7 @@ public class MainActivity extends Activity {
             if(result/1024>1){
                 result = result / 1024;
                 continue;
-            } else{
+            } else {
                 return String.format("%.2f", result) + units[n];
             }
         }
@@ -297,6 +366,7 @@ public class MainActivity extends Activity {
         ab.show();
     }
     
+    //done
     private void delete(String path, final int position){
         final File f = new File(path);
         if(f.canWrite()){
@@ -304,7 +374,7 @@ public class MainActivity extends Activity {
             builder.setTitle(R.string.dialog_delete)
                    .setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
                        public void onClick(DialogInterface dialog, int id) {
-                               if(deleteFile(f)){
+                               if(FileOperation.deleteFile(f)){
                                    mAdapter.remove(position);
                                    showMessages(R.string.delete_deleteSuccessed, "");
                                } else{
@@ -320,33 +390,30 @@ public class MainActivity extends Activity {
         }
     }
     
+    //done
     private void rename(String path, final int position){
         final File f = new File(path);
         if(f.canWrite()&&f.getParentFile().canWrite()){
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            
             View dialogRenameView = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
-                                        .inflate(R.layout.rename_dialog, null);
+                                                          .inflate(R.layout.dialog, null);
+            final EditText newName = (EditText) dialogRenameView.findViewById(R.id.dialog);
             
-            builder.setTitle(R.string.dialog_rename)
-                   .setView(dialogRenameView);
-            
-            final EditText newName 
-                            = (EditText) dialogRenameView.findViewById(R.id.rename_dialog);
-            
-            builder.setPositiveButton(R.string.dialog_ok, new DialogInterface.OnClickListener() {
-                       public void onClick(DialogInterface dialog, int id) {
-                           if(f.renameTo(new File(f.getParent(), newName.getText().toString()))){
-                               mAdapter.edit(position, 
-                                             f.getParent() + "/" + newName.getText().toString(), 
-                                             newName.getText().toString());
-                           } else{
-                               showMessages(R.string.rename_renameFailed, "");
-                           }
+            popDialog(R.string.dialog_rename, dialogRenameView, new DialogInterface.OnClickListener() {
+                   public void onClick(DialogInterface dialog, int id) {
+                       File newFile = new File(f.getParent(), newName.getText().toString());
+                       if(newFile.exists()){
+                           showMessages(R.string.rename_renameExist, "");
+                           return;
                        }
-            })
-            .setNegativeButton(R.string.dialog_cancel, null)
-            .show();
+                       if(f.renameTo(newFile)){
+                           mAdapter.edit(position, 
+                                         f.getParent() + "/" + newName.getText().toString(), 
+                                         newName.getText().toString());
+                       } else{
+                           showMessages(R.string.rename_renameFailed, "");
+                       }
+                   }
+            });
         } else{
             showMessages(R.string.rename_noRenamePermission, "");
         }
@@ -354,102 +421,99 @@ public class MainActivity extends Activity {
     
     private void copyOrMove(String path, Action copyOrMoveFlag){
         File src = new File(path);
-        if(src.canRead()&&src.canWrite()){
-            mBottomBarVisiable = View.VISIBLE;
-            ((View) findViewById(R.id.bottom_bar)).setVisibility(mBottomBarVisiable);
-            mPasteSourceFilePath = path;
-            mCopyOrMove = copyOrMoveFlag;
-        } else{
-            if(copyOrMoveFlag.equals(Action.COPY)){
-                showMessages(R.string.copyOrMove_noCopyPermission, 
-                             "method:copyOrMove file:" + path);
-            } else{
-                showMessages(R.string.copyOrMove_noMovePermission, 
-                             "method:copyOrMove file:" + path);
-            }
+        if(copyOrMoveFlag.equals(Action.COPY)&&!src.canRead()){
+            showMessages(R.string.copyOrMove_noCopyPermission, 
+                         "method:copyOrMove file:" + path);
+            return;
+        } 
+        if(copyOrMoveFlag.equals(Action.MOVE)&&!src.canWrite()){
+            showMessages(R.string.copyOrMove_noMovePermission, 
+                         "method:copyOrMove file:" + path);
+            return;
         }
+        mBottomBarVisiable = View.VISIBLE;
+        ((View) findViewById(R.id.bottom_bar)).setVisibility(mBottomBarVisiable);
+        mPasteSourceFilePath = path;
+        mCopyOrMove = copyOrMoveFlag;
     }
     
     public void onBottomBarPasteClicked(View v){
         File srcFile = new File(mPasteSourceFilePath);
         String dstFileName = mRootFile + "/" + srcFile.getName();
         File dstFile = new File(dstFileName);
-        while(dstFile.exists()){
+        if(dstFile.exists()){
+            if(srcFile.equals(dstFile)){
+                if(mCopyOrMove.equals(Action.MOVE)){
+                    return;
+                }
+                if(mCopyOrMove.equals(Action.COPY)){
+                    FileOperation.copyNotCoverExistFile(srcFile, dstFile);
+                }
+            } else {
+                existFileProcess(srcFile, dstFile);
+            }
+        } else {
             if(mCopyOrMove.equals(Action.MOVE)){
-                initializePasteStatus();
-                return;
+                if(!srcFile.renameTo(dstFile)){
+                    showMessages(R.string.onBottomBarPasteClicked_moveFailed, 
+                                 "method:onBottomBarPasteClicked file:" + srcFile.getPath());
+                }
             }
-            dstFile = new File(dstFile.getParent() + "/copy-" + dstFile.getName());
-        }
-        
-        if(mCopyOrMove.equals(Action.MOVE)){
-            if(!srcFile.renameTo(dstFile)){
-                showMessages(R.string.onBottomBarPasteClicked_moveFailed, 
-                             "method:onBottomBarPasteClicked file:" + srcFile.getPath());
-            }
-        } else{
             if(mCopyOrMove.equals(Action.COPY)){
-                if(!copyFile(srcFile, dstFile)){
+                boolean flag = srcFile.isFile() ? 
+                               FileOperation.copyFile(srcFile, dstFile) : 
+                               FileOperation.copyDirectory(srcFile, dstFile);
+                if(!flag){
                     showMessages(R.string.onBottomBarPasteClicked_FilesCopyFailed, 
                                  "method:onBottomBarPasteClicked file:" + srcFile.getPath());
                 }
-            } else {
-                showMessages(R.string.onBottomBarPasteClicked_exceptionItem, 
-                             "method:onBottomBarPasteClicked file:" + srcFile.getPath());
             }
+            refreshView();
+            initializePasteStatus();
         }
-        refreshView();
-        initializePasteStatus();
+    }
+    
+    private void existFileProcess(final File src, final File dst){
+        View dialogView = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
+                                                .inflate(R.layout.dialog, null);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(R.string.dialog_existFileProcess_title)
+               .setView(dialogView);
+        builder.setItems(R.array.dialog_existFileProcess, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                switch(which){
+                    case 0 : {
+                        if(!FileOperation.copyDirectory(src, dst)){
+                            showMessages(R.string.existFileProcess_copyDirectory,
+                                         "method:existFileProcess file:" + src.getPath());
+                         }
+                         break;
+                     }
+                    case 1 : {
+                        if(!FileOperation.copyNotCoverExistFile(src, dst)){
+                            showMessages(R.string.existFileProcess_copyNotCoverExistFile,
+                                         "method:existFileProcess file:" + src.getPath());
+                        }
+                        break;
+                    }
+                    default : {}
+                }
+                if(mCopyOrMove.equals(Action.MOVE)){
+                    if(!FileOperation.deleteFile(src)){
+                        showMessages(R.string.existFileProcess_deleteFile,
+                                     "method:existFileProcess file:" + src.getPath());
+                    }
+                }
+                refreshView();
+                initializePasteStatus();
+            }
+        });
+        builder.show();
     }
     
     public void onBottomBarCancelClicked(View v){
         initializePasteStatus();
-    }
-    
-    private boolean copyFile(File src, File dst){
-        boolean flag = true;
-        if(src.isDirectory()){
-            if(!dst.mkdir()||!src.canExecute()||!src.canRead()){
-                return false;
-            } else {
-                for(File f: src.listFiles()){
-                    flag = flag && copyFile(f, new File(dst.getPath() + "/" + f.getName()));
-                }
-            }
-        } else{
-            try{
-                if(!dst.createNewFile()){
-                    return false;
-                }
-                InputStream  in = new FileInputStream(src);
-                OutputStream out = new FileOutputStream(dst);
-                byte[] buf = new byte[1024];
-                int len;
-                while ((len = in.read(buf)) > 0) {
-                    out.write(buf, 0, len);
-                }
-                in.close();
-                out.close();
-            }catch(IOException e){
-                showMessages(0, e.getMessage() + src.getPath() +" "+ dst.getPath());
-                flag = false;
-            }
-        }
-        return flag;
-    }
-    
-    private boolean deleteFile(File srcFile){
-        boolean b = true;
-        if(srcFile.isDirectory()){
-            for(File f : srcFile.listFiles()){
-                b = b && deleteFile(f);
-            }
-        }
-        if(b){
-            return srcFile.delete();
-        } else {
-            return b;
-        }
     }
     
     private void initializePasteStatus(){
@@ -469,5 +533,14 @@ public class MainActivity extends Activity {
         if(!errors.equals("")){
             Log.e(this.toString(), sdf.format(new Date()) + " " + errors);
         }
+    }
+
+    private void popDialog(int title, View v, DialogInterface.OnClickListener listener){
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle(title)
+               .setView(v);
+        builder.setPositiveButton(R.string.dialog_ok, listener)
+               .setNegativeButton(R.string.dialog_cancel, null)
+               .show();
     }
 }
