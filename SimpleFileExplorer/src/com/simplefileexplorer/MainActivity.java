@@ -270,10 +270,16 @@ public class MainActivity extends Activity {
         Map<String, String> mFile = new HashMap<String, String>();
         
         Integer drawId = f.isDirectory() ? R.drawable.isdirectory : R.drawable.isfile;
+        String extent = MimeTypeMap.getSingleton().getMimeTypeFromExtension(fileExt(f.getName()));
+        extent = extent==null?"text/plain" : extent;
+        if(extent.matches("image/.*")){
+            drawId = R.drawable.ispicture;
+        }
         String atr = sdf.format(f.lastModified()) + " " + getFileLen(f.length());
         String path = f.getAbsolutePath();
         
         mFile.put("name", f.getName());
+        mFile.put("ext", extent);
         mFile.put("image", drawId.toString());
         mFile.put("atr", atr);
         mFile.put("path", path);
@@ -298,10 +304,7 @@ public class MainActivity extends Activity {
         File f = new File(file.get("path"));
         if(f.isFile()){
             Intent intent = new Intent("android.intent.action.VIEW");
-            intent.setDataAndType(Uri.fromFile(f), 
-                                  MimeTypeMap
-                                      .getSingleton()
-                                      .getMimeTypeFromExtension(fileExt(f.toString())));
+            intent.setDataAndType(Uri.fromFile(f), file.get("ext"));
             try {
                 startActivity(intent);
             } catch (android.content.ActivityNotFoundException e) {
@@ -320,9 +323,6 @@ public class MainActivity extends Activity {
     }
     
     private String fileExt(String url) {
-        if (url.indexOf("/")>-1) {
-            url = url.substring(url.lastIndexOf("/")+1);
-        }
         if (url.lastIndexOf(".") == -1||url.lastIndexOf(".")+1 == -1) {
             return "text";
         } else {

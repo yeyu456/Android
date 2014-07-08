@@ -30,10 +30,11 @@ public final class R {
         public static final int ic_launcher=0x7f020001;
         public static final int isdirectory=0x7f020002;
         public static final int isfile=0x7f020003;
-        public static final int options_menu_createdirectory=0x7f020004;
-        public static final int options_menu_createfile=0x7f020005;
-        public static final int options_menu_refresh=0x7f020006;
-        public static final int options_menu_search=0x7f020007;
+        public static final int ispicture=0x7f020004;
+        public static final int options_menu_createdirectory=0x7f020005;
+        public static final int options_menu_createfile=0x7f020006;
+        public static final int options_menu_refresh=0x7f020007;
+        public static final int options_menu_search=0x7f020008;
     }
     public static final class id {
         public static final int bottom_bar=0x7f0a0003;
