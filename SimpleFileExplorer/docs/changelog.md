@@ -7,7 +7,7 @@
   null, the "LruCache.put" function throw exception.  
   
 ##### Solved:
-  &nbsp;&nbsp;&nbsp;&nbsp;add a **if** judgment when bitmap is null, return null to skip the *LruCache.put* function.  
+  &nbsp;&nbsp;&nbsp;&nbsp;add a *if* judgment when bitmap is null, return null to skip the *LruCache.put* function.  
   And modify the bitmap setting action when null value return.  
   
 ##### Feature add:
