@@ -15,4 +15,4 @@ File or Folder Creation.[sample images](https://github.com/yeyu456/Android/blob/
 Support Android 4.0 or greater
 
 ## Download ##
-[Apk Download](https://github.com/yeyu456/Android/raw/master/SimpleFileExplorer/bin/SimpleFileExplorer.apk)
+[App Download](https://github.com/yeyu456/Android/raw/master/SimpleFileExplorer/bin/SimpleFileExplorer.apk)
