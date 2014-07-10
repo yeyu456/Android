@@ -1,5 +1,5 @@
 # 2014.7.10 #
-## Fix Bug: ##
+###### Fix Bug: ##
   When users open directory contains empty image files, the app activity will crash.
 ## Reason: ##
   The function that generate bitmap use *LruCache.put* function.when the bitmap is 
