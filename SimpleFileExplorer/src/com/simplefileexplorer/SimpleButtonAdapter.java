@@ -112,8 +112,13 @@ public class SimpleButtonAdapter extends SimpleAdapter {
             BitmapFactory.decodeFile(mPath, options);
             int tmp_width = options.outWidth;
             int tmp_height = options.outHeight;
+            
+            //In case of empty pictures
+            if(tmp_width<0 || tmp_height<0){
+                return null;
+            }
             int be = 1;
-            while(tmp_width>50 && tmp_height>50){
+            while(tmp_width>100 || tmp_height>100){
                 tmp_width /= 2;
                 tmp_height /= 2;
                 be *= 2; 
@@ -127,7 +132,8 @@ public class SimpleButtonAdapter extends SimpleAdapter {
         
         @Override
         protected void onPostExecute(Bitmap bm){
-            if(((Holder) mView.getTag()).path == mPath){
+            if(((Holder) mView.getTag()).path == mPath
+               && bm!=null){
                 ((Holder) mView.getTag()).b
                                          .setCompoundDrawablesWithIntrinsicBounds(new BitmapDrawable(mContext.getResources(), bm), 
                                                                                   null, null, null);

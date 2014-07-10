@@ -397,6 +397,7 @@ public class MainActivity extends Activity {
             View dialogRenameView = ((LayoutInflater) this.getSystemService(Context.LAYOUT_INFLATER_SERVICE))
                                                           .inflate(R.layout.dialog, null);
             final EditText newName = (EditText) dialogRenameView.findViewById(R.id.dialog);
+            newName.setText(f.getName());
             
             popDialog(R.string.dialog_rename, dialogRenameView, new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
