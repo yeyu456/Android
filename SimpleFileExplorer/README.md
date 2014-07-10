@@ -9,7 +9,7 @@ SimpleFileExplorer
 3.  File or Folder Creation.[sample images](https://github.com/yeyu456/Android/blob/master/SimpleFileExplorer/docs/file_creation.md)  
 
 ## ChangeLog ##
-[Change Log](https://github.com/yeyu456/Android/blob/master/SimpleFileExplorer/docs/changelog)  
+*  [Change Log](https://github.com/yeyu456/Android/blob/master/SimpleFileExplorer/docs/changelog)  
 
 ## Requirements ##
 * Support Android 4.0 or greater
