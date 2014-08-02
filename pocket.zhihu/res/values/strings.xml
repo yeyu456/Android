@@ -1,0 +1,43 @@
+<resources>
+	<!-- App名 -->
+    <string name="app_name">pocket知乎</string>
+    
+    <!-- ActionBar名 -->
+    <string name="service_start_download">开始下载</string>
+    <string name="service_stop_download">停止下载</string>
+    
+    <!-- Tab名 -->
+    <string name="tab_index">首页</string>
+    <string name="tab_topic">话题</string>
+    <string name="tab_explore">发现</string>
+	
+	<!-- App目录和文件 -->
+	<!-- 主目录 -->
+	<string name="dir_app">.zhihu.pocket</string>
+		<!-- Cookie文件名 -->
+		<string name="cookie">Cookie</string>
+		<!-- 首页缓存目录 -->
+		<string name="dir_index">.zhihu.pocket/index</string>
+		<!-- 话题缓存目录 -->
+		<string name="dir_topic">.zhihu.pocket/topic</string>
+			<string name="file_topiclist">.zhihu.pocket/topic/toplist</string>
+		<!-- 发现缓存目录 -->
+		<string name="dir_explore">.zhihu.pocket/explore</string>
+			<string name="file_recommendlist">.zhihu.pocket/explore/recommendlist</string>
+			<string name="dir_dailyhot">.zhihu.pocket/explore/dailyhot</string>
+			<string name="dir_monthlyhot">.zhihu.pocket/explore/monthlyhot</string>
+			
+	<!-- 问题页面 -->
+	<string name="question_detail_show">显示全部</string>
+	<string name="question_detail_hide">收起</string>
+	
+	<!-- 颜色 -->
+	<color name="blue">#0666c5</color>
+	<color name="darkblue">#225599</color>
+	<color name="black">#000000</color>
+	<color name="green">#669900</color>
+	<color name="orange">#FF8800</color>
+	<color name="red">#CC0000</color>
+	<color name="white">#FFFFFF</color>
+	
+</resources>
