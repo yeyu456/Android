@@ -2,17 +2,20 @@ package com.zhihu.pocket;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
-import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.net.HttpURLConnection;
-import java.net.SocketTimeoutException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.TimeUnit;
 
 import android.app.Service;
 import android.content.Intent;
@@ -39,8 +42,9 @@ public class DownloadService extends Service {
         mExternalPath = intent.getStringExtra("externalpath");
         mQueue = new ArrayBlockingQueue<HashMap<String, String>>(20);
         mAnalyseQueue = new ArrayBlockingQueue<HashMap<String, String>>(20);
-        enqueueItem("questionlist", "index");
-        enqueueItem("imagelist", "index");
+        enqueueItem("questionlist", "index", null);
+        enqueueItem("imagelist", "index", null);
+        enqueueItem("topiclist", "topic", null);
         mDownloadThread = new Thread(){
             @Override
             public void run(){
@@ -60,13 +64,6 @@ public class DownloadService extends Service {
     
     @Override
     public boolean onUnbind(Intent intent){
-        if(!mQueue.isEmpty()){
-            mQueue.clear();
-        }
-        if(!mAnalyseQueue.isEmpty()){
-            mAnalyseQueue.clear();
-        }
-        mAnalyseQueue = null;
         if(mEnqueueThread!=null){
             mEnqueueThread.interrupt();
             mEnqueueThread = null;
@@ -80,11 +77,14 @@ public class DownloadService extends Service {
     }
     
     private void Download(){
-        int sleepCount = 5;
         while(!isInterrupt){
             HashMap<String, String> values;
             try {
-                values = mQueue.take();
+                values = mQueue.poll(1, TimeUnit.MINUTES);
+                if(values==null){
+                    Log.e("download", "break");
+                    break;
+                }
             } catch (InterruptedException e1) {
                 e1.printStackTrace();
                 break;
@@ -114,7 +114,6 @@ public class DownloadService extends Service {
                         }
                     }
                 } else {
-                    enqueueItem(f.getName(), category);
                     if(islist){
                         Bundle bundle = new Bundle();
                         bundle.putString("toast", url);
@@ -123,7 +122,7 @@ public class DownloadService extends Service {
                         }
                     }
                     try{
-                        Thread.sleep(sleepCount);
+                        Thread.sleep(5);
                     } catch(InterruptedException e){
                         e.printStackTrace();
                         break;
@@ -132,6 +131,9 @@ public class DownloadService extends Service {
             } catch(IOException e){
                 e.printStackTrace();
             }
+        }
+        if(!mQueue.isEmpty()){
+            mQueue.clear();
         }
     }
     
@@ -142,9 +144,9 @@ public class DownloadService extends Service {
         try{
             URL urlitem = new URL(url);
             connection = (HttpURLConnection) urlitem.openConnection();
-            connection.setConnectTimeout(1000);
-            connection.setReadTimeout(1000);
-            Log.e("len", (long) connection.getContentLength() + " " + f.length());
+            connection.setConnectTimeout(3000);
+            connection.setReadTimeout(3000);
+            Log.e("download", url);
             if(((long) connection.getContentLength())!=f.length()){
                 input = connection.getInputStream();
                 output = new FileOutputStream(f);
@@ -187,7 +189,11 @@ public class DownloadService extends Service {
             HashMap<String, String> values = null;
             if(mAnalyseQueue!=null){
                 try {
-                    values = mAnalyseQueue.take();
+                    values = mAnalyseQueue.poll(1, TimeUnit.MINUTES);
+                    if(values==null){
+                        Log.e("analyse", "break");
+                        break;
+                    }
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                     return;
@@ -197,11 +203,30 @@ public class DownloadService extends Service {
             String category = values.get("category");
             try {
                 System.out.println("listfile " + listfile);
-                BufferedReader br = new BufferedReader(new FileReader(listfile));
+                BufferedReader br = new BufferedReader(new InputStreamReader(new FileInputStream(listfile), "UTF8"));
                 String file;
+                int filecount = 0;
                 while((file = br.readLine()) != null){
-                    enqueueItem(file, category);
+                    if(category.equals("topic")){
+                        if(listfile.contains("topiclist")){
+                            File topicDir = new File(listfile.replace("topiclist", file));
+                            if(!topicDir.exists()){
+                                topicDir.mkdir();
+                            }
+                            Log.e("enqueue", listfile);
+                            enqueueItem("questionlist", "topic", file);
+                            Log.e("enqueue", listfile);
+                            enqueueItem("imagelist", "topic", file);
+                        } else {
+                            String[] name= file.split("/");
+                            enqueueItem(name[1], category, name[0]);
+                        }
+                    } else {
+                        enqueueItem(file, category, null);
+                    }
+                    filecount += 1;
                 }
+                sendNotify(filecount, 0, null, false);
                 br.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -209,10 +234,25 @@ public class DownloadService extends Service {
                 e.printStackTrace();
             }
         }
+        if(!mAnalyseQueue.isEmpty()){
+            mAnalyseQueue.clear();
+        }
     }
     
-    private void enqueueItem(String name, String category){
-        String url ="http://192.168.1.161/"+ category + "/" + name.trim();
+    private void enqueueItem(String name, String category, String subcategory){
+        String url;
+        try {
+            if(subcategory!=null){
+                url = "http://192.168.1.161/"+ category + "/" + URLEncoder.encode(subcategory, "UTF-8").replace("+", "%20") + "/" + name.trim();
+            } else {
+                url = "http://192.168.1.161/"+ category + "/" + name.trim();
+            }
+        } catch (UnsupportedEncodingException e1) {
+            // TODO Auto-generated catch block
+            e1.printStackTrace();
+            Log.e("enqueue", category);
+            return;
+        }
         String filePath = "";
         String isupdate = "0";
         String islist = "0";
@@ -230,13 +270,18 @@ public class DownloadService extends Service {
                 break;
             }
         }
-        if(name.trim()=="questionlist"||name.trim()=="imagelist"){
+        if(name.trim().contains("questionlist")||name.trim().contains("imagelist")||name.trim()=="topiclist"){
             islist = "1";
         }
         if(name.trim().matches(".*\\.html")){
             isupdate = "1";
         }
-        filePath += "/" + name.trim();
+        if(subcategory!=null){
+            filePath += "/" + subcategory + "/" + name.trim();
+        } else {
+            filePath += "/" + name.trim();
+        }
+        Log.e("enqueue filepath", filePath);
         HashMap<String, String> values = new HashMap<String, String>();
         values.put("url", url);
         values.put("filepath", filePath);
@@ -249,6 +294,21 @@ public class DownloadService extends Service {
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
+        }
+    }
+    
+    private void sendNotify(int totalcount, int incr, String url, boolean dismiss){
+        Bundle bundle = new Bundle();
+        bundle.putInt("totalcount", totalcount);
+        bundle.putInt("incr", incr);
+        if(url!=null){
+            bundle.putString("url", url);
+        }
+        if(dismiss){
+            bundle.putInt("dismiss", 1);
+        }
+        if(mReceiver!=null){
+            mReceiver.send(0, bundle);
         }
     }
     

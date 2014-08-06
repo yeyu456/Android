@@ -20,7 +20,7 @@
 		<string name="dir_index">.zhihu.pocket/index</string>
 		<!-- 话题缓存目录 -->
 		<string name="dir_topic">.zhihu.pocket/topic</string>
-			<string name="file_topiclist">.zhihu.pocket/topic/toplist</string>
+			<string name="file_topiclist">.zhihu.pocket/topic/topiclist</string>
 		<!-- 发现缓存目录 -->
 		<string name="dir_explore">.zhihu.pocket/explore</string>
 			<string name="file_recommendlist">.zhihu.pocket/explore/recommendlist</string>

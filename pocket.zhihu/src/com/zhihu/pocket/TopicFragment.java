@@ -2,6 +2,7 @@ package com.zhihu.pocket;
 
 import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 
 import android.app.Fragment;
@@ -17,7 +18,7 @@ import android.widget.AdapterView.OnItemClickListener;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 
-public class IndexFragment extends Fragment{
+public class TopicFragment extends Fragment{
     SimpleAdapter mAdapter;
     ListView mListView;
     ArrayList<Map<String, String>> mData = new ArrayList<Map<String, String>>();
@@ -39,8 +40,9 @@ public class IndexFragment extends Fragment{
             @Override
             public boolean onTouch(View v, MotionEvent event) {
                 // TODO Auto-generated method stub
-                return IndexFragment.this.getActivity().onTouchEvent(event);
+                return TopicFragment.this.getActivity().onTouchEvent(event);
             }
+            
         });
         mSwipeLayout = (SwipeRefreshLayout) v.findViewById(R.id.swipe_refresh);
         mSwipeLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener(){
@@ -49,6 +51,7 @@ public class IndexFragment extends Fragment{
                 UpdateData();
                 mSwipeLayout.setRefreshing(false);
             }
+            
         });
         mSwipeLayout.setColorSchemeResources(R.color.blue, R.color.green, R.color.orange, R.color.red);
         mListView.setOnItemClickListener(new OnItemClickListener(){
@@ -58,10 +61,10 @@ public class IndexFragment extends Fragment{
                 System.out.println(path);
                 String title = ((Map<String, String>) parent.getItemAtPosition(position)).get("title");
                 System.out.println(title);
-                Intent intent = new Intent(IndexFragment.this.getActivity(), QuestionActivity.class);
+                Intent intent = new Intent(TopicFragment.this.getActivity(), TopicQuestionListActivity.class);
                 intent.putExtra("file", path);
                 intent.putExtra("title", title);
-                IndexFragment.this.startActivity(intent);
+                TopicFragment.this.startActivity(intent);
             }
         });
         if(mData!=null){
@@ -80,10 +83,17 @@ public class IndexFragment extends Fragment{
     }
     
     public void UpdateData(){
-        mPath = ((MainActivity) this.getActivity()).mExternalPath + "/" + this.getActivity().getResources().getString(R.string.dir_index);
+        mPath = ((MainActivity) this.getActivity()).mExternalPath + "/" + this.getActivity().getResources().getString(R.string.dir_topic);
         File dir = new File(mPath);
         if(dir.exists()){
-            XMLOperation.xmlParse(dir, mData);
+            for(File f:dir.listFiles()){
+                if(f.isDirectory()){
+                    Map<String, String> map = new HashMap<String, String>();
+                    map.put("file", f.getPath());
+                    map.put("title", f.getName());
+                    mData.add(map);
+                }
+            }
         }
         if(mData!=null&&mListView!=null){
             if(mAdapter!=null){

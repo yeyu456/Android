@@ -3,12 +3,14 @@ package com.zhihu.pocket;
 import java.io.File;
 
 import org.jsoup.select.Elements;
-import org.xml.sax.XMLReader;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Paint;
 import android.graphics.Rect;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -196,9 +198,35 @@ public class QuestionActivity extends Activity {
             Log.e("getter", mParent + " " + source);
             Log.e("getter", draw.getPath());
             if (draw.exists()&&draw.length()!=0) {
-                Drawable d = Drawable.createFromPath(mParent + "/" + source); 
-                d.setBounds(0,0,d.getIntrinsicWidth(),d.getIntrinsicHeight());
-                return d;
+                if(draw.length()>(512 * 1024)){
+                    Log.e("getter large image", draw.getPath() + " size " + draw.length()/1024);
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inJustDecodeBounds = true;
+                    BitmapFactory.decodeFile(draw.getPath(), options);
+                    int tmp_width = options.outWidth;
+                    int tmp_height = options.outHeight;
+                    Log.e("getter large image", tmp_width + " " + tmp_height);
+                    //In case of empty pictures
+                    if(tmp_width<0 || tmp_height<0){
+                        return null;
+                    }
+                    int be = 1;
+                    while(tmp_width>300 && tmp_height>300){
+                        tmp_width /= 2;
+                        tmp_height /= 2;
+                        be *= 2; 
+                    }
+                    options.inSampleSize = be;
+                    options.inJustDecodeBounds = false;
+                    Bitmap bm = BitmapFactory.decodeFile(draw.getPath(), options);
+                    Drawable d = new BitmapDrawable(QuestionActivity.this.getResources(), bm);
+                    d.setBounds(0,0,d.getIntrinsicWidth(),d.getIntrinsicHeight());
+                    return d;
+                } else {
+                    Drawable d = Drawable.createFromPath(mParent + "/" + source); 
+                    d.setBounds(0,0,d.getIntrinsicWidth(),d.getIntrinsicHeight());
+                    return d;
+                }
             }
             else {
                 Drawable d  = QuestionActivity.this.getResources().getDrawable(R.drawable.image_not_found);

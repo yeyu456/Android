@@ -1,11 +1,15 @@
 package com.zhihu.pocket;
 
 import java.io.File;
+import java.util.HashMap;
 
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.app.Activity;
 import android.app.Fragment;
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.ProgressDialog;
 import android.os.IBinder;
 import android.content.ComponentName;
 import android.content.Context;
@@ -17,6 +21,7 @@ import android.os.Bundle;
 import android.os.Environment;
 import android.os.Handler;
 import android.os.ResultReceiver;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -123,9 +128,13 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
 	@Override
 	public boolean onFling (MotionEvent e1, MotionEvent e2, float velocityX, float velocityY){
 	    int dis = (int) (e2.getX() - e1.getX());
+	    int ydis = (int) (e2.getY() - e2.getY());
 	    ActionBar actionbar = this.getActionBar();
 	    int pos = actionbar.getSelectedTab().getPosition();
 	    System.out.println("tab pos " + pos);
+	    if(ydis>50||ydis<-50){
+	        return false;
+	    }
 	    if(dis>150){
 	        pos += 1;
 	        if(pos==3){
@@ -173,7 +182,7 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
 	                   .setTabListener(new TabListener<IndexFragment>(this, "index", IndexFragment.class));
 	    Tab topicTab = actionbar.newTab()
 	                   .setText(R.string.tab_topic)
-                       .setTabListener(new TabListener<Fragment>(this, "topic", Fragment.class));
+                       .setTabListener(new TabListener<TopicFragment>(this, "topic", TopicFragment.class));
 	    Tab exploreTab = actionbar.newTab()
 	                   .setText(R.string.tab_explore)
                        .setTabListener(new TabListener<Fragment>(this, "explore", Fragment.class));
@@ -198,13 +207,20 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
     };
 	
 	private void startDownload(){
-        if(!mBound){
-            Intent intent = new Intent(MainActivity.this, DownloadService.class);
-            intent.putExtra("receiver", new DownloadReceiver(new Handler()));
-            intent.putExtra("externalpath", mExternalPath);
-            this.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
-        } else {
-            Toast.makeText(this, "下载已经启动", Toast.LENGTH_SHORT).show();
+	    ProgressDialog progress = null;
+        if(mBound){
+            stopDownload();
+            progress = new ProgressDialog(this);
+            progress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+            progress.setTitle("正在重启下载...");
+            progress.show();
+        }
+        Intent intent = new Intent(MainActivity.this, DownloadService.class);
+        intent.putExtra("receiver", new DownloadReceiver(new Handler()));
+        intent.putExtra("externalpath", mExternalPath);
+        this.bindService(intent, mConnection, Context.BIND_AUTO_CREATE);
+        if(progress!=null){
+            progress.dismiss();
         }
 	}
 	
@@ -220,13 +236,19 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
 	
 	
     private void updateFragment(String fragmentTag){
-        IndexFragment fragment = (IndexFragment) this.getFragmentManager().findFragmentByTag(fragmentTag);
         switch(fragmentTag){
             case "index" : {
-                
+                IndexFragment fragment = (IndexFragment) this.getFragmentManager().findFragmentByTag(fragmentTag);
+                if(fragment!=null){
+                    fragment.UpdateData();
+                }
                 break;
             }
             case "topic" : {
+                TopicFragment fragment = (TopicFragment) this.getFragmentManager().findFragmentByTag(fragmentTag);
+                if(fragment!=null){
+                    fragment.UpdateData();
+                }
                 break;
             }
             case "explore" : {
@@ -236,13 +258,32 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
                 
             }
         }
-        
-        if(fragment!=null){
-            fragment.UpdataData();
-        }
+    }
+    
+    private Notification.Builder initNotifyMessage(int count){
+        Notification.Builder mBuilder = new Notification.Builder(this)
+                                                        .setContentTitle("Downloading...")
+                                                        .setContentText("0/" + count)
+                                                        .setSmallIcon(R.drawable.ic_launcher)
+                                                        .setProgress(count, 0, false);
+        return mBuilder;
+    }
+    
+    private void errorNotifyMessage(String url){
+        Notification.Builder mBuilder = new Notification.Builder(this)
+                                                        .setContentTitle("Download Failed")
+                                                        .setContentText(url)
+                                                        .setSmallIcon(R.drawable.ic_launcher)
+                                                        .setAutoCancel(true);
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(url, 1, mBuilder.getNotification());
     }
     
     private class DownloadReceiver extends ResultReceiver{
+        Notification.Builder mBuilder;
+        int mCount;
+        int mDownloadedCount;
+        
         public DownloadReceiver(Handler handler) {
             super(handler);
         }
@@ -251,6 +292,34 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
         protected void onReceiveResult(int resultCode, Bundle resultData) {
             super.onReceiveResult(resultCode, resultData);
             switch(resultCode){
+                case 0 : {
+                    NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+                    
+                    if(mBuilder==null){
+                        mCount = 0;
+                        mCount += resultData.getInt("totalcount");
+                        mBuilder = initNotifyMessage(mCount);
+                        mDownloadedCount = 0;
+                    } else {
+                        if(resultData.containsKey("dismiss")){
+                            mBuilder.setAutoCancel(true);
+                            mBuilder.setContentTitle("Stop Download");
+                            mNotificationManager.notify(0, mBuilder.getNotification());
+                            mBuilder = null;
+                        } else {
+                            if(resultData.containsKey("url")){
+                                errorNotifyMessage(resultData.getString("url"));
+                            }
+                            mCount += resultData.getInt("totalcount");
+                            mDownloadedCount += resultData.getInt("incr");
+                            if(mDownloadedCount % 10 == 0 || mCount == mDownloadedCount){
+                                mBuilder.setContentText(mDownloadedCount + "/" + mCount);
+                                mNotificationManager.notify(0, mBuilder.getNotification());
+                            }
+                        }
+                    }
+                    break;
+                }
                 case 1 : {
                     Toast.makeText(MainActivity.this, resultData.getString("url") + " download failed!", Toast.LENGTH_SHORT).show();
                     break;
