@@ -65,7 +65,7 @@ public class TopicQuestionListActivity extends Activity {
     public void UpdateData(){
         File dir = new File(mPath);
         if(dir.exists()){
-            XMLOperation.xmlParse(dir, mData);
+            HTMLOperation.xmlParse(dir, mData);
         }
         if(mData!=null){
             if(mAdapter!=null){

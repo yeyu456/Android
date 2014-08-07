@@ -41,7 +41,7 @@ public class DownloadService extends Service {
         mReceiver = (ResultReceiver) intent.getParcelableExtra("receiver");
         mExternalPath = intent.getStringExtra("externalpath");
         mQueue = new ArrayBlockingQueue<HashMap<String, String>>(20);
-        mAnalyseQueue = new ArrayBlockingQueue<HashMap<String, String>>(20);
+        mAnalyseQueue = new ArrayBlockingQueue<HashMap<String, String>>(100);
         enqueueItem("questionlist", "index", null);
         enqueueItem("imagelist", "index", null);
         enqueueItem("topiclist", "topic", null);
@@ -80,7 +80,7 @@ public class DownloadService extends Service {
         while(!isInterrupt){
             HashMap<String, String> values;
             try {
-                values = mQueue.poll(1, TimeUnit.MINUTES);
+                values = mQueue.poll(5, TimeUnit.MINUTES);
                 if(values==null){
                     Log.e("download", "break");
                     break;
@@ -92,15 +92,10 @@ public class DownloadService extends Service {
             String url = values.get("url");
             String filepath = values.get("filepath");
             String category = values.get("category");
-            boolean isupdate = values.get("isupdate")=="0"?false:true;
             boolean islist = values.get("islist")=="0"?false:true;
             File f = new File(filepath);
             try{
-                if(f.exists()){
-                    if(!isupdate&&!islist){
-                        continue;
-                    }
-                } else {
+                if(!f.exists()){
                     f.createNewFile();
                 }
                 if(DownloadItem(url, f)){
@@ -189,7 +184,7 @@ public class DownloadService extends Service {
             HashMap<String, String> values = null;
             if(mAnalyseQueue!=null){
                 try {
-                    values = mAnalyseQueue.poll(1, TimeUnit.MINUTES);
+                    values = mAnalyseQueue.poll(5, TimeUnit.MINUTES);
                     if(values==null){
                         Log.e("analyse", "break");
                         break;
@@ -226,7 +221,6 @@ public class DownloadService extends Service {
                     }
                     filecount += 1;
                 }
-                sendNotify(filecount, 0, null, false);
                 br.close();
             } catch (FileNotFoundException e) {
                 e.printStackTrace();
@@ -280,6 +274,9 @@ public class DownloadService extends Service {
             filePath += "/" + subcategory + "/" + name.trim();
         } else {
             filePath += "/" + name.trim();
+        }
+        if((new File(filePath).exists())&&islist=="0"){
+            return;
         }
         Log.e("enqueue filepath", filePath);
         HashMap<String, String> values = new HashMap<String, String>();

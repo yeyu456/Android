@@ -83,7 +83,7 @@ public class IndexFragment extends Fragment{
         mPath = ((MainActivity) this.getActivity()).mExternalPath + "/" + this.getActivity().getResources().getString(R.string.dir_index);
         File dir = new File(mPath);
         if(dir.exists()){
-            XMLOperation.xmlParse(dir, mData);
+            HTMLOperation.xmlParse(dir, mData);
         }
         if(mData!=null&&mListView!=null){
             if(mAdapter!=null){

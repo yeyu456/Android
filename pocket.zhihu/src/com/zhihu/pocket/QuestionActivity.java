@@ -60,7 +60,7 @@ public class QuestionActivity extends Activity {
         
         @Override
         protected Elements doInBackground(Void... params){
-            return XMLOperation.getElements(mFile);
+            return HTMLOperation.getElements(mFile);
         }
         
         protected void onPostExecute(Elements els) {

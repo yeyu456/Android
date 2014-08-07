@@ -131,23 +131,25 @@ public class MainActivity extends Activity implements GestureDetector.OnGestureL
 	    int ydis = (int) (e2.getY() - e2.getY());
 	    ActionBar actionbar = this.getActionBar();
 	    int pos = actionbar.getSelectedTab().getPosition();
-	    System.out.println("tab pos " + pos);
-	    if(ydis>50||ydis<-50){
+	    System.out.println("tab dis " + dis + " ydis" + ydis);
+	    if(ydis>50||ydis<-50||Math.abs(velocityX)< Math.abs(velocityY)){
 	        return false;
 	    }
-	    if(dis>150){
+	    if(dis>100){
 	        pos += 1;
 	        if(pos==3){
 	            pos = 0;
 	        }
+	        System.out.println("tab pos " + pos);
 	        actionbar.selectTab(actionbar.getTabAt(pos));
 	        return true;
 	    }
-	    if(dis<-150){
+	    if(dis<-100){
 	        pos -= 1;
 	        if(pos==-1){
 	            pos = 2;
 	        }
+	        System.out.println("tab pos " + pos);
 	        actionbar.selectTab(actionbar.getTabAt(pos));
 	        return true;
 	    }
