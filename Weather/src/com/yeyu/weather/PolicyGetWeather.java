@@ -10,7 +10,7 @@ public class PolicyGetWeather {
 		mContext = context;
 	}
 	
-	public String getWeather(double latitude, double longitude){
+	public WeatherObject[] getWeather(double latitude, double longitude){
 		if(CheckRequireSetting.isNetworkEnable(mContext)){
 			return WeatherForecastAPI.getDefaultWeather(latitude, longitude);
 		} else {

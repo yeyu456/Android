@@ -68,7 +68,8 @@ public class MainActivity extends Activity {
 			}
 			case REQUEST_WEATHER : {
 				if(resultCode == WeatherService.RESULT_OK){
-					updateWeather();
+					WeatherObject[] weather = (WeatherObject[]) data.getParcelableArrayExtra(RESULT_WEATHER);
+					updateWeather(weather);
 				}
 				break;
 			}
@@ -82,8 +83,8 @@ public class MainActivity extends Activity {
 		requestWeather(latitude, longitude);
 	}
 	
-	private void updateWeather(){
-		
+	private void updateWeather(WeatherObject[] weather){
+		System.out.println("weather " + weather);
 	}
 	
 	private void requestLocation(){

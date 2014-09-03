@@ -27,15 +27,13 @@ public class LocationBaiduAPI {
 		try {
 			URL url = new URL(BAIDU_REQUEST_URI);
 			String result = connect(url);
-			if(result==null){
-				return null;
-			} else {
+			if(result!=null){
 				return baiduParseJson(result);
 			}
 		} catch (MalformedURLException e) {
 			e.printStackTrace();
-			return null;
 		}
+		return null;
 	}
 	
 	private static String connect(URL url){
@@ -54,8 +52,8 @@ public class LocationBaiduAPI {
             return sb.toString();
 		} catch (IOException e) {
 			e.printStackTrace();
-			return null;
 		}
+		return null;
 	}
 	
 	private static Location baiduParseJson(String respond){

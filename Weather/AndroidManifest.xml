@@ -24,8 +24,12 @@
             </intent-filter>
         </activity>
         <service 
-            android:name=".LocationService" >
-            
+            android:name=".LocationService"
+            android:exported="false">
+        </service>
+        <service 
+            android:name=".WeatherService"
+            android:exported="false">
         </service>
     </application>
 
