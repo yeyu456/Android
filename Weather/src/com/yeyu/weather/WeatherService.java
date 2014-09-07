@@ -1,5 +1,7 @@
 package com.yeyu.weather;
 
+import java.util.ArrayList;
+
 import android.app.IntentService;
 import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
@@ -26,12 +28,12 @@ public class WeatherService extends IntentService {
 
 		try {
 			if(latitude!=0.0 && longitude!=0.0){
-				WeatherObject[] result = new PolicyGetWeather(this).getWeather(latitude, longitude);
+				ArrayList<WeatherObject> result = new PolicyGetWeather(this).getWeather(latitude, longitude);
 				if(result==null){
 					pendingIntent.send(WeatherService.this, RESULT_FAIL, null);
 				} else {
 					Intent resultIntent = new Intent();
-					resultIntent.putExtra(MainActivity.RESULT_WEATHER, result);
+					resultIntent.putParcelableArrayListExtra(MainActivity.RESULT_WEATHER, result);
 					pendingIntent.send(WeatherService.this, RESULT_OK, resultIntent);
 				}
 			} else {

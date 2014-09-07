@@ -1,6 +1,9 @@
 package com.yeyu.weather;
 
-public class WeatherDailyObject extends WeatherObject {
+import android.os.Parcel;
+import android.os.Parcelable;
+
+public class WeatherDailyObject extends WeatherObject implements Parcelable {
 	
 	public float precipIntensityMax;
 	public long precipIntensityMaxTime;
@@ -16,7 +19,52 @@ public class WeatherDailyObject extends WeatherObject {
     public float apparentTemperatureMax;
     public long apparentTemperatureMaxTime;
     
-	public WeatherDailyObject(double mlatitude, double mlongitude) {
-		super(mlatitude, mlongitude);
-	}
+    @Override
+    public void writeToParcel(Parcel dest, int flags) {
+    	super.writeToParcel(dest, flags);
+    	dest.writeFloat(precipIntensityMax);
+    	dest.writeLong(precipIntensityMaxTime);
+    	dest.writeLong(sunriseTime);
+    	dest.writeLong(sunsetTime);
+    	dest.writeFloat(moonPhase);
+    	dest.writeFloat(temperatureMin);
+    	dest.writeLong(temperatureMinTime);
+        dest.writeFloat(temperatureMax);
+        dest.writeLong(temperatureMaxTime);
+        dest.writeFloat(apparentTemperatureMin);
+        dest.writeLong(apparentTemperatureMinTime);
+        dest.writeFloat(apparentTemperatureMax);
+        dest.writeLong(apparentTemperatureMaxTime);
+    }
+    
+    public static final Parcelable.Creator<WeatherDailyObject> CREATOR = new Parcelable.Creator<WeatherDailyObject>(){
+
+		@Override
+		public WeatherDailyObject createFromParcel(Parcel source) {
+			return new WeatherDailyObject(source);
+		}
+
+		@Override
+		public WeatherDailyObject[] newArray(int size) {
+			return new WeatherDailyObject[size];
+		}
+		
+	};
+    
+    protected WeatherDailyObject(Parcel src){
+    	super(src);
+    	precipIntensityMax = src.readFloat();
+    	precipIntensityMaxTime = src.readLong();
+    	sunriseTime = src.readLong();
+    	sunsetTime = src.readLong();
+        moonPhase = src.readFloat();
+        temperatureMin = src.readFloat();
+        temperatureMinTime = src.readLong();
+        temperatureMax = src.readFloat();
+        temperatureMaxTime = src.readLong();
+        apparentTemperatureMin = src.readFloat();
+        apparentTemperatureMinTime = src.readLong();
+        apparentTemperatureMax = src.readFloat();
+        apparentTemperatureMaxTime = src.readLong();
+    }
 }

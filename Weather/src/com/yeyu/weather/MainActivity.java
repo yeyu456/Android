@@ -1,5 +1,7 @@
 package com.yeyu.weather;
 
+import java.util.ArrayList;
+
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
@@ -68,7 +70,7 @@ public class MainActivity extends Activity {
 			}
 			case REQUEST_WEATHER : {
 				if(resultCode == WeatherService.RESULT_OK){
-					WeatherObject[] weather = (WeatherObject[]) data.getParcelableArrayExtra(RESULT_WEATHER);
+					ArrayList<WeatherObject> weather = data.getParcelableArrayListExtra(RESULT_WEATHER);
 					updateWeather(weather);
 				}
 				break;
@@ -83,8 +85,10 @@ public class MainActivity extends Activity {
 		requestWeather(latitude, longitude);
 	}
 	
-	private void updateWeather(WeatherObject[] weather){
-		System.out.println("weather " + weather);
+	private void updateWeather(ArrayList<WeatherObject> weather){
+		for(WeatherObject obj:weather){
+			System.out.println(obj.time);
+		}
 	}
 	
 	private void requestLocation(){
