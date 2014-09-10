@@ -7,6 +7,8 @@ import android.content.Context;
 public class PolicyGetWeather {
 	
 	private Context mContext;
+	public static final int MAX_COUNT_HOURLY_DATA = 6;
+	public static final int MAX_COUNT_DAILY_DATA = 7;
 	
 	public PolicyGetWeather(Context context){
 		mContext = context;

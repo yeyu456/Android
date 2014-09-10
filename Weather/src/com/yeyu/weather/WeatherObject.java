@@ -5,6 +5,7 @@ import android.os.Parcelable;
 
 public class WeatherObject implements Parcelable {
 	public String summary;
+	public String icon;
 	public long time;
 	public float precipIntensity;
 	public float precipProbability;
@@ -27,6 +28,7 @@ public class WeatherObject implements Parcelable {
 	@Override
 	public void writeToParcel(Parcel dest, int flags) {
 		dest.writeString(summary);
+		dest.writeString(icon);
 		dest.writeLong(time);
 		dest.writeFloat(precipIntensity);
 		dest.writeFloat(precipProbability);
@@ -60,6 +62,7 @@ public class WeatherObject implements Parcelable {
 	
 	protected WeatherObject(Parcel src){
 		summary = src.readString();
+		icon = src.readString();
 		time = src.readLong();
 		precipIntensity = src.readFloat();
 		precipProbability = src.readFloat();

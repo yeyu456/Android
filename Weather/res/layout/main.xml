@@ -2,57 +2,96 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
-	<ImageView
-	    android:layout_width="100dp"
-	    android:layout_height="100dp"
-	    android:layout_gravity="right"
-	    android:background="@drawable/cloudy" />
+    android:orientation="vertical" xmlns:app="http://schemas.android.com/apk/res/com.yeyu.weather">
+	<android.support.v7.widget.CardView
+	    android:id="@+id/cardview_1"
+	    android:layout_width="match_parent"
+	    android:layout_height="80dp"
+	    android:layout_marginBottom="4dp"
+	    android:layout_marginLeft="8dp"
+	    android:layout_marginRight="8dp"
+	    android:layout_marginTop="4dp"
+	    app:cardBackgroundColor="#FF5722"
+	    app:cardCornerRadius="4dp" >
 
-    <TextView
-        android:id="@+id/climate_celsius"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="2"
-        android:gravity="center_vertical|center_horizontal|center"
-        android:textSize="50sp" />
-	<TableRow 
-		android:layout_width="match_parent"
-		android:layout_height="match_parent"
-        android:layout_weight="3">
+	    <include layout="@layout/card_view" />
+    </android.support.v7.widget.CardView>
 
-		<LinearLayout
-		    android:id="@+id/forcast_1"
-		    android:layout_width="match_parent"
-		    android:layout_height="match_parent"
-		    android:layout_weight="1"
-		    android:gravity="center_vertical|center_horizontal|center"
-		    android:orientation="vertical" >
-
-		    <include layout="@layout/forcast_merge_layout"/>
-		</LinearLayout>
-
-		<LinearLayout
-		    android:id="@+id/forcast_2"
-		    android:layout_width="match_parent"
-		    android:layout_height="match_parent"
-		    android:layout_weight="1"
-		    android:background="@drawable/forcast_view_background"
-		    android:gravity="center_vertical|center_horizontal|center"
-		    android:orientation="vertical" >
-
-		    <include layout="@layout/forcast_merge_layout"/>
-		</LinearLayout>
-
-		<LinearLayout
-		    android:id="@+id/forcast_3"
-		    android:layout_width="match_parent"
-		    android:layout_height="match_parent"
-		    android:layout_weight="1"
-		    android:gravity="center_vertical|center_horizontal|center"
-		    android:orientation="vertical" >
-
-		    <include layout="@layout/forcast_merge_layout"/>
-		</LinearLayout>
-	</TableRow>
+	<android.support.v7.widget.CardView
+	    android:id="@+id/cardview_2"
+	    android:layout_width="match_parent"
+	    android:layout_height="80dp"
+	    android:layout_marginBottom="4dp"
+	    android:layout_marginLeft="8dp"
+	    android:layout_marginRight="8dp"
+	    android:layout_marginTop="4dp"
+	    app:cardBackgroundColor="#FFEB3B"
+	    app:cardCornerRadius="4dp" >
+	    <include layout="@layout/card_view" />
+    </android.support.v7.widget.CardView>
+    
+	<android.support.v7.widget.CardView
+	    android:id="@+id/cardview_3"
+	    android:layout_width="match_parent"
+	    android:layout_height="80dp"
+	    android:layout_marginBottom="4dp"
+	    android:layout_marginLeft="8dp"
+	    android:layout_marginRight="8dp"
+	    android:layout_marginTop="4dp"
+	    app:cardBackgroundColor="#607D8B"
+	    app:cardCornerRadius="4dp" >
+	    <include layout="@layout/card_view" />
+    </android.support.v7.widget.CardView>
+    
+	<android.support.v7.widget.CardView
+	    android:id="@+id/cardview_4"
+	    android:layout_width="match_parent"
+	    android:layout_height="80dp"
+	    android:layout_marginBottom="4dp"
+	    android:layout_marginLeft="8dp"
+	    android:layout_marginRight="8dp"
+	    android:layout_marginTop="4dp"
+	    app:cardBackgroundColor="#FAFAFA"
+	    app:cardCornerRadius="4dp" >
+	    <include layout="@layout/card_view" />
+    </android.support.v7.widget.CardView>
+    
+	<android.support.v7.widget.CardView
+	    android:id="@+id/cardview_5"
+	    android:layout_width="match_parent"
+	    android:layout_height="80dp"
+	    android:layout_marginBottom="4dp"
+	    android:layout_marginLeft="8dp"
+	    android:layout_marginRight="8dp"
+	    android:layout_marginTop="4dp"
+	    app:cardBackgroundColor="#CFD8DC"
+	    app:cardCornerRadius="4dp" >
+	    <include layout="@layout/card_view" />
+    </android.support.v7.widget.CardView>
+    
+	<android.support.v7.widget.CardView
+	    android:id="@+id/cardview_6"
+	    android:layout_width="match_parent"
+	    android:layout_height="80dp"
+	    android:layout_marginBottom="4dp"
+	    android:layout_marginLeft="8dp"
+	    android:layout_marginRight="8dp"
+	    android:layout_marginTop="4dp"
+	    app:cardBackgroundColor="#259B24"
+	    app:cardCornerRadius="4dp" >
+	    <include layout="@layout/card_view" />
+    </android.support.v7.widget.CardView>
+    
+	<android.support.v7.widget.CardView
+	    android:id="@+id/cardview_7"
+	    android:layout_width="match_parent"
+	    android:layout_height="80dp"
+	    android:layout_marginBottom="4dp"
+	    android:layout_marginLeft="8dp"
+	    android:layout_marginRight="8dp"
+	    android:layout_marginTop="4dp"
+	    app:cardBackgroundColor="#FFEB3B"
+	    app:cardCornerRadius="4dp" >
+	    <include layout="@layout/card_view" />
+    </android.support.v7.widget.CardView>
 </LinearLayout>

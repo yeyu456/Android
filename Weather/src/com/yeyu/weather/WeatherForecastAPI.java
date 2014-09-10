@@ -7,7 +7,6 @@ import java.io.InputStreamReader;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
-
 import javax.net.ssl.HttpsURLConnection;
 
 import com.google.gson.Gson;
@@ -16,9 +15,6 @@ public class WeatherForecastAPI {
 	
 	public static final String FORECAST_REQUEST_URI_PREFIX = "https://api.forecast.io/forecast/";
 	public static final String FORECAST_REQUEST_URI_POSTFIX = "?units=si";
-	public static final int MAX_COUNT_HOURLY_DATA = 6;
-	public static final int MAX_COUNT_DAILY_DATA = 7;
-
 	private static final String FORECAST_KEY = "a6b57ff137f21b8bf5c8cefd8a0e8f7e";
 	
 	public static ArrayList<WeatherObject> getDefaultWeather(double latitude, double longitude){
@@ -75,11 +71,21 @@ public class WeatherForecastAPI {
 		addLocation(latitude, longitude, cur);
 		weatherList.add(cur);
 		
-		getData(1 + MAX_COUNT_HOURLY_DATA, cur.time, latitude, longitude, weatherList, gsonData.hourly.data);
-		getData(1 + MAX_COUNT_HOURLY_DATA + MAX_COUNT_DAILY_DATA, cur.time, latitude, longitude, weatherList, gsonData.daily.data);
+		getData(1 + PolicyGetWeather.MAX_COUNT_HOURLY_DATA, 
+				cur.time, 
+				latitude, 
+				longitude, 
+				weatherList, 
+				gsonData.hourly.data);
+		getData(1 + PolicyGetWeather.MAX_COUNT_HOURLY_DATA + PolicyGetWeather.MAX_COUNT_DAILY_DATA, 
+				cur.time, 
+				latitude, 
+				longitude, 
+				weatherList, 
+				gsonData.daily.data);
 
 		for(WeatherObject obj:weatherList){
-			System.out.println(obj.time);
+			System.out.println(obj.summary);
 		}
 		return weatherList;
 	}
