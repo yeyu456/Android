@@ -10,12 +10,7 @@ import android.app.ProgressDialog;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
-import android.text.Spannable;
-import android.text.SpannableString;
-import android.text.style.RelativeSizeSpan;
-import android.widget.TextView;
 import android.location.Location;
-import android.support.v7.widget.CardView;
 
 public class MainActivity extends Activity {
 	
@@ -32,31 +27,7 @@ public class MainActivity extends Activity {
 	@Override
 	protected void onCreate(Bundle state){
 		super.onCreate(state);
-		/*
-		this.setContentView(R.layout.main);
-		
-		TextView degreedview = (TextView) this.findViewById(R.id.climate_celsius);
-		String degree = "27" + " \u2103\n";
-		String climate = "“ıÃÏ";
-		Spannable wordtoSpan = new SpannableString(degree + climate); 
-        wordtoSpan.setSpan(new RelativeSizeSpan(1.0f), 
-                           0, 
-                           degree.length(), 
-                           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        
-        wordtoSpan.setSpan(new RelativeSizeSpan(0.5f), 
-                           degree.length(), 
-                           climate.length() + degree.length(), 
-                           Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-		degreedview.setText(wordtoSpan);
-		
-		TextView forcast1 = (TextView) this.findViewById(R.id.forcast_1).findViewById(R.id.forcast_celsius);
-		TextView forcast2 = (TextView) this.findViewById(R.id.forcast_2).findViewById(R.id.forcast_celsius);
-		TextView forcast3 = (TextView) this.findViewById(R.id.forcast_3).findViewById(R.id.forcast_celsius);
-		forcast1.setText(wordtoSpan);
-		forcast2.setText(wordtoSpan);
-		forcast3.setText(wordtoSpan);
-		*/
+		this.setContentView(R.layout.activity_main);
 		
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
@@ -69,17 +40,7 @@ public class MainActivity extends Activity {
 							  .setText("ÃÏ")
 							  .setTabListener(new TabListener<WeatherFragment>(this, TYPE_WEATHER_DAILY, WeatherFragment.class));
 		actionBar.addTab(dayTab);
-	}
-	
-	@Override
-	protected void onStart(){
-		super.onStart();
 		requestLocation();
-	}
-	
-	@Override
-	protected void onDestroy(){
-		super.onDestroy();
 	}
 	
 	@Override
@@ -119,6 +80,14 @@ public class MainActivity extends Activity {
 		for(int n=0;n<PolicyGetWeather.MAX_COUNT_DAILY_DATA;n++){
 			mDailyData.add(weather.remove(0));
 		}
+		Fragment hf = this.getFragmentManager().findFragmentByTag(TYPE_WEATHER_HOURLY);
+		if(hf!=null){
+			((WeatherFragment) hf).setData(mHourlyData);
+		}
+		Fragment df = this.getFragmentManager().findFragmentByTag(TYPE_WEATHER_DAILY);
+		if(df!=null){
+			((WeatherFragment) df).setData(mDailyData);
+		}
 	}
 	
 	private void requestLocation(){
@@ -140,6 +109,7 @@ public class MainActivity extends Activity {
 	    private final Activity mActivity;
 	    private final String mTag;
 	    private final Class<T> mClass;
+	    private Bundle mBundle;
 	    
 	    public TabListener(Activity activity, String tag, Class<T> clz) {
 	        mActivity = activity;
@@ -150,21 +120,19 @@ public class MainActivity extends Activity {
 	    /* The following are each of the ActionBar.TabListener callbacks */
 	    @Override
 	    public void onTabSelected(Tab tab, FragmentTransaction ft) {
-	        // Check if the fragment is already initialized
+	    	mBundle = new Bundle();
+            if(mTag.equals(TYPE_WEATHER_HOURLY)&&mHourlyData.size()>0){
+            	mBundle.putParcelableArrayList("data", mHourlyData);
+            }
+            if(mTag.equals(TYPE_WEATHER_DAILY)&&mDailyData.size()>0){
+            	mBundle.putParcelableArrayList("data", mDailyData);
+            }
 	        if (mFragment == null) {
-	            // If not, instantiate and add it to the activity
-	        	Bundle bundle = new Bundle();
-	        	bundle.putString("type", mTag);
-	            mFragment = Fragment.instantiate(mActivity, mClass.getName(), bundle);
-	            ft.add(android.R.id.content, mFragment, mTag);
-	            if(mTag.equals("hourly")){
-	            	((WeatherFragment) mFragment).setData(mHourlyData);
-	            }
-	            if(mTag.equals("daily")){
-	            	((WeatherFragment) mFragment).setData(mDailyData);
-	            }
+	            mFragment = Fragment.instantiate(mActivity, mClass.getName(), mBundle);
+	            ft.add(R.id.activity_main, mFragment, mTag);
 	        } else {
-	            // If it exists, simply attach it in order to show it
+	            mFragment = Fragment.instantiate(mActivity, mClass.getName(), mBundle);
+	            ft.replace(R.id.activity_main, mFragment, mTag);
 	            ft.attach(mFragment);
 	        }
 	    }

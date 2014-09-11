@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import android.app.Fragment;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
 import android.util.Log;
@@ -16,7 +17,7 @@ import android.widget.TextView;
 
 public class WeatherFragment extends Fragment {
 	
-	public static String Celsius = "\u2109";
+	public static String Celsius = "\u2103";
 	public static HashMap<String, String> iconBackgroundMap = new HashMap<String, String>();
 	static {
 		iconBackgroundMap.put("clear-day", "#FF5722");
@@ -53,8 +54,14 @@ public class WeatherFragment extends Fragment {
 	public View onCreateView(LayoutInflater inflater, 
 							 ViewGroup container,
 							 Bundle state){
-		mView = inflater.inflate(R.layout.main, container, false);
-		mType = this.getArguments().getString("type");
+		mView = inflater.inflate(R.layout.fragment_main, container, false);
+		Log.e("add", "" + this.isAdded());
+		mType = this.getTag();
+		ArrayList<WeatherObject> data = this.getArguments().getParcelableArrayList("data");
+		Log.e("call",mType);
+		if(data!=null){
+			setData(data);
+		}
 		return mView;
 	}
 	
@@ -63,7 +70,7 @@ public class WeatherFragment extends Fragment {
 			return;
 		}
 		for(WeatherObject obj:data){
-			int id = getResourceId("cardview_" + String.valueOf(data.indexOf(obj)), "id");
+			int id = getResourceId("cardview_" + String.valueOf(data.indexOf(obj) + 1), "id");
 			if(id==0){
 				//do something
 				Log.e("error", "cannot find id" + data.indexOf(obj));
@@ -75,7 +82,7 @@ public class WeatherFragment extends Fragment {
 	}
 	
 	private int getResourceId(String name, String type){
-		return this.getResources().getIdentifier(name, type, "com.yeyu.weather");
+		return this.getActivity().getResources().getIdentifier(name, type, "com.yeyu.weather");
 	}
 	
 	private void setWeather(CardView v, WeatherObject obj){
@@ -99,7 +106,7 @@ public class WeatherFragment extends Fragment {
 	}
 	
 	private void setCardViewBackgroundAndIcon(CardView v, String icon){
-		v.setBackgroundColor(Color.parseColor(iconBackgroundMap.get(icon)));
+		v.setBackgroundDrawable(new ColorDrawable(Color.parseColor(iconBackgroundMap.get(icon))));
 		ImageView iv = (ImageView) v.findViewById(R.id.climate_icon);
 		String image = iconImageMap.get(icon);
 		if(image.equals("rainy")||image.equals("snowy")){
@@ -117,11 +124,11 @@ public class WeatherFragment extends Fragment {
 		TextView tv = (TextView) v.findViewById(R.id.climate_celsius);
 		switch(celsius.length){
 			case 1: {
-				tv.setText(String.valueOf(celsius) + Celsius);
+				tv.setText(String.valueOf((int)celsius[0]) + Celsius);
 				break;
 			}
 			case 2: {
-				tv.setText(String.valueOf(celsius[0]) + Celsius + String.valueOf(celsius[1]) + Celsius);
+				tv.setText(String.valueOf((int)celsius[0]) + Celsius + "/" + String.valueOf((int)celsius[1]) + Celsius);
 				break;
 			}
 			default : {
