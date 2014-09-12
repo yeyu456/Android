@@ -1,13 +1,18 @@
 package com.yeyu.weather;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.HashMap;
+import java.util.TimeZone;
 
 import android.app.Fragment;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.support.v7.widget.CardView;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -45,9 +50,11 @@ public class WeatherFragment extends Fragment {
 		iconImageMap.put("partly-cloudy-night", "partlycloudynight");
 	}
 	
-	
 	private View mView;
 	private String mType;
+	private String cur;
+	private String[] time_day;
+	private String[] time_week;
 	
 	
 	@Override
@@ -55,10 +62,11 @@ public class WeatherFragment extends Fragment {
 							 ViewGroup container,
 							 Bundle state){
 		mView = inflater.inflate(R.layout.fragment_main, container, false);
-		Log.e("add", "" + this.isAdded());
 		mType = this.getTag();
+		cur = this.getResources().getString(R.string.time_current);
+		time_day = this.getResources().getStringArray(R.array.time_day);
+		time_week = this.getResources().getStringArray(R.array.time_week);
 		ArrayList<WeatherObject> data = this.getArguments().getParcelableArrayList("data");
-		Log.e("call",mType);
 		if(data!=null){
 			setData(data);
 		}
@@ -76,6 +84,7 @@ public class WeatherFragment extends Fragment {
 				Log.e("error", "cannot find id" + data.indexOf(obj));
 			} else {
 				CardView cardView = (CardView) mView.findViewById(id);
+				setTime(cardView, obj.time, data.indexOf(obj));
 				setWeather(cardView, obj);
 			}
 		}
@@ -120,19 +129,68 @@ public class WeatherFragment extends Fragment {
 		}
 	}
 	
+	private void setTime(CardView v, long time, int index){
+		if(mType==MainActivity.TYPE_WEATHER_HOURLY){
+			if(index==0){
+				setTimeString(v, cur + "\n");
+			} else {
+				setTimeString(v, toDate(time) + "\n");
+			}
+		} else {
+			if(mType==MainActivity.TYPE_WEATHER_DAILY){
+				if(index<time_day.length){
+					setTimeString(v, time_day[index] + "\n");
+				} else {
+					setTimeString(v, toWeek(time) + "\n");
+				}
+			}
+		}
+	}
+	
+	private void setTimeString(CardView v, String s){
+		TextView tv = (TextView) v.findViewById(R.id.climate_celsius);
+		Spannable wordtoSpan = new SpannableString(s); 
+		wordtoSpan.setSpan(new RelativeSizeSpan(0.5f), 
+                		   0, 
+                		   s.length(), 
+                		   Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		tv.setText(wordtoSpan);
+	}
+	
+	private String toDate(long time){
+		Log.e("time", "" + time);
+		Calendar t = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
+		t.setTimeInMillis(time * 1000);
+		String text = String.valueOf(t.get(Calendar.HOUR_OF_DAY)) + ":";
+		int min = t.get((Calendar.MINUTE));
+		if(min<10){
+			text += "0";
+		}
+		text += String.valueOf(min);
+		return text;
+	}
+	
+	private String toWeek(long time){
+		Calendar t = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
+		t.setTimeInMillis(time * 1000);
+		int i = t.get(Calendar.DAY_OF_WEEK)-1;
+		Log.e("week", "" + i);
+		return time_week[i];
+	}
+	
 	private void setCelsius(CardView v, float[] celsius) throws IllegalArgumentException {
 		TextView tv = (TextView) v.findViewById(R.id.climate_celsius);
 		switch(celsius.length){
 			case 1: {
-				tv.setText(String.valueOf((int)celsius[0]) + Celsius);
+				tv.append(String.valueOf((int)celsius[0]) + Celsius);
 				break;
 			}
 			case 2: {
-				tv.setText(String.valueOf((int)celsius[0]) + Celsius + "/" + String.valueOf((int)celsius[1]) + Celsius);
+				tv.append(String.valueOf((int)celsius[0]) + Celsius + "/" + String.valueOf((int)celsius[1]) + Celsius);
 				break;
 			}
 			default : {
-				tv.setText("-" + Celsius);
+				tv.append("-" + Celsius);
 			}
 		}
 	}

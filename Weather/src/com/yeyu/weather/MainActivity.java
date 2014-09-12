@@ -57,7 +57,7 @@ public class MainActivity extends Activity {
 				if(resultCode == WeatherService.RESULT_OK){
 					ArrayList<WeatherObject> weather = data.getParcelableArrayListExtra(RESULT_WEATHER);
 					for(WeatherObject obj:weather){
-						System.out.println("3 "+ obj.summary);
+						System.out.println("3 "+ obj.time);
 					}
 					updateWeather(weather);
 				}
@@ -102,6 +102,10 @@ public class MainActivity extends Activity {
 		weatherIntent.putExtra(WeatherService.EXTRA_LOCATION_LATITUDE, latitude);
 		weatherIntent.putExtra(WeatherService.EXTRA_LOCATION_LONGITUDE, longitude);
 		this.startService(weatherIntent);
+	}
+	
+	private void showDialog(){
+		
 	}
 	
 	public class TabListener<T extends Fragment> implements ActionBar.TabListener {

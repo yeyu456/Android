@@ -8,6 +8,10 @@
 package com.yeyu.weather;
 
 public final class R {
+    public static final class array {
+        public static final int time_day=0x7f080000;
+        public static final int time_week=0x7f080001;
+    }
     public static final class attr {
         /**  Background color for CardView. 
          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
@@ -32,7 +36,6 @@ containing a value of this type.
         public static final int cardCornerRadius=0x7f010001;
     }
     public static final class color {
-        public static final int blue=0x7f060004;
         public static final int cardview_dark_background=0x7f060000;
         public static final int cardview_light_background=0x7f060001;
         public static final int cardview_shadow_end_color=0x7f060002;
@@ -66,27 +69,26 @@ containing a value of this type.
         public static final int windy=0x7f020013;
     }
     public static final class id {
-        public static final int activity_main=0x7f080000;
-        public static final int cardview_1=0x7f080005;
-        public static final int cardview_2=0x7f080006;
-        public static final int cardview_3=0x7f080007;
-        public static final int cardview_4=0x7f080008;
-        public static final int cardview_5=0x7f080009;
-        public static final int cardview_6=0x7f08000a;
-        public static final int cardview_7=0x7f08000b;
-        public static final int climate_celsius=0x7f080002;
-        public static final int climate_icon=0x7f080001;
-        public static final int forcast_celsius=0x7f080004;
-        public static final int more=0x7f080003;
+        public static final int activity_main=0x7f090000;
+        public static final int cardview_1=0x7f090004;
+        public static final int cardview_2=0x7f090005;
+        public static final int cardview_3=0x7f090006;
+        public static final int cardview_4=0x7f090007;
+        public static final int cardview_5=0x7f090008;
+        public static final int cardview_6=0x7f090009;
+        public static final int cardview_7=0x7f09000a;
+        public static final int climate_celsius=0x7f090002;
+        public static final int climate_icon=0x7f090001;
+        public static final int more=0x7f090003;
     }
     public static final class layout {
         public static final int activity_main=0x7f030000;
         public static final int card_view=0x7f030001;
-        public static final int forcast_merge_layout=0x7f030002;
-        public static final int fragment_main=0x7f030003;
+        public static final int fragment_main=0x7f030002;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
+        public static final int time_current=0x7f040001;
     }
     public static final class style {
         /** 

@@ -1,6 +1,20 @@
 <resources>
 
     <string name="app_name">Weather</string>
-    <color name="blue">#673ab7</color>
+    
+    <string name="time_current">当前</string>
+    <string-array name="time_day">
+        <item>明天</item>
+        <item>后天</item>
+	</string-array>
+	<string-array name="time_week">
+        <item>周一</item>
+        <item>周二</item>
+        <item>周三</item>
+        <item>周四</item>
+        <item>周五</item>
+        <item>周六</item>
+        <item>周日</item>
+	</string-array>
 
 </resources>
