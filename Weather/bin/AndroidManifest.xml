@@ -23,6 +23,10 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".WeatherActivityDetail" >
+        </activity>
+        
         <service 
             android:name=".LocationService"
             android:exported="false">
@@ -31,6 +35,7 @@
             android:name=".WeatherService"
             android:exported="false">
         </service>
+        
     </application>
 
 </manifest>

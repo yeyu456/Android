@@ -125,14 +125,14 @@ public class WeatherForecastAPI {
 	class ForecastJson {
 		double latitude;
 		double longitude;
-		WeatherHourlyObject currently;
+		WeatherObjectHourly currently;
 		hour hourly;
 		day daily;
 		class hour {
-			WeatherHourlyObject[] data;
+			WeatherObjectHourly[] data;
 		}
 		class day {
-			WeatherDailyObject[] data;
+			WeatherObjectDaily[] data;
 		}
 	}
 }

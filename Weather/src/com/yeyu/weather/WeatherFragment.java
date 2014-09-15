@@ -6,6 +6,7 @@ import java.util.HashMap;
 import java.util.TimeZone;
 
 import android.app.Fragment;
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -57,6 +58,24 @@ public class WeatherFragment extends Fragment {
 	private String cur;
 	private String[] time_day;
 	private String[] time_week;
+	private View.OnClickListener moreListener = new View.OnClickListener() {
+		
+		@Override
+		public void onClick(View v) {
+			WeatherObject obj = (WeatherObject) v.getTag();
+			if(obj==null){
+				Log.e("click", "empty tag");
+				return;
+			}
+			Log.e("click", "start");
+			Bundle bundle = new Bundle();
+			bundle.putString("type", mType);
+			bundle.putParcelable("data", obj);
+			Intent intent = new Intent(WeatherFragment.this.getActivity(), WeatherActivityDetail.class);
+			intent.putExtras(bundle);
+			WeatherFragment.this.getActivity().startActivity(intent);
+		}
+	};
 	
 	
 	@Override
@@ -122,16 +141,20 @@ public class WeatherFragment extends Fragment {
 	private void setWeather(CardView v, WeatherObject obj){
 		if(obj instanceof WeatherObject){
 			if(mType == MainActivity.TYPE_WEATHER_DAILY){
-				WeatherDailyObject dayobj = (WeatherDailyObject) obj;
+				WeatherObjectDaily dayobj = (WeatherObjectDaily) obj;
 				float[] tem = {dayobj.temperatureMin, dayobj.temperatureMax};
-				v.setTag(dayobj);
+				View more = v.findViewById(R.id.more);
+				more.setTag(dayobj);
+				more.setOnClickListener(moreListener);
 				setCelsius(v, tem);
 				setCardViewBackgroundAndIcon(v, getImage(dayobj.icon, dayobj.precipIntensityMax, true));
 			} else {
 				if(mType == MainActivity.TYPE_WEATHER_HOURLY){
-					WeatherHourlyObject hourobj = (WeatherHourlyObject) obj;
+					WeatherObjectHourly hourobj = (WeatherObjectHourly) obj;
 					float[] tem = {hourobj.temperature};
-					v.setTag(hourobj);
+					View more = v.findViewById(R.id.more);
+					more.setTag(hourobj);
+					more.setOnClickListener(moreListener);
 					setCelsius(v, tem);
 					setCardViewBackgroundAndIcon(v, getImage(hourobj.icon, hourobj.precipIntensity, false));
 				}
