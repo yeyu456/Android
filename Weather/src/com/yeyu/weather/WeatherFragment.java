@@ -23,18 +23,20 @@ import android.widget.TextView;
 public class WeatherFragment extends Fragment {
 	
 	public static String Celsius = "\u2103";
-	public static HashMap<String, String> iconBackgroundMap = new HashMap<String, String>();
+	public static HashMap<String, String> imageColorMap = new HashMap<String, String>();
 	static {
-		iconBackgroundMap.put("clear-day", "#FF5722");
-		iconBackgroundMap.put("clear-night", "#FFEB3B");
-		iconBackgroundMap.put("rain", "#607D8B");
-		iconBackgroundMap.put("snow", "#FAFAFA");
-		iconBackgroundMap.put("sleet", "#CFD8DC");
-		iconBackgroundMap.put("wind", "#259B24");
-		iconBackgroundMap.put("fog", "#795548");
-		iconBackgroundMap.put("cloudy", "#009688");
-		iconBackgroundMap.put("partly-cloudy-day", "#03A9F4");
-		iconBackgroundMap.put("partly-cloudy-night", "#5677FC");
+		imageColorMap.put("sunny", "#FF5722");
+		imageColorMap.put("moon", "#FFEB3B");
+		imageColorMap.put("rainy_s", "#607D8B");
+		imageColorMap.put("rainy_m", "#455A64");
+		imageColorMap.put("rainy_h", "#263238");
+		imageColorMap.put("snowy", "#FAFAFA");
+		imageColorMap.put("rainy_snowy", "#CFD8DC");
+		imageColorMap.put("windy", "#259B24");
+		imageColorMap.put("fog", "#795548");
+		imageColorMap.put("cloudy", "#009688");
+		imageColorMap.put("partlycloudy", "#03A9F4");
+		imageColorMap.put("partlycloudynight", "#5677FC");
 	}
 	public static HashMap<String, String> iconImageMap = new HashMap<String, String>();
 	static {
@@ -42,7 +44,7 @@ public class WeatherFragment extends Fragment {
 		iconImageMap.put("clear-night", "moon");
 		iconImageMap.put("rain", "rainy");
 		iconImageMap.put("snow", "snowy");
-		iconImageMap.put("sleet", "rany_snowy");
+		iconImageMap.put("sleet", "rainy_snowy");
 		iconImageMap.put("wind", "windy");
 		iconImageMap.put("fog", "fog");
 		iconImageMap.put("cloudy", "cloudy");
@@ -80,7 +82,6 @@ public class WeatherFragment extends Fragment {
 		for(WeatherObject obj:data){
 			int id = getResourceId("cardview_" + String.valueOf(data.indexOf(obj) + 1), "id");
 			if(id==0){
-				//do something
 				Log.e("error", "cannot find id" + data.indexOf(obj));
 			} else {
 				CardView cardView = (CardView) mView.findViewById(id);
@@ -94,6 +95,30 @@ public class WeatherFragment extends Fragment {
 		return this.getActivity().getResources().getIdentifier(name, type, "com.yeyu.weather");
 	}
 	
+	private String getImage(String icon, float precipIntensity, boolean isday){
+		String image = iconImageMap.get(icon);
+		if(image.equals("rainy")){
+			image += "_" + getRainfall(precipIntensity);
+		}
+		if(isday && image.equals("partlycloudynight")){
+			image = "partlycloudy";
+		}
+		return image;
+	}
+	
+	private String getRainfall(float precipIntensity){
+		if(precipIntensity < 2.5 && precipIntensity > 0){
+			return "s";
+		}
+		if(precipIntensity > 2.5 && precipIntensity < 10.0){
+			return "m";
+		}
+		if(precipIntensity > 10.0){
+			return "h";
+		}
+		return "";
+	}
+	
 	private void setWeather(CardView v, WeatherObject obj){
 		if(obj instanceof WeatherObject){
 			if(mType == MainActivity.TYPE_WEATHER_DAILY){
@@ -101,26 +126,23 @@ public class WeatherFragment extends Fragment {
 				float[] tem = {dayobj.temperatureMin, dayobj.temperatureMax};
 				v.setTag(dayobj);
 				setCelsius(v, tem);
-				setCardViewBackgroundAndIcon(v, dayobj.icon);
+				setCardViewBackgroundAndIcon(v, getImage(dayobj.icon, dayobj.precipIntensityMax, true));
 			} else {
 				if(mType == MainActivity.TYPE_WEATHER_HOURLY){
 					WeatherHourlyObject hourobj = (WeatherHourlyObject) obj;
 					float[] tem = {hourobj.temperature};
 					v.setTag(hourobj);
 					setCelsius(v, tem);
-					setCardViewBackgroundAndIcon(v, hourobj.icon);
+					setCardViewBackgroundAndIcon(v, getImage(hourobj.icon, hourobj.precipIntensity, false));
 				}
 			}
 		}
 	}
 	
-	private void setCardViewBackgroundAndIcon(CardView v, String icon){
-		v.setBackgroundDrawable(new ColorDrawable(Color.parseColor(iconBackgroundMap.get(icon))));
+	private void setCardViewBackgroundAndIcon(CardView v, String image){
+		String color = imageColorMap.get(image);
+		v.setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
 		ImageView iv = (ImageView) v.findViewById(R.id.climate_icon);
-		String image = iconImageMap.get(icon);
-		if(image.equals("rainy")||image.equals("snowy")){
-			//analyse which image to be used
-		}
 		int id = getResourceId(image, "drawable");
 		if(id!=0){
 			iv.setBackgroundResource(id);
@@ -158,7 +180,6 @@ public class WeatherFragment extends Fragment {
 	}
 	
 	private String toDate(long time){
-		Log.e("time", "" + time);
 		Calendar t = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
 		t.setTimeInMillis(time * 1000);
 		String text = String.valueOf(t.get(Calendar.HOUR_OF_DAY)) + ":";
@@ -174,6 +195,8 @@ public class WeatherFragment extends Fragment {
 		Calendar t = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
 		t.setTimeInMillis(time * 1000);
 		int i = t.get(Calendar.DAY_OF_WEEK)-1;
+		i--;
+		i = i<0?i+7:i;
 		Log.e("week", "" + i);
 		return time_week[i];
 	}
