@@ -34,12 +34,68 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int cardCornerRadius=0x7f010001;
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int colorFill=0x7f010002;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int colorPercentage=0x7f010003;
+        /** <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int colorPercentageMax=0x7f010004;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int radius=0x7f010005;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int startAngle=0x7f010006;
+        /** <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int sweepAngle=0x7f010007;
     }
     public static final class color {
+        public static final int black=0x7f060004;
         public static final int cardview_dark_background=0x7f060000;
         public static final int cardview_light_background=0x7f060001;
         public static final int cardview_shadow_end_color=0x7f060002;
         public static final int cardview_shadow_start_color=0x7f060003;
+        public static final int cloud=0x7f06000a;
+        public static final int temperature_negative=0x7f060007;
+        public static final int temperature_positive=0x7f060006;
+        public static final int water=0x7f060009;
+        public static final int white=0x7f060005;
+        public static final int wind=0x7f060008;
     }
     public static final class dimen {
         public static final int cardview_default_radius=0x7f070000;
@@ -69,22 +125,27 @@ containing a value of this type.
         public static final int windy=0x7f020013;
     }
     public static final class id {
-        public static final int activity_main=0x7f090000;
-        public static final int cardview_1=0x7f090004;
-        public static final int cardview_2=0x7f090005;
-        public static final int cardview_3=0x7f090006;
-        public static final int cardview_4=0x7f090007;
-        public static final int cardview_5=0x7f090008;
-        public static final int cardview_6=0x7f090009;
-        public static final int cardview_7=0x7f09000a;
-        public static final int climate_celsius=0x7f090002;
-        public static final int climate_icon=0x7f090001;
-        public static final int more=0x7f090003;
+        public static final int activity_main=0x7f090004;
+        public static final int cardview_1=0x7f090008;
+        public static final int cardview_2=0x7f090009;
+        public static final int cardview_3=0x7f09000a;
+        public static final int cardview_4=0x7f09000b;
+        public static final int cardview_5=0x7f09000c;
+        public static final int cardview_6=0x7f09000d;
+        public static final int cardview_7=0x7f09000e;
+        public static final int climate_celsius=0x7f090006;
+        public static final int climate_icon=0x7f090005;
+        public static final int cloud=0x7f090003;
+        public static final int more=0x7f090007;
+        public static final int temperature=0x7f090000;
+        public static final int water=0x7f090002;
+        public static final int wind=0x7f090001;
     }
     public static final class layout {
-        public static final int activity_main=0x7f030000;
-        public static final int card_view=0x7f030001;
-        public static final int fragment_main=0x7f030002;
+        public static final int activity_detail=0x7f030000;
+        public static final int activity_main=0x7f030001;
+        public static final int card_view=0x7f030002;
+        public static final int fragment_main=0x7f030003;
     }
     public static final class string {
         public static final int app_name=0x7f040000;
@@ -194,5 +255,124 @@ containing a value of this type.
           @attr name com.yeyu.weather:cardCornerRadius
         */
         public static final int CardView_cardCornerRadius = 1;
+        /** Attributes that can be used with a CircleLayout.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #CircleLayout_radius com.yeyu.weather:radius}</code></td><td></td></tr>
+           <tr><td><code>{@link #CircleLayout_startAngle com.yeyu.weather:startAngle}</code></td><td></td></tr>
+           <tr><td><code>{@link #CircleLayout_sweepAngle com.yeyu.weather:sweepAngle}</code></td><td></td></tr>
+           </table>
+           @see #CircleLayout_radius
+           @see #CircleLayout_startAngle
+           @see #CircleLayout_sweepAngle
+         */
+        public static final int[] CircleLayout = {
+            0x7f010005, 0x7f010006, 0x7f010007
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#radius}
+          attribute's value can be found in the {@link #CircleLayout} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.yeyu.weather:radius
+        */
+        public static final int CircleLayout_radius = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#startAngle}
+          attribute's value can be found in the {@link #CircleLayout} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.yeyu.weather:startAngle
+        */
+        public static final int CircleLayout_startAngle = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#sweepAngle}
+          attribute's value can be found in the {@link #CircleLayout} array.
+
+
+          <p>Must be a floating point value, such as "<code>1.2</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.yeyu.weather:sweepAngle
+        */
+        public static final int CircleLayout_sweepAngle = 2;
+        /** Attributes that can be used with a PartlyFillCircle.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #PartlyFillCircle_colorFill com.yeyu.weather:colorFill}</code></td><td></td></tr>
+           <tr><td><code>{@link #PartlyFillCircle_colorPercentage com.yeyu.weather:colorPercentage}</code></td><td></td></tr>
+           <tr><td><code>{@link #PartlyFillCircle_colorPercentageMax com.yeyu.weather:colorPercentageMax}</code></td><td></td></tr>
+           </table>
+           @see #PartlyFillCircle_colorFill
+           @see #PartlyFillCircle_colorPercentage
+           @see #PartlyFillCircle_colorPercentageMax
+         */
+        public static final int[] PartlyFillCircle = {
+            0x7f010002, 0x7f010003, 0x7f010004
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#colorFill}
+          attribute's value can be found in the {@link #PartlyFillCircle} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.yeyu.weather:colorFill
+        */
+        public static final int PartlyFillCircle_colorFill = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#colorPercentage}
+          attribute's value can be found in the {@link #PartlyFillCircle} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.yeyu.weather:colorPercentage
+        */
+        public static final int PartlyFillCircle_colorPercentage = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#colorPercentageMax}
+          attribute's value can be found in the {@link #PartlyFillCircle} array.
+
+
+          <p>Must be an integer value, such as "<code>100</code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.yeyu.weather:colorPercentageMax
+        */
+        public static final int PartlyFillCircle_colorPercentageMax = 2;
     };
 }

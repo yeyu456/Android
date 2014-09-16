@@ -16,5 +16,13 @@
         <item>周六</item>
         <item>周日</item>
 	</string-array>
-
+	
+	<color name="black" >#1C1E20</color>
+	<color name="white">#FFFFFF</color>
+	
+	<color name="temperature_positive">#FF5722</color>
+	<color name="temperature_negative">#91a7ff</color>
+	<color name="wind">#259B24</color>
+	<color name="water">#5677FC</color>
+	<color name="cloud">#009688</color>
 </resources>

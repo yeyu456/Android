@@ -23,7 +23,6 @@ import android.widget.TextView;
 
 public class WeatherFragment extends Fragment {
 	
-	public static String Celsius = "\u2103";
 	public static HashMap<String, String> imageColorMap = new HashMap<String, String>();
 	static {
 		imageColorMap.put("sunny", "#FF5722");
@@ -67,7 +66,6 @@ public class WeatherFragment extends Fragment {
 				Log.e("click", "empty tag");
 				return;
 			}
-			Log.e("click", "start");
 			Bundle bundle = new Bundle();
 			bundle.putString("type", mType);
 			bundle.putParcelable("data", obj);
@@ -111,7 +109,7 @@ public class WeatherFragment extends Fragment {
 	}
 	
 	private int getResourceId(String name, String type){
-		return this.getActivity().getResources().getIdentifier(name, type, "com.yeyu.weather");
+		return this.getActivity().getResources().getIdentifier(name, type, WeatherFragment.this.getActivity().getPackageName());
 	}
 	
 	private String getImage(String icon, float precipIntensity, boolean isday){
@@ -228,15 +226,15 @@ public class WeatherFragment extends Fragment {
 		TextView tv = (TextView) v.findViewById(R.id.climate_celsius);
 		switch(celsius.length){
 			case 1: {
-				tv.append(String.valueOf((int)celsius[0]) + Celsius);
+				tv.append(String.valueOf((int)celsius[0]) + WeatherConstant.TEMPERATURE_CHAR);
 				break;
 			}
 			case 2: {
-				tv.append(String.valueOf((int)celsius[0]) + Celsius + "/" + String.valueOf((int)celsius[1]) + Celsius);
+				tv.append(String.valueOf((int)celsius[0]) + WeatherConstant.TEMPERATURE_CHAR + "/" + String.valueOf((int)celsius[1]) + WeatherConstant.TEMPERATURE_CHAR);
 				break;
 			}
 			default : {
-				tv.append("-" + Celsius);
+				tv.append("-" + WeatherConstant.TEMPERATURE_CHAR);
 			}
 		}
 	}

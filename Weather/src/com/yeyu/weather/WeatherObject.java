@@ -10,7 +10,6 @@ public class WeatherObject implements Parcelable {
 	public float precipIntensity;
 	public float precipProbability;
 	public String precipType;
-	public float dewPoint;
 	public float humidity;
 	public float windSpeed;
 	public int windBearing;
@@ -33,7 +32,6 @@ public class WeatherObject implements Parcelable {
 		dest.writeFloat(precipIntensity);
 		dest.writeFloat(precipProbability);
 		dest.writeString(precipType);
-		dest.writeFloat(dewPoint);
 		dest.writeFloat(humidity);
 		dest.writeFloat(windSpeed);
 		dest.writeInt(windBearing);
@@ -67,7 +65,6 @@ public class WeatherObject implements Parcelable {
 		precipIntensity = src.readFloat();
 		precipProbability = src.readFloat();
 		precipType = src.readString();
-		dewPoint = src.readFloat();
 		humidity = src.readFloat();
 		windSpeed = src.readFloat();
 		windBearing = src.readInt();

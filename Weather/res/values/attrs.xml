@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="PartlyFillCircle" >
+        <attr name="colorFill" format="color" />
+        <attr name="colorPercentage" format="integer" />
+        <attr name="colorPercentageMax" format="integer" />
+    </declare-styleable>
+    
+    <declare-styleable name="CircleLayout" >
+        <attr name="radius" format="float" />
+        <attr name="startAngle" format="float" />
+        <attr name="sweepAngle" format="float" />
+    </declare-styleable>
+</resources>
