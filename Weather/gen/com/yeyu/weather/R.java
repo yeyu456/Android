@@ -90,10 +90,11 @@ containing a value of this type.
         public static final int cardview_light_background=0x7f060001;
         public static final int cardview_shadow_end_color=0x7f060002;
         public static final int cardview_shadow_start_color=0x7f060003;
-        public static final int cloud=0x7f06000a;
+        public static final int cloud=0x7f06000b;
         public static final int temperature_negative=0x7f060007;
         public static final int temperature_positive=0x7f060006;
-        public static final int water=0x7f060009;
+        public static final int tornado=0x7f060009;
+        public static final int water=0x7f06000a;
         public static final int white=0x7f060005;
         public static final int wind=0x7f060008;
     }

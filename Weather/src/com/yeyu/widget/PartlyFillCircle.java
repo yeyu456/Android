@@ -6,16 +6,15 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.widget.TextView;
+import android.widget.Button;
 
 import com.yeyu.weather.R;
 
-public class PartlyFillCircle extends TextView {
+public class PartlyFillCircle extends Button {
 	
 	private int mColorFill;
-	private int mColorPercentage;
-	private int mColorPercentageMax;
+	private float mColorPercentage;
+	private float mColorPercentageMax;
 	Paint paint;
 	Paint paint2;
 	
@@ -33,8 +32,8 @@ public class PartlyFillCircle extends TextView {
 		
 		try{
 			mColorFill = type.getColor(R.styleable.PartlyFillCircle_colorFill, 0x55FFFFFF);
-			mColorPercentage = type.getInt(R.styleable.PartlyFillCircle_colorPercentage, 0);
-			mColorPercentageMax = type.getInt(R.styleable.PartlyFillCircle_colorPercentageMax, 100);
+			mColorPercentage = type.getFloat(R.styleable.PartlyFillCircle_colorPercentage, 0f);
+			mColorPercentageMax = type.getFloat(R.styleable.PartlyFillCircle_colorPercentageMax, 100f);
 		} finally {
 			type.recycle();
 		}
@@ -69,7 +68,7 @@ public class PartlyFillCircle extends TextView {
 		invalidate();
 	}
 	
-	public void setColorPercentageAndMax(int p, int m){
+	public void setColorPercentageAndMax(float p, float m){
 		mColorPercentage = p;
 		mColorPercentageMax = m;
 		isLegal();
@@ -86,7 +85,7 @@ public class PartlyFillCircle extends TextView {
 	}
 	
 	private float getSweepAngle(){
-		return (360f * ((float)mColorPercentage / (float)mColorPercentageMax));
+		return (360f * mColorPercentage / mColorPercentageMax);
 	}
 	
 	private float getStartAngle(float sweepAngle){

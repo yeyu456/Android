@@ -13,10 +13,11 @@ int color cardview_dark_background 0x7f060000
 int color cardview_light_background 0x7f060001
 int color cardview_shadow_end_color 0x7f060002
 int color cardview_shadow_start_color 0x7f060003
-int color cloud 0x7f06000a
+int color cloud 0x7f06000b
 int color temperature_negative 0x7f060007
 int color temperature_positive 0x7f060006
-int color water 0x7f060009
+int color tornado 0x7f060009
+int color water 0x7f06000a
 int color white 0x7f060005
 int color wind 0x7f060008
 int dimen cardview_default_radius 0x7f070000
