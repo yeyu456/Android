@@ -69,7 +69,7 @@ public class WeatherFragment extends Fragment {
 			Bundle bundle = new Bundle();
 			bundle.putString("type", mType);
 			bundle.putParcelable("data", obj);
-			Intent intent = new Intent(WeatherFragment.this.getActivity(), WeatherActivityDetail.class);
+			Intent intent = new Intent(WeatherFragment.this.getActivity(), WeatherDetailActivity.class);
 			intent.putExtras(bundle);
 			WeatherFragment.this.getActivity().startActivity(intent);
 		}

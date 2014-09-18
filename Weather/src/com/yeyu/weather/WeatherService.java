@@ -33,9 +33,6 @@ public class WeatherService extends IntentService {
 				if(result==null){
 					pendingIntent.send(WeatherService.this, RESULT_FAIL, null);
 				} else {
-					for(WeatherObject obj:result){
-						System.out.println("2 " + obj.summary);
-					}
 					Intent resultIntent = new Intent();
 					resultIntent.putParcelableArrayListExtra(MainActivity.RESULT_WEATHER, result);
 					pendingIntent.send(WeatherService.this, RESULT_OK, resultIntent);

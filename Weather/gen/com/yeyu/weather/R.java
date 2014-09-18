@@ -8,11 +8,24 @@
 package com.yeyu.weather;
 
 public final class R {
+    public static final class anim {
+        public static final int weather_detail_button_down=0x7f040000;
+        public static final int weather_detail_button_up=0x7f040001;
+    }
     public static final class array {
-        public static final int time_day=0x7f080000;
-        public static final int time_week=0x7f080001;
+        public static final int time_day=0x7f090000;
+        public static final int time_week=0x7f090001;
     }
     public static final class attr {
+        /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int backgroundColor=0x7f010005;
         /**  Background color for CardView. 
          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
@@ -59,6 +72,32 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int colorPercentageMax=0x7f010004;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int fillLength=0x7f010008;
+        /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+         */
+        public static final int lineColor=0x7f010006;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int lineLength=0x7f010007;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -66,7 +105,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int radius=0x7f010005;
+        public static final int radius=0x7f01000b;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -74,7 +113,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int startAngle=0x7f010006;
+        public static final int startAngle=0x7f01000c;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -82,26 +121,42 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int sweepAngle=0x7f010007;
+        public static final int sweepAngle=0x7f01000d;
+        /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int textHeader=0x7f010009;
+        /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int textTailer=0x7f01000a;
     }
     public static final class color {
-        public static final int black=0x7f060004;
-        public static final int cardview_dark_background=0x7f060000;
-        public static final int cardview_light_background=0x7f060001;
-        public static final int cardview_shadow_end_color=0x7f060002;
-        public static final int cardview_shadow_start_color=0x7f060003;
-        public static final int cloud=0x7f06000b;
-        public static final int temperature_negative=0x7f060007;
-        public static final int temperature_positive=0x7f060006;
-        public static final int tornado=0x7f060009;
-        public static final int water=0x7f06000a;
-        public static final int white=0x7f060005;
-        public static final int wind=0x7f060008;
+        public static final int black=0x7f070004;
+        public static final int cardview_dark_background=0x7f070000;
+        public static final int cardview_light_background=0x7f070001;
+        public static final int cardview_shadow_end_color=0x7f070002;
+        public static final int cardview_shadow_start_color=0x7f070003;
+        public static final int cloud=0x7f07000b;
+        public static final int temperature_negative=0x7f070007;
+        public static final int temperature_positive=0x7f070006;
+        public static final int tornado=0x7f070009;
+        public static final int water=0x7f07000a;
+        public static final int white=0x7f070005;
+        public static final int wind=0x7f070008;
     }
     public static final class dimen {
-        public static final int cardview_default_radius=0x7f070000;
-        public static final int cardview_elevation=0x7f070001;
-        public static final int cardview_shadow_size=0x7f070002;
+        public static final int cardview_default_radius=0x7f080000;
+        public static final int cardview_elevation=0x7f080001;
+        public static final int cardview_shadow_size=0x7f080002;
     }
     public static final class drawable {
         public static final int cloudy=0x7f020000;
@@ -126,31 +181,44 @@ containing a value of this type.
         public static final int windy=0x7f020013;
     }
     public static final class id {
-        public static final int activity_main=0x7f090004;
-        public static final int cardview_1=0x7f090008;
-        public static final int cardview_2=0x7f090009;
-        public static final int cardview_3=0x7f09000a;
-        public static final int cardview_4=0x7f09000b;
-        public static final int cardview_5=0x7f09000c;
-        public static final int cardview_6=0x7f09000d;
-        public static final int cardview_7=0x7f09000e;
-        public static final int climate_celsius=0x7f090006;
-        public static final int climate_icon=0x7f090005;
-        public static final int cloud=0x7f090003;
-        public static final int more=0x7f090007;
-        public static final int temperature=0x7f090000;
-        public static final int water=0x7f090002;
-        public static final int wind=0x7f090001;
+        public static final int activity_main=0x7f0a0004;
+        public static final int cardview_1=0x7f0a0008;
+        public static final int cardview_2=0x7f0a0009;
+        public static final int cardview_3=0x7f0a000a;
+        public static final int cardview_4=0x7f0a000b;
+        public static final int cardview_5=0x7f0a000c;
+        public static final int cardview_6=0x7f0a000d;
+        public static final int cardview_7=0x7f0a000e;
+        public static final int climate_celsius=0x7f0a0006;
+        public static final int climate_icon=0x7f0a0005;
+        public static final int cloud=0x7f0a0003;
+        public static final int cloud_ozone=0x7f0a0011;
+        public static final int cloud_value=0x7f0a000f;
+        public static final int cloud_visibility=0x7f0a0010;
+        public static final int more=0x7f0a0007;
+        public static final int temperature=0x7f0a0000;
+        public static final int temperature_apparent=0x7f0a0013;
+        public static final int temperature_value=0x7f0a0012;
+        public static final int water=0x7f0a0002;
+        public static final int water_humidity=0x7f0a0016;
+        public static final int water_precipIntensity=0x7f0a0014;
+        public static final int water_precipProbability=0x7f0a0015;
+        public static final int wind=0x7f0a0001;
+        public static final int wind_value=0x7f0a0017;
     }
     public static final class layout {
         public static final int activity_detail=0x7f030000;
         public static final int activity_main=0x7f030001;
         public static final int card_view=0x7f030002;
         public static final int fragment_main=0x7f030003;
+        public static final int weather_detail_cloud=0x7f030004;
+        public static final int weather_detail_temperature=0x7f030005;
+        public static final int weather_detail_water=0x7f030006;
+        public static final int weather_detail_wind=0x7f030007;
     }
     public static final class string {
-        public static final int app_name=0x7f040000;
-        public static final int time_current=0x7f040001;
+        public static final int app_name=0x7f050000;
+        public static final int time_current=0x7f050001;
     }
     public static final class style {
         /** 
@@ -194,16 +262,16 @@ containing a value of this type.
     
  API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f050000;
+        public static final int AppBaseTheme=0x7f060000;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f050001;
-        public static final int CardView=0x7f050002;
-        public static final int CardView_Dark=0x7f050003;
-        public static final int CardView_Light=0x7f050004;
+        public static final int AppTheme=0x7f060001;
+        public static final int CardView=0x7f060002;
+        public static final int CardView_Dark=0x7f060003;
+        public static final int CardView_Light=0x7f060004;
     }
     public static final class styleable {
         /** Attributes that can be used with a CardView.
@@ -271,7 +339,7 @@ containing a value of this type.
            @see #CircleLayout_sweepAngle
          */
         public static final int[] CircleLayout = {
-            0x7f010005, 0x7f010006, 0x7f010007
+            0x7f01000b, 0x7f01000c, 0x7f01000d
         };
         /**
           <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#radius}
@@ -375,5 +443,116 @@ containing a value of this type.
           @attr name com.yeyu.weather:colorPercentageMax
         */
         public static final int PartlyFillCircle_colorPercentageMax = 2;
+        /** Attributes that can be used with a PartlyFillLine.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #PartlyFillLine_backgroundColor com.yeyu.weather:backgroundColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #PartlyFillLine_fillLength com.yeyu.weather:fillLength}</code></td><td></td></tr>
+           <tr><td><code>{@link #PartlyFillLine_lineColor com.yeyu.weather:lineColor}</code></td><td></td></tr>
+           <tr><td><code>{@link #PartlyFillLine_lineLength com.yeyu.weather:lineLength}</code></td><td></td></tr>
+           <tr><td><code>{@link #PartlyFillLine_textHeader com.yeyu.weather:textHeader}</code></td><td></td></tr>
+           <tr><td><code>{@link #PartlyFillLine_textTailer com.yeyu.weather:textTailer}</code></td><td></td></tr>
+           </table>
+           @see #PartlyFillLine_backgroundColor
+           @see #PartlyFillLine_fillLength
+           @see #PartlyFillLine_lineColor
+           @see #PartlyFillLine_lineLength
+           @see #PartlyFillLine_textHeader
+           @see #PartlyFillLine_textTailer
+         */
+        public static final int[] PartlyFillLine = {
+            0x7f010005, 0x7f010006, 0x7f010007, 0x7f010008,
+            0x7f010009, 0x7f01000a
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#backgroundColor}
+          attribute's value can be found in the {@link #PartlyFillLine} array.
+
+
+          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.yeyu.weather:backgroundColor
+        */
+        public static final int PartlyFillLine_backgroundColor = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#fillLength}
+          attribute's value can be found in the {@link #PartlyFillLine} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.yeyu.weather:fillLength
+        */
+        public static final int PartlyFillLine_fillLength = 3;
+        /**
+          <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#lineColor}
+          attribute's value can be found in the {@link #PartlyFillLine} array.
+
+
+          <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
+or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
+<p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
+"<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
+          @attr name com.yeyu.weather:lineColor
+        */
+        public static final int PartlyFillLine_lineColor = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#lineLength}
+          attribute's value can be found in the {@link #PartlyFillLine} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.yeyu.weather:lineLength
+        */
+        public static final int PartlyFillLine_lineLength = 2;
+        /**
+          <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#textHeader}
+          attribute's value can be found in the {@link #PartlyFillLine} array.
+
+
+          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.yeyu.weather:textHeader
+        */
+        public static final int PartlyFillLine_textHeader = 4;
+        /**
+          <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#textTailer}
+          attribute's value can be found in the {@link #PartlyFillLine} array.
+
+
+          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.yeyu.weather:textTailer
+        */
+        public static final int PartlyFillLine_textTailer = 5;
     };
 }

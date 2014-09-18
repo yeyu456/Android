@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:custom="http://schemas.android.com/apk/res/com.yeyu.weather"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+    
+    <com.yeyu.widget.PartlyFillLine
+        android:id="@+id/cloud_value"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        custom:backgroundColor="#848484"
+        custom:fillLength="50dp"
+        custom:lineColor="@color/wind"
+        custom:lineLength="200dp"
+        custom:textHeader="云量覆盖" />
+    
+    <com.yeyu.widget.PartlyFillLine
+        android:id="@+id/cloud_visibility"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        custom:backgroundColor="#848484"
+        custom:fillLength="50dp"
+        custom:lineColor="@color/wind"
+        custom:lineLength="200dp"
+        custom:textHeader="能见度  " />
+    
+    <com.yeyu.widget.PartlyFillLine
+        android:id="@+id/cloud_ozone"
+        android:layout_width="match_parent"
+        android:layout_height="30dp"
+        android:layout_marginBottom="10dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="10dp"
+        custom:backgroundColor="#848484"
+        custom:fillLength="50dp"
+        custom:lineColor="@color/wind"
+        custom:lineLength="200dp"
+        custom:textHeader="臭氧层  " />
+    
+    
+</merge>

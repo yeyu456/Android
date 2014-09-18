@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".WeatherActivityDetail" >
+            android:name=".WeatherDetailActivity" >
         </activity>
         
         <service 

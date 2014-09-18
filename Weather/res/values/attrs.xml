@@ -6,6 +6,15 @@
         <attr name="colorPercentageMax" format="integer" />
     </declare-styleable>
     
+    <declare-styleable name="PartlyFillLine">
+        <attr name="backgroundColor" format="color" />
+        <attr name="lineColor" format="color|reference" />
+        <attr name="lineLength" format="dimension" />
+        <attr name="fillLength" format="dimension" />
+        <attr name="textHeader" format="string" />
+        <attr name="textTailer" format="string" />
+    </declare-styleable>
+    
     <declare-styleable name="CircleLayout" >
         <attr name="radius" format="float" />
         <attr name="startAngle" format="float" />

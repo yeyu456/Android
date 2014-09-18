@@ -31,7 +31,7 @@ public class PartlyFillCircle extends Button {
 		TypedArray type = context.obtainStyledAttributes(attrs, R.styleable.PartlyFillCircle);
 		
 		try{
-			mColorFill = type.getColor(R.styleable.PartlyFillCircle_colorFill, 0x55FFFFFF);
+			mColorFill = type.getColor(R.styleable.PartlyFillCircle_colorFill, 0xFFFFFF);
 			mColorPercentage = type.getFloat(R.styleable.PartlyFillCircle_colorPercentage, 0f);
 			mColorPercentageMax = type.getFloat(R.styleable.PartlyFillCircle_colorPercentageMax, 100f);
 		} finally {

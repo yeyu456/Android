@@ -3,45 +3,50 @@
     xmlns:custom="http://schemas.android.com/apk/res/com.yeyu.weather"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     android:background="@color/black">
     
-    <com.yeyu.widget.CircleLayout 
+    <com.yeyu.widget.CircleLayout
         android:layout_width="match_parent"
         android:layout_height="300dp"
         custom:radius="200.0"
         custom:startAngle="0.0"
         custom:sweepAngle="120.0" >
-    <com.yeyu.widget.PartlyFillCircle
-        android:id="@+id/temperature"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:gravity="center_vertical|center_horizontal|center"
-        android:textColor="#000000"
-        custom:colorFill="@color/temperature_positive" />
+        
+    	<com.yeyu.widget.PartlyFillCircle
+        	android:id="@+id/temperature"
+        	android:layout_width="100dp"
+        	android:layout_height="100dp"
+        	android:gravity="center_vertical|center_horizontal|center"
+        	android:textColor="#000000"
+        	custom:colorFill="@color/temperature_positive" />
 
-    <com.yeyu.widget.PartlyFillCircle
-        android:id="@+id/wind"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:gravity="center_vertical|center_horizontal|center"
-        android:textColor="#000000"
-        custom:colorFill="@color/wind" />
+    	<com.yeyu.widget.PartlyFillCircle
+        	android:id="@+id/wind"
+        	android:layout_width="70dp"
+        	android:layout_height="70dp"
+        	android:gravity="center_vertical|center_horizontal|center"
+        	android:textColor="#000000"
+        	custom:colorFill="@color/wind" />
     
-    <com.yeyu.widget.PartlyFillCircle
-        android:id="@+id/water"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:gravity="center_vertical|center_horizontal|center"
-        android:textColor="#000000"
-        custom:colorFill="@color/water" />
+    	<com.yeyu.widget.PartlyFillCircle
+        	android:id="@+id/water"
+        	android:layout_width="70dp"
+        	android:layout_height="70dp"
+        	android:gravity="center_vertical|center_horizontal|center"
+        	android:textColor="#000000"
+        	custom:colorFill="@color/water" />
     
-    <com.yeyu.widget.PartlyFillCircle
-        android:id="@+id/cloud"
-        android:layout_width="70dp"
-        android:layout_height="70dp"
-        android:gravity="center_vertical|center_horizontal|center"
-        android:textColor="#000000"
-        custom:colorFill="@color/cloud" />
+    	<com.yeyu.widget.PartlyFillCircle
+        	android:id="@+id/cloud"
+        	android:layout_width="70dp"
+        	android:layout_height="70dp"
+        	android:gravity="center_vertical|center_horizontal|center"
+        	android:textColor="#000000"
+        	custom:colorFill="@color/cloud" />
+    	
     </com.yeyu.widget.CircleLayout>
+    
+    <include layout="@layout/weather_detail_cloud"/>
 
 </LinearLayout>

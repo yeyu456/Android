@@ -56,9 +56,6 @@ public class MainActivity extends Activity {
 			case REQUEST_WEATHER : {
 				if(resultCode == WeatherService.RESULT_OK){
 					ArrayList<WeatherObject> weather = data.getParcelableArrayListExtra(RESULT_WEATHER);
-					for(WeatherObject obj:weather){
-						System.out.println("3 "+ obj.time);
-					}
 					updateWeather(weather);
 				}
 				break;
@@ -67,7 +64,6 @@ public class MainActivity extends Activity {
 	}
 	
 	private void updateLocation(Location point){
-		System.out.println("point " + point.getLatitude() + " " + point.getLongitude());
 		double latitude = point.getLatitude();
 		double longitude = point.getLongitude();
 		requestWeather(latitude, longitude);
