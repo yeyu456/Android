@@ -20,4 +20,11 @@
         <attr name="startAngle" format="float" />
         <attr name="sweepAngle" format="float" />
     </declare-styleable>
+    
+    <declare-styleable name="GraphicTableView" >
+        <attr name="axisX" format="dimension" />
+        <attr name="axisY" format="dimension" />
+        <attr name="axisXInternal" format="dimension" />
+        <attr name="axisYInternal" format="dimension" />
+    </declare-styleable>
 </resources>

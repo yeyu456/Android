@@ -55,7 +55,7 @@ public class PartlyFillCircle extends Button {
 		float startAngle = getStartAngle(sweepAngle);
 		RectF rec = new RectF(0f, 0f, diameter, diameter);
 		paint.setColor(mColorFill);
-		paint2.setColor(0xFFFFFFFF);
+		paint2.setColor(0xFFFFFF);
 		canvas.drawArc(rec, startAngle, sweepAngle, false, paint);
 		float start2 = startAngle + sweepAngle;
 		float sweep2 = 360 - sweepAngle;

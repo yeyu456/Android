@@ -17,6 +17,46 @@ public final class R {
         public static final int time_week=0x7f090001;
     }
     public static final class attr {
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int axisX=0x7f01000e;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int axisXInternal=0x7f010010;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int axisY=0x7f01000f;
+        /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int axisYInternal=0x7f010011;
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
 <p>This may also be a reference to a resource (in the form
@@ -181,7 +221,7 @@ containing a value of this type.
         public static final int windy=0x7f020013;
     }
     public static final class id {
-        public static final int activity_main=0x7f0a0004;
+        public static final int activity_main=0x7f0a0003;
         public static final int cardview_1=0x7f0a0008;
         public static final int cardview_2=0x7f0a0009;
         public static final int cardview_3=0x7f0a000a;
@@ -189,32 +229,20 @@ containing a value of this type.
         public static final int cardview_5=0x7f0a000c;
         public static final int cardview_6=0x7f0a000d;
         public static final int cardview_7=0x7f0a000e;
-        public static final int climate_celsius=0x7f0a0006;
-        public static final int climate_icon=0x7f0a0005;
-        public static final int cloud=0x7f0a0003;
-        public static final int cloud_ozone=0x7f0a0011;
-        public static final int cloud_value=0x7f0a000f;
-        public static final int cloud_visibility=0x7f0a0010;
-        public static final int more=0x7f0a0007;
-        public static final int temperature=0x7f0a0000;
-        public static final int temperature_apparent=0x7f0a0013;
-        public static final int temperature_value=0x7f0a0012;
-        public static final int water=0x7f0a0002;
-        public static final int water_humidity=0x7f0a0016;
-        public static final int water_precipIntensity=0x7f0a0014;
-        public static final int water_precipProbability=0x7f0a0015;
-        public static final int wind=0x7f0a0001;
-        public static final int wind_value=0x7f0a0017;
+        public static final int climate_celsius=0x7f0a0005;
+        public static final int climate_icon=0x7f0a0004;
+        public static final int data=0x7f0a0001;
+        public static final int director=0x7f0a0002;
+        public static final int graphic_table=0x7f0a0007;
+        public static final int more=0x7f0a0006;
+        public static final int table=0x7f0a0000;
     }
     public static final class layout {
         public static final int activity_detail=0x7f030000;
         public static final int activity_main=0x7f030001;
         public static final int card_view=0x7f030002;
-        public static final int fragment_main=0x7f030003;
-        public static final int weather_detail_cloud=0x7f030004;
-        public static final int weather_detail_temperature=0x7f030005;
-        public static final int weather_detail_water=0x7f030006;
-        public static final int weather_detail_wind=0x7f030007;
+        public static final int fragment_detail_table=0x7f030003;
+        public static final int fragment_main=0x7f030004;
     }
     public static final class string {
         public static final int app_name=0x7f050000;
@@ -383,6 +411,89 @@ containing a value of this type.
           @attr name com.yeyu.weather:sweepAngle
         */
         public static final int CircleLayout_sweepAngle = 2;
+        /** Attributes that can be used with a GraphicTableView.
+           <p>Includes the following attributes:</p>
+           <table>
+           <colgroup align="left" />
+           <colgroup align="left" />
+           <tr><th>Attribute</th><th>Description</th></tr>
+           <tr><td><code>{@link #GraphicTableView_axisX com.yeyu.weather:axisX}</code></td><td></td></tr>
+           <tr><td><code>{@link #GraphicTableView_axisXInternal com.yeyu.weather:axisXInternal}</code></td><td></td></tr>
+           <tr><td><code>{@link #GraphicTableView_axisY com.yeyu.weather:axisY}</code></td><td></td></tr>
+           <tr><td><code>{@link #GraphicTableView_axisYInternal com.yeyu.weather:axisYInternal}</code></td><td></td></tr>
+           </table>
+           @see #GraphicTableView_axisX
+           @see #GraphicTableView_axisXInternal
+           @see #GraphicTableView_axisY
+           @see #GraphicTableView_axisYInternal
+         */
+        public static final int[] GraphicTableView = {
+            0x7f01000e, 0x7f01000f, 0x7f010010, 0x7f010011
+        };
+        /**
+          <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#axisX}
+          attribute's value can be found in the {@link #GraphicTableView} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.yeyu.weather:axisX
+        */
+        public static final int GraphicTableView_axisX = 0;
+        /**
+          <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#axisXInternal}
+          attribute's value can be found in the {@link #GraphicTableView} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.yeyu.weather:axisXInternal
+        */
+        public static final int GraphicTableView_axisXInternal = 2;
+        /**
+          <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#axisY}
+          attribute's value can be found in the {@link #GraphicTableView} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.yeyu.weather:axisY
+        */
+        public static final int GraphicTableView_axisY = 1;
+        /**
+          <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#axisYInternal}
+          attribute's value can be found in the {@link #GraphicTableView} array.
+
+
+          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
+Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
+in (inches), mm (millimeters).
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name com.yeyu.weather:axisYInternal
+        */
+        public static final int GraphicTableView_axisYInternal = 3;
         /** Attributes that can be used with a PartlyFillCircle.
            <p>Includes the following attributes:</p>
            <table>

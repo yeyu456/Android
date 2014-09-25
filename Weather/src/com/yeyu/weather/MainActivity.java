@@ -12,14 +12,14 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.location.Location;
 
+import static com.yeyu.weather.WeatherConstant.*;
+
 public class MainActivity extends Activity {
 	
 	private static final int REQUEST_LOCATION = 0;
 	private static final int REQUEST_WEATHER = 1;
 	public static final String RESULT_LOCATION = "location";
 	public static final String RESULT_WEATHER = "weather";
-	public static final String TYPE_WEATHER_HOURLY = "hourly";
-	public static final String TYPE_WEATHER_DAILY = "daily";
 	
 	private ArrayList<WeatherObject> mHourlyData = new ArrayList<WeatherObject>();
 	private ArrayList<WeatherObject> mDailyData = new ArrayList<WeatherObject>();

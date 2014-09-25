@@ -21,54 +21,31 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import static com.yeyu.weather.WeatherConstant.*;
+
 public class WeatherFragment extends Fragment {
-	
-	public static HashMap<String, String> imageColorMap = new HashMap<String, String>();
-	static {
-		imageColorMap.put("sunny", "#FF5722");
-		imageColorMap.put("moon", "#FFEB3B");
-		imageColorMap.put("rainy_s", "#607D8B");
-		imageColorMap.put("rainy_m", "#455A64");
-		imageColorMap.put("rainy_h", "#263238");
-		imageColorMap.put("snowy", "#FAFAFA");
-		imageColorMap.put("rainy_snowy", "#CFD8DC");
-		imageColorMap.put("windy", "#259B24");
-		imageColorMap.put("fog", "#795548");
-		imageColorMap.put("cloudy", "#009688");
-		imageColorMap.put("partlycloudy", "#03A9F4");
-		imageColorMap.put("partlycloudynight", "#5677FC");
-	}
-	public static HashMap<String, String> iconImageMap = new HashMap<String, String>();
-	static {
-		iconImageMap.put("clear-day", "sunny");
-		iconImageMap.put("clear-night", "moon");
-		iconImageMap.put("rain", "rainy");
-		iconImageMap.put("snow", "snowy");
-		iconImageMap.put("sleet", "rainy_snowy");
-		iconImageMap.put("wind", "windy");
-		iconImageMap.put("fog", "fog");
-		iconImageMap.put("cloudy", "cloudy");
-		iconImageMap.put("partly-cloudy-day", "partlycloudy");
-		iconImageMap.put("partly-cloudy-night", "partlycloudynight");
-	}
 	
 	private View mView;
 	private String mType;
 	private String cur;
 	private String[] time_day;
 	private String[] time_week;
+	private ArrayList<WeatherObject> mData;
 	private View.OnClickListener moreListener = new View.OnClickListener() {
 		
 		@Override
 		public void onClick(View v) {
+			/*
 			WeatherObject obj = (WeatherObject) v.getTag();
-			if(obj==null){
+			*/
+			if(mData==null){
 				Log.e("click", "empty tag");
 				return;
 			}
 			Bundle bundle = new Bundle();
 			bundle.putString("type", mType);
-			bundle.putParcelable("data", obj);
+			//bundle.putParcelable("data", obj);
+			bundle.putParcelableArrayList("data", mData);
 			Intent intent = new Intent(WeatherFragment.this.getActivity(), WeatherDetailActivity.class);
 			intent.putExtras(bundle);
 			WeatherFragment.this.getActivity().startActivity(intent);
@@ -96,6 +73,7 @@ public class WeatherFragment extends Fragment {
 		if(data.size()<=0){
 			return;
 		}
+		mData = data;
 		for(WeatherObject obj:data){
 			int id = getResourceId("cardview_" + String.valueOf(data.indexOf(obj) + 1), "id");
 			if(id==0){
@@ -138,7 +116,7 @@ public class WeatherFragment extends Fragment {
 	
 	private void setWeather(CardView v, WeatherObject obj){
 		if(obj instanceof WeatherObject){
-			if(mType == MainActivity.TYPE_WEATHER_DAILY){
+			if(mType == TYPE_WEATHER_DAILY){
 				WeatherObjectDaily dayobj = (WeatherObjectDaily) obj;
 				float[] tem = {dayobj.temperatureMin, dayobj.temperatureMax};
 				View more = v.findViewById(R.id.more);
@@ -147,7 +125,7 @@ public class WeatherFragment extends Fragment {
 				setCelsius(v, tem);
 				setCardViewBackgroundAndIcon(v, getImage(dayobj.icon, dayobj.precipIntensityMax, true));
 			} else {
-				if(mType == MainActivity.TYPE_WEATHER_HOURLY){
+				if(mType == TYPE_WEATHER_HOURLY){
 					WeatherObjectHourly hourobj = (WeatherObjectHourly) obj;
 					float[] tem = {hourobj.temperature};
 					View more = v.findViewById(R.id.more);
@@ -173,14 +151,14 @@ public class WeatherFragment extends Fragment {
 	}
 	
 	private void setTime(CardView v, long time, int index){
-		if(mType==MainActivity.TYPE_WEATHER_HOURLY){
+		if(mType==TYPE_WEATHER_HOURLY){
 			if(index==0){
 				setTimeString(v, cur + "\n");
 			} else {
 				setTimeString(v, toDate(time) + "\n");
 			}
 		} else {
-			if(mType==MainActivity.TYPE_WEATHER_DAILY){
+			if(mType==TYPE_WEATHER_DAILY){
 				if(index<time_day.length){
 					setTimeString(v, time_day[index] + "\n");
 				} else {
@@ -226,15 +204,15 @@ public class WeatherFragment extends Fragment {
 		TextView tv = (TextView) v.findViewById(R.id.climate_celsius);
 		switch(celsius.length){
 			case 1: {
-				tv.append(String.valueOf((int)celsius[0]) + WeatherConstant.TEMPERATURE_CHAR);
+				tv.append(String.valueOf((int)celsius[0]) + TEMPERATURE_SIGN);
 				break;
 			}
 			case 2: {
-				tv.append(String.valueOf((int)celsius[0]) + WeatherConstant.TEMPERATURE_CHAR + "/" + String.valueOf((int)celsius[1]) + WeatherConstant.TEMPERATURE_CHAR);
+				tv.append(String.valueOf((int)celsius[0]) + TEMPERATURE_SIGN + "/" + String.valueOf((int)celsius[1]) + TEMPERATURE_SIGN);
 				break;
 			}
 			default : {
-				tv.append("-" + WeatherConstant.TEMPERATURE_CHAR);
+				tv.append("-" + TEMPERATURE_SIGN);
 			}
 		}
 	}
