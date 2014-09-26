@@ -60,12 +60,13 @@ public class GraphicTableView extends View {
 		int h = getHeight();
 		isLegal(w, h);
 		
+		String text;
 		int left = (w - mX) / 2;
 		int top = (h - mY) / 2;
 		int right = left + mX;
 		int bottom = top + mY;
 		
-		String text;
+		canvas.drawLine(left, top, left, bottom, axisPaint);
 		for(Point p:mData){
 			canvas.drawCircle(p.x+left, bottom-p.y, 2f, pathPaint);
 			canvas.drawText(mNo.get(mData.indexOf(p)).intValue() + mSign, p.x+left, bottom-p.y-5, pathPaint);

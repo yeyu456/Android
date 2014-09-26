@@ -6,10 +6,10 @@ import android.app.Activity;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup.LayoutParams;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.Transformation;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 
 import static com.yeyu.weather.WeatherConstant.*;
 import com.yeyu.widget.PartlyFillCircle;
@@ -33,7 +33,10 @@ public class WeatherDetailActivity extends Activity {
 		private void onDown(View v){
 			animate(v, R.anim.weather_detail_button_down);
 			int newTag = ((int) v.getTag()) + 1;
-			if(newTag > 6){
+			if(type.equals(TYPE_WEATHER_DAILY)&&newTag > TYPE_WEATHER_DETAIL_SUN_MOON){
+				newTag = 1;
+			}
+			if(type.equals(TYPE_WEATHER_HOURLY)&&newTag > TYPE_WEATHER_DETAIL_CLOUD){
 				newTag = 1;
 			}
 			v.setTag(newTag);
@@ -67,8 +70,14 @@ public class WeatherDetailActivity extends Activity {
 		director.setOnTouchListener(mTouchListener);
 	}
 	
+	private void test(){
+	}
+	
 	private void setData(int weatherType){
+		PartlyFillCircle circle = (PartlyFillCircle) findViewById(R.id.director);
+		ListView lv = (ListView) findViewById(R.id.listview);
 		ArrayList<Integer> numbers = new ArrayList<Integer>();
+		ArrayList<String> texts = new ArrayList<String>();
 		int yAixsInter = 0;
 		String sign = "";
 		
@@ -81,9 +90,11 @@ public class WeatherDetailActivity extends Activity {
 					if(type.equals(TYPE_WEATHER_HOURLY)){
 						numbers.add((int)((WeatherObjectHourly) obj).temperature);
 					}
+					texts.add(generateTemperatureText(obj));
 				}
 				yAixsInter = 3;
 				sign = TEMPERATURE_SIGN;
+				circle.setText("温");
 				break;
 			}
 			case TYPE_WEATHER_DETAIL_WATER : {
@@ -97,7 +108,45 @@ public class WeatherDetailActivity extends Activity {
 				}
 				yAixsInter = 3;
 				sign = WATER_SIGN;
+				circle.setText("水");
+				break;
 			}
+			case TYPE_WEATHER_DETAIL_WIND : {
+				for(WeatherObject obj:mData){
+					numbers.add((int)(obj.windSpeed));
+				}
+				yAixsInter = 3;
+				sign = WIND_SIGN;
+				circle.setText("风");
+				break;
+			}
+			case TYPE_WEATHER_DETAIL_CLOUD : {
+				for(WeatherObject obj:mData){
+					numbers.add((int)(obj.cloudCover * 100));
+				}
+				yAixsInter = 2;
+				sign = CLOUD_SIGN;
+				circle.setText("云");
+				break;
+			}
+			case TYPE_WEATHER_DETAIL_SUN_MOON : {
+				if(type.equals(TYPE_WEATHER_DAILY)){
+					for(WeatherObject obj:mData){
+					numbers.add((int)(((WeatherObjectDaily) obj).moonPhase * 100));
+					}
+				}
+				yAixsInter = 3;
+				sign = SUN_MOON_SIGN;
+				circle.setText("日月");
+				break;
+			}
+		}
+		if(texts.size()>0){
+			ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(WeatherDetailActivity.this,
+												 	 			     R.layout.activity_detail_card_view,
+												 	 			     R.id.data,
+												 	 			     texts);
+			lv.setAdapter(mAdapter);
 		}
 		setGraphicFragment(numbers, yAixsInter, sign);
 	}
@@ -105,6 +154,29 @@ public class WeatherDetailActivity extends Activity {
 	private void setGraphicFragment(ArrayList<Integer> numbers, int yAixsInter, String sign){
 		WeatherDetailFragment wf = WeatherDetailFragment.newInstance(numbers, yAixsInter, sign);
 		getFragmentManager().beginTransaction().replace(R.id.table, wf).commit();
+	}
+	
+	private String generateTemperatureText(WeatherObject obj){
+		String text = "";
+		if(type.equals(TYPE_WEATHER_DAILY)){
+			WeatherObjectDaily dayobj = (WeatherObjectDaily) obj;
+			text += getResources().getStringArray(R.array.time_week)[Tool.toWeek(dayobj.time)]+ "\n";
+			text += "最低温度: " + Tool.toDate(dayobj.temperatureMinTime) + " " + 
+					dayobj.temperatureMin + TEMPERATURE_SIGN + "\n";
+			text += "体表最低: " + Tool.toDate(dayobj.apparentTemperatureMinTime) + " " + 
+					dayobj.apparentTemperatureMin + TEMPERATURE_SIGN + "\n";
+			text += "最高温度: " + Tool.toDate(dayobj.temperatureMaxTime) + " " + 
+					dayobj.temperatureMax + TEMPERATURE_SIGN + "\n";
+			text += "体表最高: " + Tool.toDate(dayobj.apparentTemperatureMaxTime) + " " + 
+					dayobj.apparentTemperatureMax + TEMPERATURE_SIGN + "\n";
+		}
+		if(type.equals(TYPE_WEATHER_HOURLY)){
+			WeatherObjectHourly hourobj = (WeatherObjectHourly) obj;
+			text += Tool.toDate(hourobj.time)+ "\n";
+			text += "温度: " + hourobj.temperature + TEMPERATURE_SIGN + "\n";
+			text += "体表: " + hourobj.apparentTemperature + TEMPERATURE_SIGN + "\n";
+		}
+		return text;
 	}
 	
 	private void animate(View v, int animid){

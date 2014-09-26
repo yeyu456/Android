@@ -9,13 +9,15 @@ public class WeatherConstant {
 	
 	public static final String TEMPERATURE_SIGN = "\u2103";
 	public static final String WATER_SIGN = "mm";
+	public static final String WIND_SIGN = "m/h";
+	public static final String CLOUD_SIGN = "%";
+	public static final String SUN_MOON_SIGN = "%";
 	
 	public static final int TYPE_WEATHER_DETAIL_TEM = 1;
 	public static final int TYPE_WEATHER_DETAIL_WATER = 2;
 	public static final int TYPE_WEATHER_DETAIL_WIND = 3;
 	public static final int TYPE_WEATHER_DETAIL_CLOUD = 4;
-	public static final int TYPE_WEATHER_DETAIL_SUN = 5;
-	public static final int TYPE_WEATHER_DETAIL_MOON = 6;
+	public static final int TYPE_WEATHER_DETAIL_SUN_MOON = 5;
 	
 	public static final int TEMPERATURE_POSITIVE_MAX = 70;
 	public static final int TEMPERATURE_NEGATIVE_MAX = 90;
@@ -66,7 +68,6 @@ public class WeatherConstant {
 		typeColorMap.put(TYPE_WEATHER_DETAIL_WATER, 0xFF5677FC);
 		typeColorMap.put(TYPE_WEATHER_DETAIL_WIND, 0xFF259B24);
 		typeColorMap.put(TYPE_WEATHER_DETAIL_CLOUD, 0xFF009688);
-		typeColorMap.put(TYPE_WEATHER_DETAIL_SUN, 0xFFFFEB3B);
-		typeColorMap.put(TYPE_WEATHER_DETAIL_MOON, 0xFFFFC107);
+		typeColorMap.put(TYPE_WEATHER_DETAIL_SUN_MOON, 0xFFFFC107);
 	}
 }

@@ -1,9 +1,6 @@
 package com.yeyu.weather;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.TimeZone;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -155,14 +152,14 @@ public class WeatherFragment extends Fragment {
 			if(index==0){
 				setTimeString(v, cur + "\n");
 			} else {
-				setTimeString(v, toDate(time) + "\n");
+				setTimeString(v, Tool.toDate(time) + "\n");
 			}
 		} else {
 			if(mType==TYPE_WEATHER_DAILY){
 				if(index<time_day.length){
 					setTimeString(v, time_day[index] + "\n");
 				} else {
-					setTimeString(v, toWeek(time) + "\n");
+					setTimeString(v, time_week[Tool.toWeek(time)] + "\n");
 				}
 			}
 		}
@@ -176,28 +173,6 @@ public class WeatherFragment extends Fragment {
                 		   s.length(), 
                 		   Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
 		tv.setText(wordtoSpan);
-	}
-	
-	private String toDate(long time){
-		Calendar t = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
-		t.setTimeInMillis(time * 1000);
-		String text = String.valueOf(t.get(Calendar.HOUR_OF_DAY)) + ":";
-		int min = t.get((Calendar.MINUTE));
-		if(min<10){
-			text += "0";
-		}
-		text += String.valueOf(min);
-		return text;
-	}
-	
-	private String toWeek(long time){
-		Calendar t = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
-		t.setTimeInMillis(time * 1000);
-		int i = t.get(Calendar.DAY_OF_WEEK)-1;
-		i--;
-		i = i<0?i+7:i;
-		Log.e("week", "" + i);
-		return time_week[i];
 	}
 	
 	private void setCelsius(CardView v, float[] celsius) throws IllegalArgumentException {
