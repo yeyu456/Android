@@ -4,6 +4,9 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.style.RelativeSizeSpan;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.animation.Animation;
@@ -70,27 +73,32 @@ public class WeatherDetailActivity extends Activity {
 		director.setOnTouchListener(mTouchListener);
 	}
 	
-	private void test(){
-	}
-	
 	private void setData(int weatherType){
 		PartlyFillCircle circle = (PartlyFillCircle) findViewById(R.id.director);
 		ListView lv = (ListView) findViewById(R.id.listview);
 		ArrayList<Integer> numbers = new ArrayList<Integer>();
-		ArrayList<String> texts = new ArrayList<String>();
+		ArrayList<Spannable> texts = new ArrayList<Spannable>();
 		int yAixsInter = 0;
 		String sign = "";
+		
+		String text = "";
+		int len = 0;
 		
 		switch(weatherType){
 			case TYPE_WEATHER_DETAIL_TEM : {
 				for(WeatherObject obj:mData){
 					if(type.equals(TYPE_WEATHER_DAILY)){
 						numbers.add((int)((WeatherObjectDaily) obj).temperatureMin);
-					} 
-					if(type.equals(TYPE_WEATHER_HOURLY)){
+						text = "\t" + getResources().getStringArray(R.array.time_week)[Tool.toWeek(obj.time)]+ "\n";
+						len = text.length();
+						text += getDailyTemperatureText((WeatherObjectDaily) obj);
+					} else if(type.equals(TYPE_WEATHER_HOURLY)){
 						numbers.add((int)((WeatherObjectHourly) obj).temperature);
+						text = "\t" + Tool.toDate(obj.time)+ "\t";
+						len = text.length();
+						text += getHourlyTemperatureText((WeatherObjectHourly) obj);
 					}
-					texts.add(generateTemperatureText(obj));
+					texts.add(getSpan(text, len));
 				}
 				yAixsInter = 3;
 				sign = TEMPERATURE_SIGN;
@@ -101,10 +109,16 @@ public class WeatherDetailActivity extends Activity {
 				for(WeatherObject obj:mData){
 					if(type.equals(TYPE_WEATHER_DAILY)){
 						numbers.add((int)((WeatherObjectDaily) obj).precipIntensityMax);
-					}
-					if(type.equals(TYPE_WEATHER_HOURLY)){
+						text = "\t" + getResources().getStringArray(R.array.time_week)[Tool.toWeek(obj.time)]+ "\n";
+						len = text.length();
+						text += getDailyWaterText((WeatherObjectDaily) obj);
+					} else if(type.equals(TYPE_WEATHER_HOURLY)){
 						numbers.add((int)((WeatherObjectHourly) obj).precipIntensity);
+						text = "\t" + Tool.toDate(obj.time)+ "\t";
+						len = text.length();
+						text += getHourlyWaterText((WeatherObjectHourly) obj);
 					}
+					texts.add(getSpan(text, len));
 				}
 				yAixsInter = 3;
 				sign = WATER_SIGN;
@@ -142,7 +156,7 @@ public class WeatherDetailActivity extends Activity {
 			}
 		}
 		if(texts.size()>0){
-			ArrayAdapter<String> mAdapter = new ArrayAdapter<String>(WeatherDetailActivity.this,
+			ArrayAdapter<Spannable> mAdapter = new ArrayAdapter<Spannable>(WeatherDetailActivity.this,
 												 	 			     R.layout.activity_detail_card_view,
 												 	 			     R.id.data,
 												 	 			     texts);
@@ -156,26 +170,47 @@ public class WeatherDetailActivity extends Activity {
 		getFragmentManager().beginTransaction().replace(R.id.table, wf).commit();
 	}
 	
-	private String generateTemperatureText(WeatherObject obj){
+	private Spannable getSpan(String text, int len){
+		Spannable wordtoSpan = new SpannableString(text);
+		wordtoSpan.setSpan(new RelativeSizeSpan(1.0f), 0, len, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		wordtoSpan.setSpan(new RelativeSizeSpan(0.7f), len, text.length(), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+		return wordtoSpan;
+	}
+	
+	private String getDailyTemperatureText(WeatherObjectDaily dayobj){
 		String text = "";
-		if(type.equals(TYPE_WEATHER_DAILY)){
-			WeatherObjectDaily dayobj = (WeatherObjectDaily) obj;
-			text += getResources().getStringArray(R.array.time_week)[Tool.toWeek(dayobj.time)]+ "\n";
-			text += "最低温度: " + Tool.toDate(dayobj.temperatureMinTime) + " " + 
-					dayobj.temperatureMin + TEMPERATURE_SIGN + "\n";
-			text += "体表最低: " + Tool.toDate(dayobj.apparentTemperatureMinTime) + " " + 
-					dayobj.apparentTemperatureMin + TEMPERATURE_SIGN + "\n";
-			text += "最高温度: " + Tool.toDate(dayobj.temperatureMaxTime) + " " + 
-					dayobj.temperatureMax + TEMPERATURE_SIGN + "\n";
-			text += "体表最高: " + Tool.toDate(dayobj.apparentTemperatureMaxTime) + " " + 
-					dayobj.apparentTemperatureMax + TEMPERATURE_SIGN + "\n";
-		}
-		if(type.equals(TYPE_WEATHER_HOURLY)){
-			WeatherObjectHourly hourobj = (WeatherObjectHourly) obj;
-			text += Tool.toDate(hourobj.time)+ "\n";
-			text += "温度: " + hourobj.temperature + TEMPERATURE_SIGN + "\n";
-			text += "体表: " + hourobj.apparentTemperature + TEMPERATURE_SIGN + "\n";
-		}
+		text += "\t最低温度:\t" + dayobj.temperatureMin + TEMPERATURE_SIGN + "\t" + 
+				"[" + Tool.toDate(dayobj.temperatureMinTime) + "]\t\t";
+		text += "\t体表最低:\t" + dayobj.apparentTemperatureMin + TEMPERATURE_SIGN + "\t" +
+				"[" + Tool.toDate(dayobj.apparentTemperatureMinTime) + "]\n";
+		
+		text += "\t最高温度:\t" + dayobj.temperatureMax + TEMPERATURE_SIGN + "\t" +
+				"[" + Tool.toDate(dayobj.temperatureMaxTime) + "]\t\t";
+		text += "\t体表最高:\t" +  dayobj.apparentTemperatureMax + TEMPERATURE_SIGN + "\t" +
+				"[" + Tool.toDate(dayobj.apparentTemperatureMaxTime) + "]";
+		return text;
+	}
+	
+	private String getHourlyTemperatureText(WeatherObjectHourly hourobj){
+		String text = "";
+		text += "\t温度:\t" + hourobj.temperature + TEMPERATURE_SIGN + "\t\t";
+		text += "\t体表:\t" + hourobj.apparentTemperature + TEMPERATURE_SIGN;
+		return text;
+	}
+	
+	private String getDailyWaterText(WeatherObjectDaily dayobj){
+		String text = "";
+		text += "\t平均降雨量:\t" + dayobj.precipIntensity + WATER_SIGN + "\t\t" +
+				"\t降雨概率:\t" + (int)(dayobj.precipProbability * 100) + "%\n";
+		text += "\t最大降雨量:\t" + dayobj.precipIntensityMax + WATER_SIGN + "\t" +
+				"[" + Tool.toDate(dayobj.precipIntensityMaxTime) + "]\t\t";
+		return text;
+	}
+	
+	private String getHourlyWaterText(WeatherObjectHourly hourobj){
+		String text = "";
+		text += "\t降雨量:\t" + hourobj.precipIntensity + WATER_SIGN + "\t\t" +
+				"\t降雨概率:\t" + (int)(hourobj.precipProbability * 100) + "%";
 		return text;
 	}
 	

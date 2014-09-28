@@ -9,7 +9,12 @@ public class Tool {
 	public static String toDate(long time){
 		Calendar t = Calendar.getInstance(TimeZone.getTimeZone("GMT+8"));
 		t.setTimeInMillis(time * 1000);
-		String text = String.valueOf(t.get(Calendar.HOUR_OF_DAY)) + ":";
+		int hour = t.get(Calendar.HOUR_OF_DAY);
+		String text = "";
+		if(hour<10){
+			text += "0";
+		}
+		text += String.valueOf(hour) + ":";
 		int min = t.get((Calendar.MINUTE));
 		if(min<10){
 			text += "0";

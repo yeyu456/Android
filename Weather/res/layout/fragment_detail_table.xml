@@ -5,12 +5,22 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-    <com.yeyu.widget.GraphicTableView
-        android:id="@+id/graphic_table"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        custom:axisX="250dp"
-        custom:axisY="150dp"
-        custom:axisXInternal="30dp"
-        custom:axisYInternal="2dp" />
+	<android.support.v7.widget.CardView
+    	android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+	    android:layout_marginBottom="2dp"
+	    android:layout_marginLeft="2dp"
+	    android:layout_marginRight="2dp"
+	    android:layout_marginTop="2dp"
+	    custom:cardBackgroundColor="@color/white"
+	    custom:cardCornerRadius="4dp" >
+    	<com.yeyu.widget.GraphicTableView
+        	android:id="@+id/graphic_table"
+        	android:layout_width="match_parent"
+        	android:layout_height="match_parent"
+        	custom:axisX="250dp"
+        	custom:axisY="150dp"
+        	custom:axisXInternal="30dp"
+        	custom:axisYInternal="2dp" />
+    </android.support.v7.widget.CardView>
 </LinearLayout>

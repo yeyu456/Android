@@ -8,7 +8,7 @@ public class WeatherConstant {
 	public static final String TYPE_WEATHER_DAILY = "daily";
 	
 	public static final String TEMPERATURE_SIGN = "\u2103";
-	public static final String WATER_SIGN = "mm";
+	public static final String WATER_SIGN = "mm/h";
 	public static final String WIND_SIGN = "m/h";
 	public static final String CLOUD_SIGN = "%";
 	public static final String SUN_MOON_SIGN = "%";
