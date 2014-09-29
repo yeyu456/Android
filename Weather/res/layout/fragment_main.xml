@@ -7,7 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
-	<android.support.v7.widget.CardView
+	<com.yeyu.widget.cardview.CardView
 	    android:id="@+id/cardview_1"
 	    android:layout_width="match_parent"
 	    android:layout_height="80dp"
@@ -19,9 +19,9 @@
 	    app:cardCornerRadius="4dp" >
 
 	    <include layout="@layout/fragment_main_card_view" />
-    </android.support.v7.widget.CardView>
+    </com.yeyu.widget.cardview.CardView>
 
-	<android.support.v7.widget.CardView
+	<com.yeyu.widget.cardview.CardView
 	    android:id="@+id/cardview_2"
 	    android:layout_width="match_parent"
 	    android:layout_height="80dp"
@@ -32,9 +32,9 @@
 	    app:cardBackgroundColor="#FFEB3B"
 	    app:cardCornerRadius="4dp" >
 	    <include layout="@layout/fragment_main_card_view" />
-    </android.support.v7.widget.CardView>
+    </com.yeyu.widget.cardview.CardView>
     
-	<android.support.v7.widget.CardView
+	<com.yeyu.widget.cardview.CardView
 	    android:id="@+id/cardview_3"
 	    android:layout_width="match_parent"
 	    android:layout_height="80dp"
@@ -45,9 +45,9 @@
 	    app:cardBackgroundColor="#607D8B"
 	    app:cardCornerRadius="4dp" >
 	    <include layout="@layout/fragment_main_card_view" />
-    </android.support.v7.widget.CardView>
+    </com.yeyu.widget.cardview.CardView>
     
-	<android.support.v7.widget.CardView
+	<com.yeyu.widget.cardview.CardView
 	    android:id="@+id/cardview_4"
 	    android:layout_width="match_parent"
 	    android:layout_height="80dp"
@@ -58,9 +58,9 @@
 	    app:cardBackgroundColor="#FAFAFA"
 	    app:cardCornerRadius="4dp" >
 	    <include layout="@layout/fragment_main_card_view" />
-    </android.support.v7.widget.CardView>
+    </com.yeyu.widget.cardview.CardView>
     
-	<android.support.v7.widget.CardView
+	<com.yeyu.widget.cardview.CardView
 	    android:id="@+id/cardview_5"
 	    android:layout_width="match_parent"
 	    android:layout_height="80dp"
@@ -71,9 +71,9 @@
 	    app:cardBackgroundColor="#CFD8DC"
 	    app:cardCornerRadius="4dp" >
 	    <include layout="@layout/fragment_main_card_view" />
-    </android.support.v7.widget.CardView>
+    </com.yeyu.widget.cardview.CardView>
     
-	<android.support.v7.widget.CardView
+	<com.yeyu.widget.cardview.CardView
 	    android:id="@+id/cardview_6"
 	    android:layout_width="match_parent"
 	    android:layout_height="80dp"
@@ -84,9 +84,9 @@
 	    app:cardBackgroundColor="#259B24"
 	    app:cardCornerRadius="0dp" >
 	    <include layout="@layout/fragment_main_card_view" />
-    </android.support.v7.widget.CardView>
+    </com.yeyu.widget.cardview.CardView>
     
-	<android.support.v7.widget.CardView
+	<com.yeyu.widget.cardview.CardView
 	    android:id="@+id/cardview_7"
 	    android:layout_width="match_parent"
 	    android:layout_height="80dp"
@@ -97,6 +97,6 @@
 	    app:cardBackgroundColor="#FFEB3B"
 	    app:cardCornerRadius="4dp" >
 	    <include layout="@layout/fragment_main_card_view" />
-    </android.support.v7.widget.CardView>
+    </com.yeyu.widget.cardview.CardView>
 </LinearLayout>
 </ScrollView>

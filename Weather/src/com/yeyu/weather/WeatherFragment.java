@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
-import android.support.v7.widget.CardView;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
@@ -19,6 +18,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import static com.yeyu.weather.WeatherConstant.*;
+import com.yeyu.widget.cardview.CardView;
 
 public class WeatherFragment extends Fragment {
 	
@@ -137,7 +137,8 @@ public class WeatherFragment extends Fragment {
 	
 	private void setCardViewBackgroundAndIcon(CardView v, String image){
 		String color = imageColorMap.get(image);
-		v.setBackgroundDrawable(new ColorDrawable(Color.parseColor(color)));
+		v.setBackgroundColor(Color.parseColor(color));
+		v.setRadius(4f);
 		ImageView iv = (ImageView) v.findViewById(R.id.climate_icon);
 		int id = getResourceId(image, "drawable");
 		if(id!=0){

@@ -26,7 +26,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int axisX=0x7f01000e;
+        public static final int axisX=0x7f01000c;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -36,7 +36,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int axisXInternal=0x7f010010;
+        public static final int axisXInternal=0x7f01000e;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -46,7 +46,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int axisY=0x7f01000f;
+        public static final int axisY=0x7f01000d;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -56,7 +56,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int axisYInternal=0x7f010011;
+        public static final int axisYInternal=0x7f01000f;
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
 <p>This may also be a reference to a resource (in the form
@@ -65,7 +65,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int backgroundColor=0x7f010005;
+        public static final int backgroundColor=0x7f010003;
         /**  Background color for CardView. 
          <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
@@ -75,7 +75,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int cardBackgroundColor=0x7f010000;
+        public static final int cardBackgroundColor=0x7f010010;
         /**  Corner radius for CardView. 
          <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
@@ -86,7 +86,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int cardCornerRadius=0x7f010001;
+        public static final int cardCornerRadius=0x7f010011;
         /** <p>Must be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
 <p>This may also be a reference to a resource (in the form
@@ -95,7 +95,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int colorFill=0x7f010002;
+        public static final int colorFill=0x7f010000;
         /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -103,7 +103,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int colorPercentage=0x7f010003;
+        public static final int colorPercentage=0x7f010001;
         /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -111,7 +111,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int colorPercentageMax=0x7f010004;
+        public static final int colorPercentageMax=0x7f010002;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -121,13 +121,13 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int fillLength=0x7f010008;
+        public static final int fillLength=0x7f010006;
         /** <p>May be a reference to another resource, in the form "<code>@[+][<i>package</i>:]<i>type</i>:<i>name</i></code>"
 or to a theme attribute in the form "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>".
 <p>May be a color value, in the form of "<code>#<i>rgb</i></code>", "<code>#<i>argb</i></code>",
 "<code>#<i>rrggbb</i></code>", or "<code>#<i>aarrggbb</i></code>".
          */
-        public static final int lineColor=0x7f010006;
+        public static final int lineColor=0x7f010004;
         /** <p>Must be a dimension value, which is a floating point number appended with a unit such as "<code>14.5sp</code>".
 Available units are: px (pixels), dp (density-independent pixels), sp (scaled pixels based on preferred font size),
 in (inches), mm (millimeters).
@@ -137,7 +137,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int lineLength=0x7f010007;
+        public static final int lineLength=0x7f010005;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -145,7 +145,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int radius=0x7f01000b;
+        public static final int radius=0x7f010009;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -153,7 +153,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int startAngle=0x7f01000c;
+        public static final int startAngle=0x7f01000a;
         /** <p>Must be a floating point value, such as "<code>1.2</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -161,7 +161,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int sweepAngle=0x7f01000d;
+        public static final int sweepAngle=0x7f01000b;
         /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -169,7 +169,7 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int textHeader=0x7f010009;
+        public static final int textHeader=0x7f010007;
         /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -177,26 +177,26 @@ theme attribute (in the form
 "<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
 containing a value of this type.
          */
-        public static final int textTailer=0x7f01000a;
+        public static final int textTailer=0x7f010008;
     }
     public static final class color {
-        public static final int black=0x7f070004;
-        public static final int cardview_dark_background=0x7f070000;
-        public static final int cardview_light_background=0x7f070001;
-        public static final int cardview_shadow_end_color=0x7f070002;
-        public static final int cardview_shadow_start_color=0x7f070003;
-        public static final int cloud=0x7f07000b;
-        public static final int temperature_negative=0x7f070007;
-        public static final int temperature_positive=0x7f070006;
-        public static final int tornado=0x7f070009;
-        public static final int water=0x7f07000a;
-        public static final int white=0x7f070005;
-        public static final int wind=0x7f070008;
+        public static final int black=0x7f050004;
+        public static final int cardview_dark_background=0x7f050000;
+        public static final int cardview_light_background=0x7f050001;
+        public static final int cardview_shadow_end_color=0x7f050002;
+        public static final int cardview_shadow_start_color=0x7f050003;
+        public static final int cloud=0x7f05000b;
+        public static final int temperature_negative=0x7f050007;
+        public static final int temperature_positive=0x7f050006;
+        public static final int tornado=0x7f050009;
+        public static final int water=0x7f05000a;
+        public static final int white=0x7f050005;
+        public static final int wind=0x7f050008;
     }
     public static final class dimen {
-        public static final int cardview_default_radius=0x7f080000;
-        public static final int cardview_elevation=0x7f080001;
-        public static final int cardview_shadow_size=0x7f080002;
+        public static final int cardview_default_radius=0x7f060000;
+        public static final int cardview_elevation=0x7f060001;
+        public static final int cardview_shadow_size=0x7f060002;
     }
     public static final class drawable {
         public static final int cloudy=0x7f020000;
@@ -247,8 +247,8 @@ containing a value of this type.
         public static final int fragment_main_card_view=0x7f030005;
     }
     public static final class string {
-        public static final int app_name=0x7f050000;
-        public static final int time_current=0x7f050001;
+        public static final int app_name=0x7f080000;
+        public static final int time_current=0x7f080001;
     }
     public static final class style {
         /** 
@@ -271,37 +271,15 @@ containing a value of this type.
         res/values-v11/styles.xml on API 14+ devices.
     
  API 14 theme customizations can go here. 
-
-        Base application theme, dependent on API level. This theme is replaced
-        by AppBaseTheme from res/values-vXX/styles.xml on newer devices.
-    
-
-            Theme customizations available in newer API levels can go in
-            res/values-vXX/styles.xml, while customizations related to
-            backward-compatibility can go here.
-        
-
-        Base application theme for API 11+. This theme completely replaces
-        AppBaseTheme from res/values/styles.xml on API 11+ devices.
-    
- API 11 theme customizations can go here. 
-
-        Base application theme for API 14+. This theme completely replaces
-        AppBaseTheme from BOTH res/values/styles.xml and
-        res/values-v11/styles.xml on API 14+ devices.
-    
- API 14 theme customizations can go here. 
          */
-        public static final int AppBaseTheme=0x7f060000;
+        public static final int AppBaseTheme=0x7f070003;
         /**  Application theme. 
  All customizations that are NOT specific to a particular API-level can go here. 
- Application theme. 
- All customizations that are NOT specific to a particular API-level can go here. 
          */
-        public static final int AppTheme=0x7f060001;
-        public static final int CardView=0x7f060002;
-        public static final int CardView_Dark=0x7f060003;
-        public static final int CardView_Light=0x7f060004;
+        public static final int AppTheme=0x7f070004;
+        public static final int CardView=0x7f070000;
+        public static final int CardView_Dark=0x7f070001;
+        public static final int CardView_Light=0x7f070002;
     }
     public static final class styleable {
         /** Attributes that can be used with a CardView.
@@ -317,7 +295,7 @@ containing a value of this type.
            @see #CardView_cardCornerRadius
          */
         public static final int[] CardView = {
-            0x7f010000, 0x7f010001
+            0x7f010010, 0x7f010011
         };
         /**
           <p>
@@ -369,7 +347,7 @@ containing a value of this type.
            @see #CircleLayout_sweepAngle
          */
         public static final int[] CircleLayout = {
-            0x7f01000b, 0x7f01000c, 0x7f01000d
+            0x7f010009, 0x7f01000a, 0x7f01000b
         };
         /**
           <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#radius}
@@ -430,7 +408,7 @@ containing a value of this type.
            @see #GraphicTableView_axisYInternal
          */
         public static final int[] GraphicTableView = {
-            0x7f01000e, 0x7f01000f, 0x7f010010, 0x7f010011
+            0x7f01000c, 0x7f01000d, 0x7f01000e, 0x7f01000f
         };
         /**
           <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#axisX}
@@ -511,7 +489,7 @@ containing a value of this type.
            @see #PartlyFillCircle_colorPercentageMax
          */
         public static final int[] PartlyFillCircle = {
-            0x7f010002, 0x7f010003, 0x7f010004
+            0x7f010000, 0x7f010001, 0x7f010002
         };
         /**
           <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#colorFill}
@@ -577,8 +555,8 @@ containing a value of this type.
            @see #PartlyFillLine_textTailer
          */
         public static final int[] PartlyFillLine = {
-            0x7f010005, 0x7f010006, 0x7f010007, 0x7f010008,
-            0x7f010009, 0x7f01000a
+            0x7f010003, 0x7f010004, 0x7f010005, 0x7f010006,
+            0x7f010007, 0x7f010008
         };
         /**
           <p>This symbol is the offset where the {@link com.yeyu.weather.R.attr#backgroundColor}
