@@ -14,4 +14,4 @@ Weather
 * Support Android 4.0 or greater
 
 ## Download ##
-*  [App Download](https://github.com/yeyu456/Android/raw/master/SimpleFileExplorer/bin/SimpleFileExplorer.apk)
+*  [App Download](https://github.com/yeyu456/Android/raw/master/Weather/bin/Weather.apk)
