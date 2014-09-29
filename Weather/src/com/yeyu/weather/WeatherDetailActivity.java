@@ -109,7 +109,7 @@ public class WeatherDetailActivity extends Activity {
 				for(WeatherObject obj:mData){
 					if(type.equals(TYPE_WEATHER_DAILY)){
 						numbers.add((int)((WeatherObjectDaily) obj).precipIntensityMax);
-						text = "\t" + getResources().getStringArray(R.array.time_week)[Tool.toWeek(obj.time)]+ "\n";
+						text = "\t" + getResources().getStringArray(R.array.time_week)[Tool.toWeek(obj.time)];
 						len = text.length();
 						text += getDailyWaterText((WeatherObjectDaily) obj);
 					} else if(type.equals(TYPE_WEATHER_HOURLY)){
@@ -128,6 +128,15 @@ public class WeatherDetailActivity extends Activity {
 			case TYPE_WEATHER_DETAIL_WIND : {
 				for(WeatherObject obj:mData){
 					numbers.add((int)(obj.windSpeed));
+					if(type.equals(TYPE_WEATHER_DAILY)){
+						text = "\t" + getResources().getStringArray(R.array.time_week)[Tool.toWeek(obj.time)];
+						len = text.length();
+					} else if(type.equals(TYPE_WEATHER_HOURLY)){
+						text = "\t" + Tool.toDate(obj.time)+ "\t";
+						len = text.length();
+					}
+					text += getWindText(obj);
+					texts.add(getSpan(text, len));
 				}
 				yAixsInter = 3;
 				sign = WIND_SIGN;
@@ -137,6 +146,15 @@ public class WeatherDetailActivity extends Activity {
 			case TYPE_WEATHER_DETAIL_CLOUD : {
 				for(WeatherObject obj:mData){
 					numbers.add((int)(obj.cloudCover * 100));
+					if(type.equals(TYPE_WEATHER_DAILY)){
+						text = "\t" + getResources().getStringArray(R.array.time_week)[Tool.toWeek(obj.time)];
+						len = text.length();
+					} else if(type.equals(TYPE_WEATHER_HOURLY)){
+						text = "\t" + Tool.toDate(obj.time)+ "\t";
+						len = text.length();
+					}
+					text += getCloudText(obj);
+					texts.add(getSpan(text, len));
 				}
 				yAixsInter = 2;
 				sign = CLOUD_SIGN;
@@ -146,11 +164,15 @@ public class WeatherDetailActivity extends Activity {
 			case TYPE_WEATHER_DETAIL_SUN_MOON : {
 				if(type.equals(TYPE_WEATHER_DAILY)){
 					for(WeatherObject obj:mData){
-					numbers.add((int)(((WeatherObjectDaily) obj).moonPhase * 100));
+						numbers.add((int)(((WeatherObjectDaily) obj).moonPhase * 100));
+						text = "\t" + getResources().getStringArray(R.array.time_week)[Tool.toWeek(obj.time)];
+						len = text.length();
+						text += getSunMoonText((WeatherObjectDaily) obj);
+						texts.add(getSpan(text, len));
 					}
 				}
 				yAixsInter = 3;
-				sign = SUN_MOON_SIGN;
+				sign = MOON_SIGN;
 				circle.setText("日月");
 				break;
 			}
@@ -178,40 +200,67 @@ public class WeatherDetailActivity extends Activity {
 	}
 	
 	private String getDailyTemperatureText(WeatherObjectDaily dayobj){
-		String text = "";
-		text += "\t最低温度:\t" + dayobj.temperatureMin + TEMPERATURE_SIGN + "\t" + 
-				"[" + Tool.toDate(dayobj.temperatureMinTime) + "]\t\t";
-		text += "\t体表最低:\t" + dayobj.apparentTemperatureMin + TEMPERATURE_SIGN + "\t" +
-				"[" + Tool.toDate(dayobj.apparentTemperatureMinTime) + "]\n";
+		StringBuilder text = new StringBuilder();
+		text.append("\t最低温度:\t").append(dayobj.temperatureMin).append(TEMPERATURE_SIGN).append("\t")
+			.append("[").append(Tool.toDate(dayobj.temperatureMinTime)).append("]\t");
+		text.append("\t体表最低:\t").append(dayobj.apparentTemperatureMin).append(TEMPERATURE_SIGN).append("\t")
+			.append("[").append(Tool.toDate(dayobj.apparentTemperatureMinTime)).append("]\n");
 		
-		text += "\t最高温度:\t" + dayobj.temperatureMax + TEMPERATURE_SIGN + "\t" +
-				"[" + Tool.toDate(dayobj.temperatureMaxTime) + "]\t\t";
-		text += "\t体表最高:\t" +  dayobj.apparentTemperatureMax + TEMPERATURE_SIGN + "\t" +
-				"[" + Tool.toDate(dayobj.apparentTemperatureMaxTime) + "]";
-		return text;
+		text.append("\t最高温度:\t").append(dayobj.temperatureMax).append(TEMPERATURE_SIGN).append("\t")
+			.append("[").append(Tool.toDate(dayobj.temperatureMaxTime)).append("]\t");
+		text.append("\t体表最高:\t").append(dayobj.apparentTemperatureMax).append(TEMPERATURE_SIGN).append("\t")
+			.append("[").append(Tool.toDate(dayobj.apparentTemperatureMaxTime)).append("]");
+		return text.toString();
 	}
 	
 	private String getHourlyTemperatureText(WeatherObjectHourly hourobj){
-		String text = "";
-		text += "\t温度:\t" + hourobj.temperature + TEMPERATURE_SIGN + "\t\t";
-		text += "\t体表:\t" + hourobj.apparentTemperature + TEMPERATURE_SIGN;
-		return text;
+		StringBuilder text = new StringBuilder();
+		text.append("\t温度:\t").append(hourobj.temperature).append(TEMPERATURE_SIGN).append("\t\t")
+			.append("\t体表:\t").append(hourobj.apparentTemperature).append(TEMPERATURE_SIGN);
+		return text.toString();
 	}
 	
 	private String getDailyWaterText(WeatherObjectDaily dayobj){
-		String text = "";
-		text += "\t平均降雨量:\t" + dayobj.precipIntensity + WATER_SIGN + "\t\t" +
-				"\t降雨概率:\t" + (int)(dayobj.precipProbability * 100) + "%\n";
-		text += "\t最大降雨量:\t" + dayobj.precipIntensityMax + WATER_SIGN + "\t" +
-				"[" + Tool.toDate(dayobj.precipIntensityMaxTime) + "]\t\t";
-		return text;
+		StringBuilder text = new StringBuilder("\n");
+		text.append("\t平均降雨量:\t").append(Tool.fillZero(String.valueOf(dayobj.precipIntensity), PRECIPINTENSITY_LENGTH, true))
+			.append(WATER_SIGN).append("\t").append("\t最大降雨量:\t")
+			.append(Tool.fillZero(String.valueOf(dayobj.precipIntensityMax), PRECIPINTENSITY_LENGTH, true)).append(WATER_SIGN)
+			.append("\t[").append(Tool.toDate(dayobj.precipIntensityMaxTime)).append("]\n");
+		text.append("\t降雨概率:\t").append(Tool.fillZero(String.valueOf((int)(dayobj.precipProbability * 100)), PERCENTAGE_LENGTH, false))
+			.append(WATER_PROBABILITY_SIGN).append("\t\t\t\t")
+			.append("\t空气湿度:\t" + (int)(dayobj.humidity * 100)).append(WATER_HUMDITY);
+		return text.toString();
 	}
 	
 	private String getHourlyWaterText(WeatherObjectHourly hourobj){
-		String text = "";
-		text += "\t降雨量:\t" + hourobj.precipIntensity + WATER_SIGN + "\t\t" +
-				"\t降雨概率:\t" + (int)(hourobj.precipProbability * 100) + "%";
-		return text;
+		StringBuilder text = new StringBuilder("\n");
+		text.append("\t降雨量:\t").append(Tool.fillZero(String.valueOf(hourobj.precipIntensity), PRECIPINTENSITY_LENGTH, true))
+			.append(WATER_SIGN).append("\t").append("\t降雨概率:\t")
+			.append(Tool.fillZero(String.valueOf((int)(hourobj.precipProbability * 100)), PERCENTAGE_LENGTH, false))
+			.append(WATER_PROBABILITY_SIGN).append("\t");
+		text.append("\t空气湿度:\t").append((int)(hourobj.humidity * 100)).append(WATER_HUMDITY);
+		return text.toString();
+	}
+	
+	private String getWindText(WeatherObject obj){
+		StringBuilder text = new StringBuilder();
+		text.append("\t风速:\t").append(obj.windSpeed).append(WIND_SIGN).append("\t\t").append("\t风向:\t").append(obj.windBearing);
+		return text.toString();
+	}
+	
+	private String getCloudText(WeatherObject obj){
+		StringBuilder text = new StringBuilder();
+		text.append("\t云量覆盖:\t").append(Tool.fillZero(String.valueOf((int)(obj.cloudCover * 100)),  PERCENTAGE_LENGTH, false))
+			.append(CLOUD_SIGN).append("\t\t").append("\t能见度:\t").append(obj.visibility).append(VISIBLE_SIGN);
+		return text.toString();
+	}
+	
+	private String getSunMoonText(WeatherObjectDaily dayobj){
+		StringBuilder text = new StringBuilder();
+		text.append("\t日出时间:[").append(Tool.toDate(dayobj.sunriseTime))
+			.append("]\t\t日落时间:[").append(Tool.toDate(dayobj.sunsetTime))
+			.append("]\t\t月相:\t").append((int)(dayobj.moonPhase * 100)).append(MOON_SIGN);
+		return text.toString();
 	}
 	
 	private void animate(View v, int animid){

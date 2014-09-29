@@ -9,9 +9,12 @@ public class WeatherConstant {
 	
 	public static final String TEMPERATURE_SIGN = "\u2103";
 	public static final String WATER_SIGN = "mm/h";
+	public static final String WATER_PROBABILITY_SIGN = "%";
+	public static final String WATER_HUMDITY = "%";
 	public static final String WIND_SIGN = "m/h";
 	public static final String CLOUD_SIGN = "%";
-	public static final String SUN_MOON_SIGN = "%";
+	public static final String MOON_SIGN = "%";
+	public static final String VISIBLE_SIGN = "km";
 	
 	public static final int TYPE_WEATHER_DETAIL_TEM = 1;
 	public static final int TYPE_WEATHER_DETAIL_WATER = 2;
@@ -33,6 +36,9 @@ public class WeatherConstant {
 	
 	public static final float CLOUD_COVER_PERCENTAGE_MAX = 1f;
 	public static final float CLOUD_COVER_PERCENTAGE_MIN = 0f;
+	
+	public static final int PRECIPINTENSITY_LENGTH = 6;
+	public static final int PERCENTAGE_LENGTH = 2;
 	
 	public static HashMap<String, String> imageColorMap = new HashMap<String, String>();
 	static {

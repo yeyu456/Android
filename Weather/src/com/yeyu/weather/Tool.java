@@ -32,4 +32,16 @@ public class Tool {
 		Log.e("week", "" + i);
 		return i;
 	}
+	
+	public static String fillZero(String text, int len, boolean addbackward){
+		StringBuilder str = new StringBuilder(text);
+		while(str.length()<len){
+			if(addbackward){
+				str.append("0");
+			} else {
+				str.insert(0, "0");
+			}
+		}
+		return str.toString();
+	}
 }
