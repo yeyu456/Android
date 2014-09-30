@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import android.app.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -32,16 +31,12 @@ public class WeatherFragment extends Fragment {
 		
 		@Override
 		public void onClick(View v) {
-			/*
-			WeatherObject obj = (WeatherObject) v.getTag();
-			*/
 			if(mData==null){
 				Log.e("click", "empty tag");
 				return;
 			}
 			Bundle bundle = new Bundle();
 			bundle.putString("type", mType);
-			//bundle.putParcelable("data", obj);
 			bundle.putParcelableArrayList("data", mData);
 			Intent intent = new Intent(WeatherFragment.this.getActivity(), WeatherDetailActivity.class);
 			intent.putExtras(bundle);

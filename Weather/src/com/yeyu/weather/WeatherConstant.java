@@ -11,7 +11,8 @@ public class WeatherConstant {
 	public static final String WATER_SIGN = "mm/h";
 	public static final String WATER_PROBABILITY_SIGN = "%";
 	public static final String WATER_HUMDITY = "%";
-	public static final String WIND_SIGN = "m/h";
+	public static final String WIND_SIGN = "m/s";
+	public static final String WIND_SCALE_SIGN = "¼¶";
 	public static final String CLOUD_SIGN = "%";
 	public static final String MOON_SIGN = "%";
 	public static final String VISIBLE_SIGN = "km";
@@ -25,9 +26,9 @@ public class WeatherConstant {
 	public static final int TEMPERATURE_POSITIVE_MAX = 70;
 	public static final int TEMPERATURE_NEGATIVE_MAX = 90;
 	
-	public static final int WIND_LEVEL_MAX = 12;
-	public static final int WIND_LEVEL_TORNADO_MAX = 18;
-	public static final int WIND_LEVEL_MIN = 0;
+	public static final int WIND_SCALE_MAX = 12;
+	public static final int WIND_SCALE_TORNADO_MAX = 18;
+	public static final int WIND_SCALE_MIN = 0;
 	public static final float WIND_TORNADO_SPEED = 37f;
 	public static final float WIND_CALCULATE_CONSTANT = 0.836f;
 	

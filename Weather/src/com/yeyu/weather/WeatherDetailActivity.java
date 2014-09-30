@@ -4,6 +4,7 @@ import java.util.ArrayList;
 
 import android.app.Activity;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.style.RelativeSizeSpan;
@@ -19,39 +20,6 @@ import com.yeyu.widget.PartlyFillCircle;
 
 public class WeatherDetailActivity extends Activity {
 	
-	private View.OnTouchListener mTouchListener = new View.OnTouchListener() {
-		
-		@Override
-		public boolean onTouch(View v, MotionEvent event) {
-			if(event.getAction() == MotionEvent.ACTION_DOWN){
-				onDown(v);
-				return true;
-			}
-			if(event.getAction() == MotionEvent.ACTION_UP){
-				onUp(v);
-			}
-			return false;
-		}
-		
-		private void onDown(View v){
-			animate(v, R.anim.weather_detail_button_down);
-			int newTag = ((int) v.getTag()) + 1;
-			if(type.equals(TYPE_WEATHER_DAILY)&&newTag > TYPE_WEATHER_DETAIL_SUN_MOON){
-				newTag = 1;
-			}
-			if(type.equals(TYPE_WEATHER_HOURLY)&&newTag > TYPE_WEATHER_DETAIL_CLOUD){
-				newTag = 1;
-			}
-			v.setTag(newTag);
-			setData(newTag);
-			((PartlyFillCircle) v).setColorFill(typeColorMap.get(newTag));
-		}
-		
-		private void onUp(View v){
-			animate(v, R.anim.weather_detail_button_up);
-		}
-	};
-	
 	private ArrayList<WeatherObject> mData;
 	private String type;
 	
@@ -61,16 +29,56 @@ public class WeatherDetailActivity extends Activity {
 		Bundle bundle = this.getIntent().getExtras();
 		type = bundle.getString("type");
 		mData = bundle.getParcelableArrayList("data");
-		if(type.equals(TYPE_WEATHER_DAILY)){
-			setContentView(R.layout.activity_detail);
-		}
-		if(type.equals(TYPE_WEATHER_HOURLY)){
-			setContentView(R.layout.activity_detail);
-		}
+		setContentView(R.layout.activity_detail);
 		setData(TYPE_WEATHER_DETAIL_TEM);
-		View director = findViewById(R.id.director);
-		director.setTag(TYPE_WEATHER_DETAIL_TEM);
-		director.setOnTouchListener(mTouchListener);
+		
+		final View mDirector = findViewById(R.id.director);
+		mDirector.setTag(TYPE_WEATHER_DETAIL_TEM);
+		
+		final Handler mHandler = new Handler();
+		final Runnable mRunnable = new Runnable(){
+			@Override
+			public void run(){
+				((PartlyFillCircle) mDirector).setColorFill(android.R.color.transparent);
+			}
+		};
+		
+		mHandler.postDelayed(mRunnable, 5000);
+		mDirector.setOnTouchListener(new View.OnTouchListener() {
+			
+			@Override
+			public boolean onTouch(View v, MotionEvent event) {
+				mHandler.removeCallbacks(mRunnable);
+				mHandler.postDelayed(mRunnable, 2000);
+				if(event.getAction() == MotionEvent.ACTION_DOWN){
+					onDown(v);
+					return true;
+				}
+				if(event.getAction() == MotionEvent.ACTION_UP){
+					onUp(v);
+				}
+				return false;
+			}
+			
+			private void onDown(View v){
+				animate(v, R.anim.weather_detail_button_down);
+				int newTag = ((int) v.getTag()) + 1;
+				if(type.equals(TYPE_WEATHER_DAILY)&&newTag > TYPE_WEATHER_DETAIL_SUN_MOON){
+					newTag = 1;
+				}
+				if(type.equals(TYPE_WEATHER_HOURLY)&&newTag > TYPE_WEATHER_DETAIL_CLOUD){
+					newTag = 1;
+				}
+				v.setTag(newTag);
+				setData(newTag);
+				((PartlyFillCircle) v).setColorFill(typeColorMap.get(newTag));
+			}
+			
+			private void onUp(View v){
+				animate(v, R.anim.weather_detail_button_up);
+			}
+		});
+		
 	}
 	
 	private void setData(int weatherType){
@@ -215,7 +223,7 @@ public class WeatherDetailActivity extends Activity {
 	
 	private String getHourlyTemperatureText(WeatherObjectHourly hourobj){
 		StringBuilder text = new StringBuilder();
-		text.append("\t温度:\t").append(hourobj.temperature).append(TEMPERATURE_SIGN).append("\t\t")
+		text.append("\t温度:\t").append(hourobj.temperature).append(TEMPERATURE_SIGN).append("\t")
 			.append("\t体表:\t").append(hourobj.apparentTemperature).append(TEMPERATURE_SIGN);
 		return text.toString();
 	}
@@ -233,25 +241,32 @@ public class WeatherDetailActivity extends Activity {
 	}
 	
 	private String getHourlyWaterText(WeatherObjectHourly hourobj){
-		StringBuilder text = new StringBuilder("\n");
-		text.append("\t降雨量:\t").append(Tool.fillZero(String.valueOf(hourobj.precipIntensity), PRECIPINTENSITY_LENGTH, true))
-			.append(WATER_SIGN).append("\t").append("\t降雨概率:\t")
+		StringBuilder text = new StringBuilder();
+		text.append("\t降雨量:").append(Tool.fillZero(String.valueOf(hourobj.precipIntensity), PRECIPINTENSITY_LENGTH, true))
+			.append(WATER_SIGN).append("\t降雨概率:")
 			.append(Tool.fillZero(String.valueOf((int)(hourobj.precipProbability * 100)), PERCENTAGE_LENGTH, false))
-			.append(WATER_PROBABILITY_SIGN).append("\t");
-		text.append("\t空气湿度:\t").append((int)(hourobj.humidity * 100)).append(WATER_HUMDITY);
+			.append(WATER_PROBABILITY_SIGN)
+			.append("\t空气湿度:").append((int)(hourobj.humidity * 100)).append(WATER_HUMDITY);
 		return text.toString();
 	}
 	
 	private String getWindText(WeatherObject obj){
 		StringBuilder text = new StringBuilder();
-		text.append("\t风速:\t").append(obj.windSpeed).append(WIND_SIGN).append("\t\t").append("\t风向:\t").append(obj.windBearing);
+		text.append("\t风速:\t").append(obj.windSpeed).append(WIND_SIGN).append("\t")
+			.append("\t风力:\t").append(Tool.getWindScale(obj.windSpeed)).append(WIND_SCALE_SIGN).append("\t")
+			.append("\t风向:\t");
+		if(obj.windSpeed == 0f){
+			text.append("无");
+		} else {
+			text.append(Tool.getWindDirection(obj.windBearing));
+		}
 		return text.toString();
 	}
 	
 	private String getCloudText(WeatherObject obj){
 		StringBuilder text = new StringBuilder();
 		text.append("\t云量覆盖:\t").append(Tool.fillZero(String.valueOf((int)(obj.cloudCover * 100)),  PERCENTAGE_LENGTH, false))
-			.append(CLOUD_SIGN).append("\t\t").append("\t能见度:\t").append(obj.visibility).append(VISIBLE_SIGN);
+			.append(CLOUD_SIGN).append("\t").append("\t能见度:\t").append(obj.visibility).append(VISIBLE_SIGN);
 		return text.toString();
 	}
 	
