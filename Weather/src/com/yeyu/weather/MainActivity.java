@@ -23,6 +23,7 @@ public class MainActivity extends Activity {
 	
 	private ArrayList<WeatherObject> mHourlyData = new ArrayList<WeatherObject>();
 	private ArrayList<WeatherObject> mDailyData = new ArrayList<WeatherObject>();
+	private String mAddress = "";
 	
 	@Override
 	protected void onCreate(Bundle state){
@@ -32,6 +33,7 @@ public class MainActivity extends Activity {
 		ActionBar actionBar = this.getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		actionBar.setDisplayShowTitleEnabled(false);
+        getActionBar().setDisplayShowHomeEnabled(false);
 		Tab hourTab = actionBar.newTab()
 							   .setText("Сʱ")
 							   .setTabListener(new TabListener<WeatherFragment>(this, TYPE_WEATHER_HOURLY, WeatherFragment.class));
@@ -48,7 +50,7 @@ public class MainActivity extends Activity {
 		switch(requestCode){
 			case REQUEST_LOCATION : {
 				if(resultCode == LocationService.RESULT_OK){
-					Location point = data.getParcelableExtra(RESULT_LOCATION);
+					LocationObject point = data.getParcelableExtra(RESULT_LOCATION);
 					updateLocation(point);
 				}
 				break;
@@ -63,9 +65,10 @@ public class MainActivity extends Activity {
 		}
 	}
 	
-	private void updateLocation(Location point){
-		double latitude = point.getLatitude();
-		double longitude = point.getLongitude();
+	private void updateLocation(LocationObject point){
+		double latitude = point.latitude;
+		double longitude = point.longitude;
+		mAddress = point.address;
 		requestWeather(latitude, longitude);
 	}
 	

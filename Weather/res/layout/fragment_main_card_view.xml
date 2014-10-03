@@ -20,18 +20,4 @@
         android:padding="16dp"
         android:text="-\u2103"
         android:textSize="20sp" />
-
-    <Button
-        android:id="@+id/more"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="bottom|right"
-        android:layout_marginBottom="2dp"
-        android:layout_marginRight="4dp"
-        android:background="#10000000"
-        android:minHeight="36dp"
-        android:minWidth="48dp"
-        android:text="更多"
-        android:textSize="14sp" />
-
 </LinearLayout>

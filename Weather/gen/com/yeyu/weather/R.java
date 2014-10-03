@@ -181,17 +181,19 @@ containing a value of this type.
     }
     public static final class color {
         public static final int black=0x7f050004;
+        public static final int blue=0x7f050006;
         public static final int cardview_dark_background=0x7f050000;
         public static final int cardview_light_background=0x7f050001;
         public static final int cardview_shadow_end_color=0x7f050002;
         public static final int cardview_shadow_start_color=0x7f050003;
-        public static final int cloud=0x7f05000b;
-        public static final int temperature_negative=0x7f050007;
-        public static final int temperature_positive=0x7f050006;
-        public static final int tornado=0x7f050009;
-        public static final int water=0x7f05000a;
+        public static final int cloud=0x7f05000d;
+        public static final int pure_black=0x7f050007;
+        public static final int temperature_negative=0x7f050009;
+        public static final int temperature_positive=0x7f050008;
+        public static final int tornado=0x7f05000b;
+        public static final int water=0x7f05000c;
         public static final int white=0x7f050005;
-        public static final int wind=0x7f050008;
+        public static final int wind=0x7f05000a;
     }
     public static final class dimen {
         public static final int cardview_default_radius=0x7f060000;
@@ -224,19 +226,19 @@ containing a value of this type.
         public static final int activity_detail_layout=0x7f0a0000;
         public static final int activity_main=0x7f0a0005;
         public static final int cardview_1=0x7f0a0007;
-        public static final int cardview_2=0x7f0a0008;
-        public static final int cardview_3=0x7f0a0009;
-        public static final int cardview_4=0x7f0a000a;
-        public static final int cardview_5=0x7f0a000b;
-        public static final int cardview_6=0x7f0a000c;
-        public static final int cardview_7=0x7f0a000d;
-        public static final int climate_celsius=0x7f0a000f;
-        public static final int climate_icon=0x7f0a000e;
+        public static final int cardview_2=0x7f0a000b;
+        public static final int cardview_3=0x7f0a000c;
+        public static final int cardview_4=0x7f0a000d;
+        public static final int cardview_5=0x7f0a000e;
+        public static final int cardview_6=0x7f0a000f;
+        public static final int cardview_7=0x7f0a0010;
+        public static final int climate_celsius=0x7f0a0009;
+        public static final int climate_icon=0x7f0a0008;
         public static final int data=0x7f0a0004;
         public static final int director=0x7f0a0003;
         public static final int graphic_table=0x7f0a0006;
         public static final int listview=0x7f0a0002;
-        public static final int more=0x7f0a0010;
+        public static final int more=0x7f0a000a;
         public static final int table=0x7f0a0001;
     }
     public static final class layout {
@@ -275,12 +277,12 @@ containing a value of this type.
          */
         public static final int AppBaseTheme=0x7f070003;
         /**  Application theme. 
- All customizations that are NOT specific to a particular API-level can go here. 
          */
         public static final int AppTheme=0x7f070004;
         public static final int CardView=0x7f070000;
         public static final int CardView_Dark=0x7f070001;
         public static final int CardView_Light=0x7f070002;
+        public static final int MyActionBar=0x7f070005;
     }
     public static final class styleable {
         /** Attributes that can be used with a CardView.

@@ -26,15 +26,16 @@ public class WeatherFragment extends Fragment {
 	private String cur;
 	private String[] time_day;
 	private String[] time_week;
-	private ArrayList<WeatherObject> mData;
 	private View.OnClickListener moreListener = new View.OnClickListener() {
 		
 		@Override
 		public void onClick(View v) {
-			if(mData==null){
+			Object data = v.getTag();
+			if(data==null){
 				Log.e("click", "empty tag");
 				return;
 			}
+			ArrayList<WeatherObject> mData = (ArrayList<WeatherObject>) data;
 			Bundle bundle = new Bundle();
 			bundle.putString("type", mType);
 			bundle.putParcelableArrayList("data", mData);
@@ -65,7 +66,6 @@ public class WeatherFragment extends Fragment {
 		if(data.size()<=0){
 			return;
 		}
-		mData = data;
 		for(WeatherObject obj:data){
 			int id = getResourceId("cardview_" + String.valueOf(data.indexOf(obj) + 1), "id");
 			if(id==0){
@@ -74,12 +74,19 @@ public class WeatherFragment extends Fragment {
 				CardView cardView = (CardView) mView.findViewById(id);
 				setTime(cardView, obj.time, data.indexOf(obj));
 				setWeather(cardView, obj);
+				if(id==R.id.cardview_1){
+					View more = cardView.findViewById(R.id.more);
+					more.setTag(data);
+					more.setOnClickListener(moreListener);
+				}
 			}
 		}
 	}
 	
 	private int getResourceId(String name, String type){
-		return this.getActivity().getResources().getIdentifier(name, type, WeatherFragment.this.getActivity().getPackageName());
+		return this.getActivity().getResources().getIdentifier(name, 
+															   type, 
+															   getActivity().getPackageName());
 	}
 	
 	private String getImage(String icon, float precipIntensity, boolean isday){
@@ -111,18 +118,12 @@ public class WeatherFragment extends Fragment {
 			if(mType == TYPE_WEATHER_DAILY){
 				WeatherObjectDaily dayobj = (WeatherObjectDaily) obj;
 				float[] tem = {dayobj.temperatureMin, dayobj.temperatureMax};
-				View more = v.findViewById(R.id.more);
-				more.setTag(dayobj);
-				more.setOnClickListener(moreListener);
 				setCelsius(v, tem);
 				setCardViewBackgroundAndIcon(v, getImage(dayobj.icon, dayobj.precipIntensityMax, true));
 			} else {
 				if(mType == TYPE_WEATHER_HOURLY){
 					WeatherObjectHourly hourobj = (WeatherObjectHourly) obj;
 					float[] tem = {hourobj.temperature};
-					View more = v.findViewById(R.id.more);
-					more.setTag(hourobj);
-					more.setOnClickListener(moreListener);
 					setCelsius(v, tem);
 					setCardViewBackgroundAndIcon(v, getImage(hourobj.icon, hourobj.precipIntensity, false));
 				}
@@ -179,7 +180,9 @@ public class WeatherFragment extends Fragment {
 				break;
 			}
 			case 2: {
-				tv.append(String.valueOf((int)celsius[0]) + TEMPERATURE_SIGN + "/" + String.valueOf((int)celsius[1]) + TEMPERATURE_SIGN);
+				tv.append(String.valueOf((int)celsius[0]) + 
+						  TEMPERATURE_SIGN + "/" + 
+						  String.valueOf((int)celsius[1]) + TEMPERATURE_SIGN);
 				break;
 			}
 			default : {

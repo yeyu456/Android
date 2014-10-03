@@ -22,7 +22,7 @@ public class LocationBaiduAPI {
 	
 	private static final String BAIDU_AK = "D77442960b2c0d7d890d3003b922f093";
 	
-	public static Location baiduLocationByIp(){
+	public static LocationObject baiduLocationByIp(){
 		String BAIDU_REQUEST_URI = BAIDU_REQUEST_URI_PREFIX + "ip?ak=" + BAIDU_AK + BAIDU_REQUEST_URI_POSTFIX;
 		try {
 			URL url = new URL(BAIDU_REQUEST_URI);
@@ -45,7 +45,6 @@ public class LocationBaiduAPI {
             String line=null;
             StringBuffer sb=new StringBuffer();
             while((line=br.readLine())!=null){
-                System.out.println("line " + line + " line");
                 sb.append(line);
             }
             br.close();
@@ -56,19 +55,20 @@ public class LocationBaiduAPI {
 		return null;
 	}
 	
-	private static Location baiduParseJson(String respond){
-		Location location = null;
+	private static LocationObject baiduParseJson(String respond){
+		LocationObject location = new LocationObject();
 		Gson gson = new Gson();
 		BaiduJson baiduObject = gson.fromJson(respond, BaiduJson.class);
 		if(baiduObject.status==0){
-			location = new Location(LocationManager.NETWORK_PROVIDER);
-			double longitude = Double.parseDouble(baiduObject.content.point.x);
-			double latitude = Double.parseDouble(baiduObject.content.point.y);
-			location.setLongitude(longitude);
-			location.setLatitude(latitude);
-			long time = Calendar.getInstance().getTimeInMillis();
-			System.out.println("time" + time);
-			location.setTime(time);
+			location.longitude = Double.parseDouble(baiduObject.content.point.x);
+			location.latitude = Double.parseDouble(baiduObject.content.point.y);
+			location.address = baiduObject.content.address;
+			System.out.println(baiduObject.content.address_detail.city +
+								"\n" + baiduObject.content.address_detail.province +
+								"\n" + baiduObject.content.address_detail.district +
+								"\n" + baiduObject.content.address_detail.street +
+								"\n" + baiduObject.content.address_detail.street_number);
+			location.time = Calendar.getInstance().getTimeInMillis();
 		}
 		return location;
 	}

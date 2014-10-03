@@ -16,7 +16,7 @@ public class LocationService extends IntentService {
 	public static final int RESULT_OK = 0;
 	public static final int RESULT_FAIL = 1;
 	
-	private Location mLocation;
+	private LocationObject mLocation;
 	
 	@Override
     protected void onHandleIntent(Intent intent) {
@@ -29,7 +29,7 @@ public class LocationService extends IntentService {
 		setLocation(get.getLocation(), resultIntent);
 	}
 	
-	private synchronized void setLocation(Location location, PendingIntent resultIntent){
+	private synchronized void setLocation(LocationObject location, PendingIntent resultIntent){
 		mLocation = locationCompare(mLocation, location);
 		try {
 			if(location==null){
@@ -44,16 +44,16 @@ public class LocationService extends IntentService {
 		}
 	}
 	
-	private Location locationCompare(Location oldloc, Location newloc){
-		if(!(oldloc instanceof Location && newloc instanceof Location)){
-			if(oldloc instanceof Location){
+	private LocationObject locationCompare(LocationObject oldloc, LocationObject newloc){
+		if(!(oldloc instanceof LocationObject && newloc instanceof LocationObject)){
+			if(oldloc instanceof LocationObject){
 				return oldloc;
 			}
-			if(newloc instanceof Location){
+			if(newloc instanceof LocationObject){
 				return newloc;
 			}
 			throw new IllegalArgumentException("Method $execute() cannot compare two non-Location type");
 		}
-		return (oldloc.getTime() - newloc.getTime())>0 ? oldloc : newloc;
+		return (oldloc.time - newloc.time)>0 ? oldloc : newloc;
 	}
 }

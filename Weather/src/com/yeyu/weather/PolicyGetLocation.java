@@ -11,7 +11,7 @@ public class PolicyGetLocation {
 		mContext = context;
 	}
 	
-	public Location getLocation(){
+	public LocationObject getLocation(){
 		if(CheckRequireSetting.isNetworkEnable(mContext)){
 			return LocationBaiduAPI.baiduLocationByIp();
 		} else {
