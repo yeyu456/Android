@@ -13,6 +13,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -78,6 +79,16 @@ public class WeatherFragment extends Fragment {
 					View more = cardView.findViewById(R.id.more);
 					more.setTag(data);
 					more.setOnClickListener(moreListener);
+					Button btn = (Button) cardView.findViewById(R.id.address);
+					String addr = ((MainActivity) getActivity()).mAddress;
+					int len = addr.length();
+					addr += "[ÐÞ¸Ä]";
+					Spannable wordtoSpan = new SpannableString(addr);
+					wordtoSpan.setSpan(new RelativeSizeSpan(0.5f), 
+	                		   		   len, 
+	                		   		   addr.length(), 
+	                		   		   Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+					btn.setText(wordtoSpan);
 				}
 			}
 		}

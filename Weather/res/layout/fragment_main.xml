@@ -7,6 +7,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical" >
+    
 	<com.yeyu.widget.cardview.CardView
 	    android:id="@+id/cardview_1"
 	    android:layout_width="match_parent"
@@ -14,9 +15,17 @@
 	    android:layout_marginBottom="1dp"
 	    android:layout_marginLeft="8dp"
 	    android:layout_marginRight="8dp"
-	    android:layout_marginTop="2dp"
+	    android:layout_marginTop="4dp"
 	    app:cardBackgroundColor="#FF5722"
 	    app:cardCornerRadius="4dp" >
+	    <Button 
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_gravity="left|top"
+	        android:gravity="center"
+	        android:id="@+id/address"
+	        android:layout_margin="8dp"
+	        android:background="#00000000" />
 
 		<ImageView
 	    	android:layout_width="60dp"
@@ -128,5 +137,7 @@
 	    app:cardCornerRadius="4dp" >
 	    <include layout="@layout/fragment_main_card_view" />
     </com.yeyu.widget.cardview.CardView>
+    
 </LinearLayout>
+
 </ScrollView>

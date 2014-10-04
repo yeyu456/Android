@@ -10,6 +10,7 @@ import android.app.ProgressDialog;
 import android.app.ActionBar;
 import android.content.Intent;
 import android.os.Bundle;
+import android.widget.TextView;
 import android.location.Location;
 
 import static com.yeyu.weather.WeatherConstant.*;
@@ -23,7 +24,7 @@ public class MainActivity extends Activity {
 	
 	private ArrayList<WeatherObject> mHourlyData = new ArrayList<WeatherObject>();
 	private ArrayList<WeatherObject> mDailyData = new ArrayList<WeatherObject>();
-	private String mAddress = "";
+	protected String mAddress = "";
 	
 	@Override
 	protected void onCreate(Bundle state){
@@ -119,8 +120,7 @@ public class MainActivity extends Activity {
 	        mTag = tag;
 	        mClass = clz;
 	    }
-
-	    /* The following are each of the ActionBar.TabListener callbacks */
+	    
 	    @Override
 	    public void onTabSelected(Tab tab, FragmentTransaction ft) {
 	    	mBundle = new Bundle();
@@ -143,14 +143,11 @@ public class MainActivity extends Activity {
 	    @Override
 	    public void onTabUnselected(Tab tab, FragmentTransaction ft) {
 	        if (mFragment != null) {
-	            // Detach the fragment, because another one is being attached
 	            ft.detach(mFragment);
 	        }
 	    }
 
 	    @Override
-	    public void onTabReselected(Tab tab, FragmentTransaction ft) {
-	        // User selected the already selected tab. Usually do nothing.
-	    }
+	    public void onTabReselected(Tab tab, FragmentTransaction ft) {}
 	}
 }
