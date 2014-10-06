@@ -1,6 +1,10 @@
 package com.yeyu.weather;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 
 import android.app.ActionBar.Tab;
 import android.app.Activity;
@@ -9,9 +13,9 @@ import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.app.ActionBar;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.widget.TextView;
-import android.location.Location;
+import android.widget.Toast;
 
 import static com.yeyu.weather.WeatherConstant.*;
 
@@ -24,7 +28,9 @@ public class MainActivity extends Activity {
 	
 	private ArrayList<WeatherObject> mHourlyData = new ArrayList<WeatherObject>();
 	private ArrayList<WeatherObject> mDailyData = new ArrayList<WeatherObject>();
+	private ProgressDialog mProgressDialog;
 	protected String mAddress = "";
+	
 	
 	@Override
 	protected void onCreate(Bundle state){
@@ -53,6 +59,16 @@ public class MainActivity extends Activity {
 				if(resultCode == LocationService.RESULT_OK){
 					LocationObject point = data.getParcelableExtra(RESULT_LOCATION);
 					updateLocation(point);
+				} else if(resultCode == LocationService.RESULT_FAIL){
+					Toast.makeText(this, "获取地址失败", Toast.LENGTH_SHORT).show();
+					SharedPreferences settings = getSharedPreferences(RESULT_LOCATION, 0);
+					String location = settings.getString(RESULT_LOCATION, null);
+					if(location!=null){
+						Gson gson = new Gson();
+						LocationObject loc = gson.fromJson(location, LocationObject.class);
+						mAddress = loc.address;
+						requestWeather(loc.latitude, loc.longitude);
+					}
 				}
 				break;
 			}
@@ -60,6 +76,19 @@ public class MainActivity extends Activity {
 				if(resultCode == WeatherService.RESULT_OK){
 					ArrayList<WeatherObject> weather = data.getParcelableArrayListExtra(RESULT_WEATHER);
 					updateWeather(weather);
+				} else if(resultCode == WeatherService.RESULT_FAIL){
+					Toast.makeText(this, "获取天气数据失败", Toast.LENGTH_SHORT).show();
+					SharedPreferences settings = getSharedPreferences(RESULT_WEATHER, 0);
+					Gson gson = new Gson();
+					String hourlydata = settings.getString(TYPE_WEATHER_HOURLY, null);
+					String dailydata = settings.getString(TYPE_WEATHER_DAILY, null);
+					if(hourlydata!=null){
+						mHourlyData = gson.fromJson(hourlydata, new TypeToken<ArrayList<WeatherObjectHourly>>(){}.getType());
+					}
+					if(dailydata!=null){
+						mDailyData = gson.fromJson(dailydata, new TypeToken<ArrayList<WeatherObjectDaily>>(){}.getType());
+					}
+					setWeatherData();
 				}
 				break;
 			}
@@ -69,6 +98,11 @@ public class MainActivity extends Activity {
 	private void updateLocation(LocationObject point){
 		double latitude = point.latitude;
 		double longitude = point.longitude;
+		SharedPreferences settings = getSharedPreferences(RESULT_LOCATION, 0);
+		SharedPreferences.Editor editor = settings.edit();
+		Gson gson = new Gson();
+		editor.putString(RESULT_LOCATION, gson.toJson(point));
+		editor.apply();
 		mAddress = point.address;
 		requestWeather(latitude, longitude);
 	}
@@ -80,17 +114,35 @@ public class MainActivity extends Activity {
 		for(int n=0;n<PolicyGetWeather.MAX_COUNT_DAILY_DATA;n++){
 			mDailyData.add(weather.remove(0));
 		}
+		
+		SharedPreferences settings = getSharedPreferences(RESULT_WEATHER, 0);
+		SharedPreferences.Editor editor = settings.edit();
+		Gson gson = new Gson();
+		if(mHourlyData.size()>0){
+			editor.putString(TYPE_WEATHER_HOURLY, gson.toJson(mHourlyData));
+		}
+		if(mDailyData.size()>0){
+			editor.putString(TYPE_WEATHER_DAILY, gson.toJson(mDailyData));
+		}
+		editor.apply();
+		setWeatherData();
+	}
+	
+	private void setWeatherData(){
 		Fragment hf = this.getFragmentManager().findFragmentByTag(TYPE_WEATHER_HOURLY);
 		if(hf!=null){
 			((WeatherFragment) hf).setData(mHourlyData);
 		}
+		
 		Fragment df = this.getFragmentManager().findFragmentByTag(TYPE_WEATHER_DAILY);
 		if(df!=null){
 			((WeatherFragment) df).setData(mDailyData);
 		}
+		dismissDialog();
 	}
 	
 	private void requestLocation(){
+		showDialog();
 		Intent locationIntent = new Intent(MainActivity.this, LocationService.class);
 		locationIntent.putExtra(LocationService.EXTRA_PENDING_RESULT, this.createPendingResult(REQUEST_LOCATION, new Intent(), 0));
 		this.startService(locationIntent);
@@ -105,7 +157,19 @@ public class MainActivity extends Activity {
 	}
 	
 	private void showDialog(){
-		
+		dismissDialog();
+		mProgressDialog = new ProgressDialog(MainActivity.this);
+		mProgressDialog.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+		mProgressDialog.setCancelable(true);
+		mProgressDialog.setTitle("天气数据");
+		mProgressDialog.setMessage("加载中...");
+		mProgressDialog.show();
+	}
+	
+	private void dismissDialog(){
+		if(mProgressDialog!=null && mProgressDialog.isShowing()){
+			mProgressDialog.dismiss();
+		}
 	}
 	
 	public class TabListener<T extends Fragment> implements ActionBar.TabListener {

@@ -1,7 +1,6 @@
 package com.yeyu.weather;
 
 import android.content.Context;
-import android.location.Location;
 
 public class PolicyGetLocation {
 	

@@ -4,7 +4,6 @@ import android.app.IntentService;
 import android.app.PendingIntent;
 import android.app.PendingIntent.CanceledException;
 import android.content.Intent;
-import android.location.Location;
 
 public class LocationService extends IntentService {
 	
@@ -30,11 +29,11 @@ public class LocationService extends IntentService {
 	}
 	
 	private synchronized void setLocation(LocationObject location, PendingIntent resultIntent){
-		mLocation = locationCompare(mLocation, location);
 		try {
 			if(location==null){
 				resultIntent.send(LocationService.this, RESULT_FAIL, null);
 			} else {
+				mLocation = locationCompare(mLocation, location);
 				Intent result = new Intent();
 				result.putExtra(MainActivity.RESULT_LOCATION, mLocation);
 				resultIntent.send(LocationService.this, RESULT_OK, result);

@@ -9,9 +9,6 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Calendar;
 
-import android.location.Location;
-import android.location.LocationManager;
-
 import com.google.gson.Gson;
 
 public class LocationBaiduAPI {
@@ -63,11 +60,6 @@ public class LocationBaiduAPI {
 			location.longitude = Double.parseDouble(baiduObject.content.point.x);
 			location.latitude = Double.parseDouble(baiduObject.content.point.y);
 			location.address = baiduObject.content.address;
-			System.out.println(baiduObject.content.address_detail.city +
-								"\n" + baiduObject.content.address_detail.province +
-								"\n" + baiduObject.content.address_detail.district +
-								"\n" + baiduObject.content.address_detail.street +
-								"\n" + baiduObject.content.address_detail.street_number);
 			location.time = Calendar.getInstance().getTimeInMillis();
 		}
 		return location;
