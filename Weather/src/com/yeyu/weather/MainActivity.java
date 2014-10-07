@@ -1,14 +1,19 @@
 package com.yeyu.weather;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.SparseArray;
+import android.view.ViewGroup;
+
 import android.app.ActionBar.Tab;
-import android.app.Activity;
-import android.app.Fragment;
 import android.app.FragmentTransaction;
 import android.app.ProgressDialog;
 import android.app.ActionBar;
@@ -19,7 +24,7 @@ import android.widget.Toast;
 
 import static com.yeyu.weather.WeatherConstant.*;
 
-public class MainActivity extends Activity {
+public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 	
 	private static final int REQUEST_LOCATION = 0;
 	private static final int REQUEST_WEATHER = 1;
@@ -29,6 +34,8 @@ public class MainActivity extends Activity {
 	private ArrayList<WeatherObject> mHourlyData = new ArrayList<WeatherObject>();
 	private ArrayList<WeatherObject> mDailyData = new ArrayList<WeatherObject>();
 	private ProgressDialog mProgressDialog;
+	private ViewPager mViewPager;
+	private AppSectionsPagerAdapter mAdapter;
 	protected String mAddress = "";
 	
 	
@@ -37,18 +44,27 @@ public class MainActivity extends Activity {
 		super.onCreate(state);
 		this.setContentView(R.layout.activity_main);
 		
-		ActionBar actionBar = this.getActionBar();
+		final ActionBar actionBar = this.getActionBar();
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-		actionBar.setDisplayShowTitleEnabled(false);
-        getActionBar().setDisplayShowHomeEnabled(false);
-		Tab hourTab = actionBar.newTab()
-							   .setText("小时")
-							   .setTabListener(new TabListener<WeatherFragment>(this, TYPE_WEATHER_HOURLY, WeatherFragment.class));
-		actionBar.addTab(hourTab);
-		Tab dayTab = actionBar.newTab()
-							  .setText("天")
-							  .setTabListener(new TabListener<WeatherFragment>(this, TYPE_WEATHER_DAILY, WeatherFragment.class));
-		actionBar.addTab(dayTab);
+        actionBar.setHomeButtonEnabled(false);
+		
+        mAdapter = new AppSectionsPagerAdapter(getSupportFragmentManager());
+        mViewPager = (ViewPager) findViewById(R.id.pager);
+        mViewPager.setAdapter(mAdapter);
+        
+        mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
+        	
+            @Override
+            public void onPageSelected(int position) {
+                actionBar.setSelectedNavigationItem(position);
+            }
+        });
+        
+        for(int i=0;i<mAdapter.getCount();i++){
+        	actionBar.addTab(actionBar.newTab()
+        							  .setText(mAdapter.getPageTitle(i))
+        							  .setTabListener(this));
+        }
 		requestLocation();
 	}
 	
@@ -129,12 +145,12 @@ public class MainActivity extends Activity {
 	}
 	
 	private void setWeatherData(){
-		Fragment hf = this.getFragmentManager().findFragmentByTag(TYPE_WEATHER_HOURLY);
+		Fragment hf = mAdapter.getRegisteredFragment(0);
 		if(hf!=null){
 			((WeatherFragment) hf).setData(mHourlyData);
 		}
 		
-		Fragment df = this.getFragmentManager().findFragmentByTag(TYPE_WEATHER_DAILY);
+		Fragment df = mAdapter.getRegisteredFragment(1);
 		if(df!=null){
 			((WeatherFragment) df).setData(mDailyData);
 		}
@@ -171,47 +187,81 @@ public class MainActivity extends Activity {
 			mProgressDialog.dismiss();
 		}
 	}
-	
-	public class TabListener<T extends Fragment> implements ActionBar.TabListener {
-	    private Fragment mFragment;
-	    private final Activity mActivity;
-	    private final String mTag;
-	    private final Class<T> mClass;
-	    private Bundle mBundle;
 	    
-	    public TabListener(Activity activity, String tag, Class<T> clz) {
-	        mActivity = activity;
-	        mTag = tag;
-	        mClass = clz;
-	    }
-	    
-	    @Override
-	    public void onTabSelected(Tab tab, FragmentTransaction ft) {
-	    	mBundle = new Bundle();
-            if(mTag.equals(TYPE_WEATHER_HOURLY)&&mHourlyData.size()>0){
-            	mBundle.putParcelableArrayList("data", mHourlyData);
-            }
-            if(mTag.equals(TYPE_WEATHER_DAILY)&&mDailyData.size()>0){
-            	mBundle.putParcelableArrayList("data", mDailyData);
-            }
-	        if (mFragment == null) {
-	            mFragment = Fragment.instantiate(mActivity, mClass.getName(), mBundle);
-	            ft.add(R.id.activity_main, mFragment, mTag);
-	        } else {
-	            mFragment = Fragment.instantiate(mActivity, mClass.getName(), mBundle);
-	            ft.replace(R.id.activity_main, mFragment, mTag);
-	            ft.attach(mFragment);
-	        }
-	    }
-	    
-	    @Override
-	    public void onTabUnselected(Tab tab, FragmentTransaction ft) {
-	        if (mFragment != null) {
-	            ft.detach(mFragment);
-	        }
-	    }
-
-	    @Override
-	    public void onTabReselected(Tab tab, FragmentTransaction ft) {}
+	@Override
+	public void onTabSelected(Tab tab, FragmentTransaction ft) {
+		mViewPager.setCurrentItem(tab.getPosition());
 	}
+	    
+	@Override
+	public void onTabUnselected(Tab tab, FragmentTransaction ft) {}
+
+	@Override
+	public void onTabReselected(Tab tab, FragmentTransaction ft) {}
+	
+	public class AppSectionsPagerAdapter extends FragmentPagerAdapter {
+		SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
+		
+        public AppSectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int i) {
+	    	Bundle mBundle = new Bundle();
+            switch (i) {
+                case 0 : {
+                	if(mHourlyData.size()>0){
+                		mBundle.putParcelableArrayList("data", mHourlyData);
+                	}
+                	mBundle.putString("type", TYPE_WEATHER_HOURLY);
+                	break;
+                }
+                case 1 : {
+                    if(mDailyData.size()>0){
+                    	mBundle.putParcelableArrayList("data", mDailyData);
+                    }
+                	mBundle.putString("type", TYPE_WEATHER_DAILY);
+                	break;
+                }
+            }
+            Fragment fg = new WeatherFragment();
+            fg.setArguments(mBundle);
+            return fg;
+        }
+
+        @Override
+        public int getCount() {
+            return 2;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch(position){
+            	case 0 :
+            		return "小时";
+            	case 1 :
+            		return "天";
+            	default :
+            		return "";
+            }
+        }
+        
+        @Override
+        public Object instantiateItem(ViewGroup container, int position) {
+            Fragment fragment = (Fragment) super.instantiateItem(container, position);
+            registeredFragments.put(position, fragment);
+            return fragment;
+        }
+
+        @Override
+        public void destroyItem(ViewGroup container, int position, Object object) {
+            registeredFragments.remove(position);
+            super.destroyItem(container, position, object);
+        }
+
+        public Fragment getRegisteredFragment(int position) {
+            return registeredFragments.get(position);
+        }
+    }
 }

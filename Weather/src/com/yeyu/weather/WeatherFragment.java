@@ -2,7 +2,7 @@ package com.yeyu.weather;
 
 import java.util.ArrayList;
 
-import android.app.Fragment;
+import android.support.v4.app.Fragment;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -52,7 +52,7 @@ public class WeatherFragment extends Fragment {
 							 ViewGroup container,
 							 Bundle state){
 		mView = inflater.inflate(R.layout.fragment_main, container, false);
-		mType = this.getTag();
+		mType = this.getArguments().getString("type");
 		cur = this.getResources().getString(R.string.time_current);
 		time_day = this.getResources().getStringArray(R.array.time_day);
 		time_week = this.getResources().getStringArray(R.array.time_week);

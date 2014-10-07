@@ -2,7 +2,6 @@ package com.yeyu.weather;
 
 import java.util.Calendar;
 import java.util.TimeZone;
-import android.util.Log;
 
 import static com.yeyu.weather.WeatherConstant.*;
 
@@ -30,7 +29,6 @@ public class Tool {
 		int i = t.get(Calendar.DAY_OF_WEEK)-1;
 		i--;
 		i = i<0?i+7:i;
-		Log.e("week", "" + i);
 		return i;
 	}
 	
