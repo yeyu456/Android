@@ -16,3 +16,4 @@ Weather
 
 ## Download ##
 *  [App Download](https://github.com/yeyu456/Android/raw/master/Weather/bin/Weather.apk)
+<p>![image](https://github.com/yeyu456/Android/raw/master/Weather/docs/link.png)</p>
