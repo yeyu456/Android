@@ -26,8 +26,8 @@ import static com.yeyu.weather.WeatherConstant.*;
 
 public class MainActivity extends FragmentActivity implements ActionBar.TabListener {
 	
-	private static final int REQUEST_LOCATION = 0;
-	private static final int REQUEST_WEATHER = 1;
+	public static final int REQUEST_LOCATION = 0;
+	public static final int REQUEST_WEATHER = 1;
 	public static final String RESULT_LOCATION = "location";
 	public static final String RESULT_WEATHER = "weather";
 	

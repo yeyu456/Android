@@ -27,24 +27,6 @@ public class WeatherFragment extends Fragment {
 	private String cur;
 	private String[] time_day;
 	private String[] time_week;
-	private View.OnClickListener moreListener = new View.OnClickListener() {
-		
-		@Override
-		public void onClick(View v) {
-			Object data = v.getTag();
-			if(data==null){
-				Log.e("click", "empty tag");
-				return;
-			}
-			ArrayList<WeatherObject> mData = (ArrayList<WeatherObject>) data;
-			Bundle bundle = new Bundle();
-			bundle.putString("type", mType);
-			bundle.putParcelableArrayList("data", mData);
-			Intent intent = new Intent(WeatherFragment.this.getActivity(), WeatherDetailActivity.class);
-			intent.putExtras(bundle);
-			WeatherFragment.this.getActivity().startActivity(intent);
-		}
-	};
 	
 	
 	@Override
@@ -78,8 +60,33 @@ public class WeatherFragment extends Fragment {
 				if(id==R.id.cardview_1){
 					View more = cardView.findViewById(R.id.more);
 					more.setTag(data);
-					more.setOnClickListener(moreListener);
+					more.setOnClickListener(new View.OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							Object data = v.getTag();
+							if(data==null){
+								Log.e("click", "empty tag");
+								return;
+							}
+							ArrayList<WeatherObject> mData = (ArrayList<WeatherObject>) data;
+							Bundle bundle = new Bundle();
+							bundle.putString("type", mType);
+							bundle.putParcelableArrayList("data", mData);
+							Intent intent = new Intent(WeatherFragment.this.getActivity(), WeatherDetailActivity.class);
+							intent.putExtras(bundle);
+							WeatherFragment.this.getActivity().startActivity(intent);
+						}
+					});
 					Button btn = (Button) cardView.findViewById(R.id.address);
+					btn.setOnClickListener(new View.OnClickListener() {
+						
+						@Override
+						public void onClick(View v) {
+							Intent intent = new Intent(WeatherFragment.this.getActivity(), LocationModifyActivity.class);
+							WeatherFragment.this.startActivityForResult(intent, MainActivity.REQUEST_LOCATION);
+						}
+					});
 					String addr = ((MainActivity) getActivity()).mAddress;
 					int len = addr.length();
 					addr += "[ÐÞ¸Ä]";

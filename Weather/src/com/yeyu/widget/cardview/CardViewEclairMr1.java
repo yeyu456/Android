@@ -82,7 +82,6 @@ class CardViewEclairMr1 implements CardViewImpl {
     }
     
     public void setBackgroundColor(CardViewDelegate cardView, int color){
-    	System.out.println("set color " + color);
     	((RoundRectDrawableWithShadow) cardView.getBackground()).setBackgroundColor(color);
     }
 }
