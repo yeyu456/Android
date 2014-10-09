@@ -224,22 +224,23 @@ containing a value of this type.
     }
     public static final class id {
         public static final int activity_detail_layout=0x7f0a0000;
-        public static final int address=0x7f0a0008;
-        public static final int cardview_1=0x7f0a0007;
-        public static final int cardview_2=0x7f0a000c;
-        public static final int cardview_3=0x7f0a000d;
-        public static final int cardview_4=0x7f0a000e;
-        public static final int cardview_5=0x7f0a000f;
-        public static final int cardview_6=0x7f0a0010;
-        public static final int cardview_7=0x7f0a0011;
-        public static final int climate_celsius=0x7f0a000a;
-        public static final int climate_icon=0x7f0a0009;
+        public static final int address=0x7f0a0009;
+        public static final int cardview_1=0x7f0a0008;
+        public static final int cardview_2=0x7f0a000d;
+        public static final int cardview_3=0x7f0a000e;
+        public static final int cardview_4=0x7f0a000f;
+        public static final int cardview_5=0x7f0a0010;
+        public static final int cardview_6=0x7f0a0011;
+        public static final int cardview_7=0x7f0a0012;
+        public static final int climate_celsius=0x7f0a000b;
+        public static final int climate_icon=0x7f0a000a;
         public static final int data=0x7f0a0004;
         public static final int director=0x7f0a0003;
         public static final int graphic_table=0x7f0a0006;
         public static final int listview=0x7f0a0002;
-        public static final int more=0x7f0a000b;
+        public static final int more=0x7f0a000c;
         public static final int pager=0x7f0a0005;
+        public static final int swipe_refresh=0x7f0a0007;
         public static final int table=0x7f0a0001;
     }
     public static final class layout {

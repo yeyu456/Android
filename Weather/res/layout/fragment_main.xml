@@ -1,13 +1,20 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res/com.yeyu.weather">
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical" >
-    
+<android.support.v4.widget.SwipeRefreshLayout 
+    	xmlns:android="http://schemas.android.com/apk/res/android" 
+    	xmlns:app="http://schemas.android.com/apk/res/com.yeyu.weather"
+        android:id="@+id/swipe_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" >
+
+	<ScrollView 
+    	android:layout_width="match_parent"
+    	android:layout_height="match_parent" >
+        
+	<LinearLayout
+    	android:layout_width="match_parent"
+    	android:layout_height="match_parent"
+    	android:orientation="vertical" >
+        
 	<com.yeyu.widget.cardview.CardView
 	    android:id="@+id/cardview_1"
 	    android:layout_width="match_parent"
@@ -138,6 +145,8 @@
 	    <include layout="@layout/fragment_main_card_view" />
     </com.yeyu.widget.cardview.CardView>
     
-</LinearLayout>
+	</LinearLayout>
+	
+	</ScrollView>
 
-</ScrollView>
+</android.support.v4.widget.SwipeRefreshLayout>  

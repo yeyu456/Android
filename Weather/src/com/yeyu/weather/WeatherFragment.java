@@ -3,6 +3,7 @@ package com.yeyu.weather;
 import java.util.ArrayList;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -38,6 +39,16 @@ public class WeatherFragment extends Fragment {
 		cur = this.getResources().getString(R.string.time_current);
 		time_day = this.getResources().getStringArray(R.array.time_day);
 		time_week = this.getResources().getStringArray(R.array.time_week);
+		final SwipeRefreshLayout sr = (SwipeRefreshLayout) mView.findViewById(R.id.swipe_refresh);
+		sr.setColorSchemeResources(R.color.wind, R.color.water, R.color.temperature_positive, R.color.cloud);
+		sr.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+			
+			@Override
+			public void onRefresh() {
+				((MainActivity) WeatherFragment.this.getActivity()).requestLocation();
+				sr.setRefreshing(false);
+			}
+		});
 		ArrayList<WeatherObject> data = this.getArguments().getParcelableArrayList("data");
 		if(data!=null){
 			setData(data);

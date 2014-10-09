@@ -3,6 +3,7 @@ package com.yeyu.weather;
 import java.util.ArrayList;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import android.support.v4.app.Fragment;
@@ -81,9 +82,14 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 					String location = settings.getString(RESULT_LOCATION, null);
 					if(location!=null){
 						Gson gson = new Gson();
-						LocationObject loc = gson.fromJson(location, LocationObject.class);
-						mAddress = loc.address;
-						requestWeather(loc.latitude, loc.longitude);
+						try{
+							LocationObject loc = gson.fromJson(location, LocationObject.class);
+							mAddress = loc.address;
+							requestWeather(loc.latitude, loc.longitude);
+						} catch(JsonSyntaxException e){
+							e.printStackTrace();
+							Toast.makeText(this, "读取缓存地址异常", Toast.LENGTH_SHORT).show();
+						}
 					}
 				}
 				break;
@@ -98,13 +104,19 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 					Gson gson = new Gson();
 					String hourlydata = settings.getString(TYPE_WEATHER_HOURLY, null);
 					String dailydata = settings.getString(TYPE_WEATHER_DAILY, null);
-					if(hourlydata!=null){
-						mHourlyData = gson.fromJson(hourlydata, new TypeToken<ArrayList<WeatherObjectHourly>>(){}.getType());
+
+					try{
+						if(hourlydata!=null){
+							mHourlyData = gson.fromJson(hourlydata, new TypeToken<ArrayList<WeatherObjectHourly>>(){}.getType());
+						}
+						if(dailydata!=null){
+							mDailyData = gson.fromJson(dailydata, new TypeToken<ArrayList<WeatherObjectDaily>>(){}.getType());
+						}
+						setWeatherData();
+					} catch(JsonSyntaxException e){
+						e.printStackTrace();
+						Toast.makeText(this, "读取缓存天气数据异常", Toast.LENGTH_SHORT).show();
 					}
-					if(dailydata!=null){
-						mDailyData = gson.fromJson(dailydata, new TypeToken<ArrayList<WeatherObjectDaily>>(){}.getType());
-					}
-					setWeatherData();
 				}
 				break;
 			}
@@ -124,6 +136,12 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 	}
 	
 	private void updateWeather(ArrayList<WeatherObject> weather){
+		if(mHourlyData.size()>0){
+			mHourlyData.clear();
+		}
+		if(mDailyData.size()>0){
+			mDailyData.clear();
+		}
 		for(int n=0;n<PolicyGetWeather.MAX_COUNT_HOURLY_DATA + 1;n++){
 			mHourlyData.add(weather.remove(0));
 		}
@@ -157,7 +175,7 @@ public class MainActivity extends FragmentActivity implements ActionBar.TabListe
 		dismissDialog();
 	}
 	
-	private void requestLocation(){
+	public void requestLocation(){
 		showDialog();
 		Intent locationIntent = new Intent(MainActivity.this, LocationService.class);
 		locationIntent.putExtra(LocationService.EXTRA_PENDING_RESULT, this.createPendingResult(REQUEST_LOCATION, new Intent(), 0));
